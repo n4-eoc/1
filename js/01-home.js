@@ -45,6 +45,7 @@ hhApplyTheme(document.documentElement.getAttribute('data-theme') || 'light');
     Object.keys(pages).forEach(function(k){ pages[k].hidden = pages[k] !== page; });
     if(page){ main.setAttribute("data-page", cat); } else { main.removeAttribute("data-page"); }
     window.scrollTo(0, 0);
+    var hp = document.getElementById("panel-home"); if(hp) hp.scrollTop = 0;   /* اللوحة الرئيسية تتمرر داخل نفسها */
     if(focus){
       if(page){ var h = page.querySelector(".hx-page-title"); if(h) h.focus({preventScroll:true}); }
       else { var c = cats.filter(function(x){ return x.dataset.cat === focus; })[0]; if(c) c.focus({preventScroll:true}); }

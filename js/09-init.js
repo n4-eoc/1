@@ -40,7 +40,7 @@ window.addEventListener('DOMContentLoaded', function(){
   document.querySelectorAll('.card-panel').forEach(function(p){p.classList.remove('active');});
   document.querySelectorAll('.tab-btn').forEach(function(b){b.classList.remove('active');});
   var _hp=document.getElementById('panel-home');
-  if(_hp){_hp.classList.add('active');_hp.style.position='fixed';_hp.style.inset='0';_hp.style.zIndex='100';_hp.style.overflow='hidden';}
+  if(_hp){_hp.classList.add('active');_hp.style.position='fixed';_hp.style.inset='0';_hp.style.zIndex='100';_hp.style.overflow='hidden auto';}   /* أفقياً مخفي، وعمودياً يتمرر */
   var _htb=document.querySelector('.tab-btn[data-card="home"]');
   if(_htb)_htb.classList.add('active');
   // Wire up Enter key for all settings inputs

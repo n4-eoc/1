@@ -227,10 +227,10 @@ function switchCard(card){
   if(_tb)_tb.style.display=card==='home'?'none':'';
   const _tn=document.querySelector('.tab-nav');
   if(_tn)_tn.style.display='none';
-  // Home panel: full viewport fixed
+  // Home panel: full viewport fixed — يتمرر عمودياً لأن صفحة القسم (مثل العمليات) أطول من شاشة الجوال
   const _hp=document.getElementById('panel-home');
   if(card==='home'){
-    if(_hp){_hp.style.position='fixed';_hp.style.inset='0';_hp.style.zIndex='100';_hp.style.overflow='hidden';}
+    if(_hp){_hp.style.position='fixed';_hp.style.inset='0';_hp.style.zIndex='100';_hp.style.overflow='hidden auto';}
   } else {
     if(_hp){_hp.style.position='';_hp.style.inset='';_hp.style.zIndex='';_hp.style.overflow='';}
   }
