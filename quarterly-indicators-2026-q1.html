@@ -1,0 +1,535 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>المؤشرات الربع سنوية — إدارة الأزمات والكوارث واستمرارية الأعمال</title>
+<link rel="stylesheet" href="css/00-fonts.css"/>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Cairo',sans-serif;}
+
+/* ═══ TOOLBAR ═══ */
+.toolbar{
+  position:sticky;top:0;z-index:999;
+  background:linear-gradient(135deg,#002A40,#003D5C);
+  border-bottom:3px solid #00AEEF;
+  padding:8px 16px;display:flex;align-items:center;gap:10px;flex-wrap:wrap;
+}
+.tb-title{color:#fff;font-size:13px;font-weight:900;flex:1;}
+.tb-period{background:rgba(255,255,255,.1);border:1px solid rgba(0,174,239,.5);
+  color:#00AEEF;font-size:12px;font-weight:800;padding:4px 10px;border-radius:6px;
+  min-width:100px;text-align:center;font-family:'Cairo',sans-serif;
+  appearance:none;-webkit-appearance:none;cursor:pointer;}
+.tb-period:focus{outline:2px solid #00AEEF;background:rgba(255,255,255,.15);}
+.tb-period option{background:#003D5C;color:#fff;}
+.tb-btn{padding:6px 14px;border-radius:6px;border:none;cursor:pointer;font-family:'Cairo',sans-serif;font-size:11px;font-weight:800;}
+.tb-btn.edit{background:#00AEEF;color:#fff;}
+.tb-btn.edit.on{background:#ff9800;}
+.tb-btn.save{background:#28a745;color:#fff;}
+.tb-btn.print{background:#6c5ce7;color:#fff;}
+.tb-hint{color:rgba(255,255,255,.6);font-size:10px;}
+
+/* ═══ SCREEN ═══ */
+@media screen{
+  body{background:linear-gradient(150deg,#021A2C,#06304A,#074A66);min-height:100vh;}
+  .page{width:297mm;margin:16px auto;background:#fff;border-radius:8px;
+    box-shadow:0 8px 40px rgba(0,0,0,.4);overflow:hidden;page-break-after:always;}
+}
+
+/* ═══ PRINT ═══ */
+@media print{
+  .toolbar{display:none!important;}
+  body{background:#fff;}
+  /* fixed height + hidden overflow = every .page is exactly ONE physical
+     sheet — this guarantees the PDF always has the same page count
+     (cover + 3 tables = 4 pages here / 5 pages in the monthly file). */
+  .page{width:277mm;height:190mm;margin:0;border-radius:0;
+    box-shadow:none;overflow:hidden;page-break-after:always;break-after:page;
+    display:block;}
+  .page:last-child{page-break-after:auto;break-after:auto;}
+  table{width:100%;}
+  thead{display:table-header-group;}
+  /* tighten spacing a bit so the fixed 15-row tables always fit inside
+     the single-page budget without needing to spill onto an extra page */
+  table caption{padding:6px 10px!important;font-size:12px!important;}
+  thead th{padding:4px 6px!important;font-size:10px!important;}
+  tbody td{padding:3px 6px!important;font-size:10px!important;}
+  .legend{margin-top:4px!important;}
+  @page{size:A4 landscape;margin:10mm;}
+}
+
+/* ═══ COVER ═══ */
+.cover-page{
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  background:linear-gradient(150deg,#003D5C 0%,#005B82 40%,#0078A8 70%,#00AEEF 100%);
+  color:#fff;text-align:center;padding:30px;min-height:190mm;
+  position:relative;
+}
+.cover-logo{width:90px;height:90px;object-fit:contain;margin-bottom:20px;
+  filter:drop-shadow(0 4px 12px rgba(0,0,0,.4));}
+.cover-main-title{font-size:22px;font-weight:900;line-height:1.4;
+  text-shadow:0 2px 8px rgba(0,0,0,.3);margin-bottom:8px;}
+.cover-sub{font-size:20px;font-weight:700;color:rgba(255,255,255,.8);margin-bottom:24px;line-height:1.6;}
+.cover-period-box{
+  background:rgba(255,255,255,.15);border:2px solid rgba(255,255,255,.5);
+  border-radius:12px;padding:12px 40px;margin-bottom:20px;
+}
+.cover-period-label{font-size:11px;color:rgba(255,255,255,.7);margin-bottom:4px;}
+.cover-period-val{font-size:28px;font-weight:900;letter-spacing:2px;}
+.cover-org{font-size:13px;color:rgba(255,255,255,.7);margin-top:16px;
+  border-top:1px solid rgba(255,255,255,.3);padding-top:12px;}
+.cover-badge{
+  position:absolute;bottom:16px;right:20px;
+  background:rgba(0,0,0,.2);border:1px solid rgba(255,255,255,.3);
+  border-radius:20px;padding:4px 14px;font-size:9px;color:rgba(255,255,255,.7);
+}
+
+/* ═══ DOC HEADER ═══ */
+.doc-hdr{
+  background:linear-gradient(135deg,#003D5C,#005B82,#0078A8);
+  border-bottom:3px solid #00AEEF;
+  padding:8px 14px;display:flex;align-items:center;gap:10px;flex-shrink:0;
+}
+.doc-hdr-logo{width:36px;height:36px;object-fit:contain;filter:drop-shadow(0 1px 4px rgba(0,0,0,.3));}
+.doc-hdr-main{color:#fff;font-size:11px;font-weight:900;line-height:1.3;}
+.doc-hdr-sub{color:rgba(255,255,255,.65);font-size:8px;font-weight:600;margin-top:2px;}
+.doc-hdr-badge{
+  background:rgba(0,174,239,.18);border:1.5px solid #00AEEF;border-radius:16px;
+  padding:3px 10px;text-align:center;flex-shrink:0;
+}
+.doc-hdr-badge-main{color:#fff;font-size:10px;font-weight:900;}
+.doc-hdr-badge-sub{color:#00AEEF;font-size:8px;font-weight:700;}
+
+/* ═══ TITLE BAR ═══ */
+.title-bar{
+  background:linear-gradient(135deg,#004A70,#006A9A);
+  color:#fff;font-size:10px;font-weight:800;
+  padding:5px 14px;border-bottom:2px solid rgba(0,174,239,.3);
+  display:flex;justify-content:space-between;align-items:center;flex-shrink:0;
+}
+
+/* ═══ TABLE AREA ═══ */
+.tbl-area{flex:1;padding:10px 14px 6px;display:flex;flex-direction:column;}
+
+table{width:100%;border-collapse:collapse;font-family:'Cairo',sans-serif;}
+table caption{
+  background:linear-gradient(135deg,#003D5C,#005B82);color:#fff;
+  font-size:13px;font-weight:900;padding:8px 12px;text-align:center;
+  border:1px solid #0078A8;border-bottom:3px solid #00AEEF;letter-spacing:.2px;
+}
+thead th{
+  background:linear-gradient(135deg,#003D5C,#005B82);color:#fff;
+  font-weight:800;padding:6px 8px;text-align:center;
+  border:1px solid #0078A8;font-size:11px;
+}
+thead th.sub{background:linear-gradient(135deg,#004568,#006090)!important;}
+tbody tr:nth-child(even) td{background:#F2F8FC;}
+tbody tr:nth-child(odd) td{background:#fff;}
+tbody td{
+  border:1px solid #C8E4F0;padding:5px 8px;
+  text-align:center;font-size:11px;color:#1A3A4A;font-weight:600;
+}
+td.hosp{text-align:right;font-weight:700;color:#003D5C;}
+td.num{min-width:40px;}
+td.pct{font-weight:900;font-size:12px;}
+td.pct.g{background:#28a745!important;color:#fff!important;}
+td.pct.y{background:#ffc107!important;color:#1a1a1a!important;}
+td.pct.r{background:#dc3545!important;color:#fff!important;}
+tr.total-row td{background:linear-gradient(135deg,#003D5C,#005B82)!important;color:#fff!important;font-weight:900!important;}
+
+/* editable */
+.edit-mode [contenteditable="true"]{
+  outline:1.5px dashed #00AEEF;background:rgba(0,174,239,.06)!important;cursor:text;
+}
+.edit-mode [contenteditable="true"]:focus{outline:2px solid #0078A8;background:rgba(0,120,168,.1)!important;}
+[contenteditable="true"]{outline:none;cursor:default;}
+
+/* ═══ LEGEND ═══ */
+.legend{display:flex;gap:10px;margin-top:6px;align-items:center;flex-shrink:0;}
+.leg-item{display:flex;align-items:center;gap:4px;font-size:9px;font-weight:700;color:#003D5C;}
+.leg-box{width:26px;height:14px;border-radius:3px;display:flex;align-items:center;justify-content:center;color:#fff;font-size:8px;font-weight:900;}
+
+/* ═══ FOOTER ═══ */
+.doc-footer{
+  background:linear-gradient(135deg,#003D5C,#005B82);
+  color:rgba(255,255,255,.7);font-size:8px;
+  padding:4px 14px;display:flex;justify-content:space-between;
+  border-top:2px solid #00AEEF;flex-shrink:0;
+}
+</style>
+</head>
+<body>
+
+<!-- TOOLBAR -->
+<div class="toolbar">
+  <div class="tb-title">📊 المؤشرات الربع سنوية — إدارة الأزمات والكوارث واستمرارية الأعمال</div>
+  <span class="tb-hint">الربع:</span>
+  <select class="tb-period" id="tb-period">
+    <option value="الربع الأول 2026">الربع الأول 2026</option>
+    <option value="الربع الثاني 2026">الربع الثاني 2026</option>
+    <option value="الربع الثالث 2026">الربع الثالث 2026</option>
+    <option value="الربع الرابع 2026">الربع الرابع 2026</option>
+  </select>
+  <button class="tb-btn edit" id="editBtn" onclick="toggleEdit()">✏️ تفعيل التحرير</button>
+  <button class="tb-btn save" onclick="saveData()">💾 حفظ</button>
+  <button class="tb-btn print" onclick="window.print()">🖨️ طباعة</button>
+</div>
+
+<!-- PAGE 1 — COVER -->
+<div class="page cover-page" style="position:relative;">
+  <img src="logo-white.png" class="cover-logo" alt=""/>
+  <div class="cover-main-title" id="cover-title" contenteditable="false">مؤشرات إدارة الأزمات والكوارث واستمرارية الأعمال</div>
+  <div class="cover-sub">تجمع حائل الصحي<br>إدارة الأزمات والكوارث واستمرارية الأعمال</div>
+  <div class="cover-period-box">
+    <div class="cover-period-label">الربع / Quarter</div>
+    <div class="cover-period-val" id="cover-period" contenteditable="false">الربع الأول 2026</div>
+  </div>
+  <div style="color:rgba(255,255,255,.6);font-size:11px;">المؤشرات الربع سنوية — Quarterly Indicators</div>
+  <div class="cover-org">Hail Health Cluster — Emergency Operation Center</div>
+  <div class="cover-badge">تجمع حائل الصحي</div>
+</div>
+
+<!-- PAGE 2 — تفعيل وحدات التخطيط والاستعداد -->
+<div class="page" id="page-planning">
+  <div class="doc-hdr">
+    <img src="logo-white.png" class="doc-hdr-logo" alt=""/>
+    <div style="flex:1;">
+      <div class="doc-hdr-main">إدارة الأزمات والكوارث واستمرارية الأعمال — تجمع حائل الصحي</div>
+      <div class="doc-hdr-sub">Hail Health Cluster — Emergency Operation Center | وحدة التخطيط والاستعداد</div>
+    </div>
+    <div class="doc-hdr-badge">
+      <div class="doc-hdr-badge-main" id="hdr-period-1" contenteditable="false">الربع الأول 2026</div>
+    </div>
+  </div>
+  <div class="title-bar">
+    <span>📊 المؤشرات الربع سنوية — Quarterly Indicators</span>
+    <span>تاريخ الإصدار: <span id="date-1" contenteditable="false">01/04/26</span></span>
+  </div>
+  <div class="tbl-area">
+    <table id="tbl-planning">
+      <caption>مؤشر تفعيل وحدات التخطيط والاستعداد</caption>
+      <thead>
+        <tr>
+          <th style="width:28px;">م</th>
+          <th>المستشفى</th>
+          <th>اجمالي نقاط المعايير</th>
+          <th>عدد نقاط المعايير المحققة</th>
+          <th style="width:70px;">نسبة التقييم %</th>
+        </tr>
+      </thead>
+      <tbody id="body-planning">
+        <tr><td>1</td><td class="hosp" contenteditable="false">مستشفى الملك سلمان التخصصي</td><td class="num" contenteditable="false">1</td><td class="num" contenteditable="false">1</td><td class="pct g">100</td></tr>
+        <tr><td>2</td><td class="hosp" contenteditable="false">مستشفى الملك خالد</td><td class="num" contenteditable="false">1</td><td class="num" contenteditable="false">1</td><td class="pct g">100</td></tr>
+        <tr><td>3</td><td class="hosp" contenteditable="false">مستشفى حائل العام</td><td class="num" contenteditable="false">1</td><td class="num" contenteditable="false">1</td><td class="pct g">100</td></tr>
+        <tr><td>4</td><td class="hosp" contenteditable="false">مستشفى الولادة والأطفال</td><td class="num" contenteditable="false">1</td><td class="num" contenteditable="false">1</td><td class="pct g">100</td></tr>
+        <tr><td>5</td><td class="hosp" contenteditable="false">مجمع إرادة والصحة النفسية</td><td class="num" contenteditable="false">1</td><td class="num" contenteditable="false">1</td><td class="pct g">100</td></tr>
+        <tr><td>6</td><td class="hosp" contenteditable="false">مستشفى شراف</td><td class="num" contenteditable="false">1</td><td class="num" contenteditable="false">1</td><td class="pct g">100</td></tr>
+        <tr><td>7</td><td class="hosp" contenteditable="false">مستشفى أجا للرعاية المديدة</td><td class="num" contenteditable="false">1</td><td class="num" contenteditable="false">1</td><td class="pct g">100</td></tr>
+        <tr><td>8</td><td class="hosp" contenteditable="false">مستشفى موقق العام</td><td class="num" contenteditable="false">1</td><td class="num" contenteditable="false">1</td><td class="pct g">100</td></tr>
+        <tr><td>9</td><td class="hosp" contenteditable="false">مستشفى بقعاء العام</td><td class="num" contenteditable="false">1</td><td class="num" contenteditable="false">1</td><td class="pct g">100</td></tr>
+        <tr><td>10</td><td class="hosp" contenteditable="false">مستشفى الغزالة العام</td><td class="num" contenteditable="false">1</td><td class="num" contenteditable="false">1</td><td class="pct g">100</td></tr>
+        <tr><td>11</td><td class="hosp" contenteditable="false">مستشفى الشنان العام</td><td class="num" contenteditable="false">1</td><td class="num" contenteditable="false">1</td><td class="pct g">100</td></tr>
+        <tr><td>12</td><td class="hosp" contenteditable="false">مستشفى الشملي العام</td><td class="num" contenteditable="false">1</td><td class="num" contenteditable="false">1</td><td class="pct g">100</td></tr>
+        <tr><td>13</td><td class="hosp" contenteditable="false">مستشفى السليمي العام</td><td class="num" contenteditable="false">1</td><td class="num" contenteditable="false">1</td><td class="pct g">100</td></tr>
+        <tr><td>14</td><td class="hosp" contenteditable="false">مستشفى الحائط العام</td><td class="num" contenteditable="false">1</td><td class="num" contenteditable="false">1</td><td class="pct g">100</td></tr>
+        <tr><td>15</td><td class="hosp" contenteditable="false">مستشفى سميراء العام</td><td class="num" contenteditable="false">1</td><td class="num" contenteditable="false">0.97</td><td class="pct g">97</td></tr>
+        <tr class="total-row"><td colspan="2">الإجمالي</td><td id="tot-pl-1">15</td><td id="tot-pl-2">14.97</td><td>100</td></tr>
+      </tbody>
+    </table>
+    <div class="legend">
+      <div class="leg-item"><div class="leg-box" style="background:#28a745;">✓</div> &gt;=90%</div>
+      <div class="leg-item"><div class="leg-box" style="background:#ffc107;color:#333;">!</div> &lt;90%</div>
+      <div class="leg-item"><div class="leg-box" style="background:#dc3545;">✗</div> &lt;50%</div>
+    </div>
+  </div>
+  <div class="doc-footer">
+    <span>تجمع حائل الصحي — إدارة الأزمات والكوارث واستمرارية الأعمال</span>
+    <span>مؤشر تفعيل وحدات التخطيط والاستعداد</span>
+  </div>
+</div>
+
+<!-- PAGE 3 — تنفيذ الفرضيات الربع الأول -->
+<div class="page" id="page-hypothesis">
+  <div class="doc-hdr">
+    <img src="logo-white.png" class="doc-hdr-logo" alt=""/>
+    <div style="flex:1;">
+      <div class="doc-hdr-main">إدارة الأزمات والكوارث واستمرارية الأعمال — تجمع حائل الصحي</div>
+      <div class="doc-hdr-sub">Hail Health Cluster — Emergency Operation Center | وحدة التخطيط والاستعداد</div>
+    </div>
+    <div class="doc-hdr-badge">
+      <div class="doc-hdr-badge-main" id="hdr-period-2" contenteditable="false">الربع الأول 2026</div>
+    </div>
+  </div>
+  <div class="title-bar">
+    <span>📊 المؤشرات الربع سنوية — Quarterly Indicators</span>
+    <span>تاريخ الإصدار: <span id="date-2" contenteditable="false">01/04/26</span></span>
+  </div>
+  <div class="tbl-area">
+    <table id="tbl-hypothesis">
+      <caption>مؤشر تنفيذ الفرضيات <span class="fp">للربع الأول</span></caption>
+      <thead>
+        <tr>
+          <th rowspan="2" style="width:28px;">م</th>
+          <th rowspan="2">اسم المنشأة</th>
+          <th colspan="3">الفرضيات</th>
+        </tr>
+        <tr>
+          <th class="sub">المجدولة</th>
+          <th class="sub">المنجزة</th>
+          <th class="sub" style="width:60px;">النسبة %</th>
+        </tr>
+      </thead>
+      <tbody id="body-hypothesis">
+        <tr><td>1</td><td class="hosp" contenteditable="false">مستشفى الملك سلمان التخصصي</td><td class="num" contenteditable="false">1</td><td class="num" contenteditable="false">1</td><td class="pct g">100</td></tr>
+        <tr><td>2</td><td class="hosp" contenteditable="false">مستشفى الملك خالد</td><td class="num" contenteditable="false">0</td><td class="num" contenteditable="false">0</td><td class="pct g">100</td></tr>
+        <tr><td>3</td><td class="hosp" contenteditable="false">مستشفى حائل العام</td><td class="num" contenteditable="false">2</td><td class="num" contenteditable="false">2</td><td class="pct g">100</td></tr>
+        <tr><td>4</td><td class="hosp" contenteditable="false">مستشفى الولادة والأطفال</td><td class="num" contenteditable="false">1</td><td class="num" contenteditable="false">1</td><td class="pct g">100</td></tr>
+        <tr><td>5</td><td class="hosp" contenteditable="false">مجمع إرادة للصحة النفسية</td><td class="num" contenteditable="false">1</td><td class="num" contenteditable="false">1</td><td class="pct g">100</td></tr>
+        <tr><td>6</td><td class="hosp" contenteditable="false">مستشفى شراف</td><td class="num" contenteditable="false">1</td><td class="num" contenteditable="false">1</td><td class="pct g">100</td></tr>
+        <tr><td>7</td><td class="hosp" contenteditable="false">مستشفى أجا للرعاية المديدة</td><td class="num" contenteditable="false">1</td><td class="num" contenteditable="false">1</td><td class="pct g">100</td></tr>
+        <tr><td>8</td><td class="hosp" contenteditable="false">مستشفى موقق العام</td><td class="num" contenteditable="false">1</td><td class="num" contenteditable="false">1</td><td class="pct g">100</td></tr>
+        <tr><td>9</td><td class="hosp" contenteditable="false">مستشفى بقعاء العام</td><td class="num" contenteditable="false">1</td><td class="num" contenteditable="false">1</td><td class="pct g">100</td></tr>
+        <tr><td>10</td><td class="hosp" contenteditable="false">مستشفى الشنان العام</td><td class="num" contenteditable="false">0</td><td class="num" contenteditable="false">0</td><td class="pct g">100</td></tr>
+        <tr><td>11</td><td class="hosp" contenteditable="false">مستشفى الغزالة العام</td><td class="num" contenteditable="false">1</td><td class="num" contenteditable="false">1</td><td class="pct g">100</td></tr>
+        <tr><td>12</td><td class="hosp" contenteditable="false">مستشفى السليمي العام</td><td class="num" contenteditable="false">1</td><td class="num" contenteditable="false">1</td><td class="pct g">100</td></tr>
+        <tr><td>13</td><td class="hosp" contenteditable="false">مستشفى سميراء العام</td><td class="num" contenteditable="false">0</td><td class="num" contenteditable="false">0</td><td class="pct g">100</td></tr>
+        <tr><td>14</td><td class="hosp" contenteditable="false">مستشفى الشملي العام</td><td class="num" contenteditable="false">1</td><td class="num" contenteditable="false">1</td><td class="pct g">100</td></tr>
+        <tr><td>15</td><td class="hosp" contenteditable="false">مستشفى الحائط العام</td><td class="num" contenteditable="false">1</td><td class="num" contenteditable="false">1</td><td class="pct g">100</td></tr>
+        <tr class="total-row"><td colspan="2">الإجمالي</td><td id="tot-hy-1">13</td><td id="tot-hy-2">13</td><td>100</td></tr>
+      </tbody>
+    </table>
+    <div class="legend">
+      <div class="leg-item"><div class="leg-box" style="background:#28a745;">✓</div> &gt;=90%</div>
+      <div class="leg-item"><div class="leg-box" style="background:#ffc107;color:#333;">!</div> &lt;90%</div>
+      <div class="leg-item"><div class="leg-box" style="background:#dc3545;">✗</div> &lt;50%</div>
+    </div>
+  </div>
+  <div class="doc-footer">
+    <span>تجمع حائل الصحي — إدارة الأزمات والكوارث واستمرارية الأعمال</span>
+    <span>مؤشر تنفيذ الفرضيات</span>
+  </div>
+</div>
+
+<!-- PAGE 4 — الجاهزية للطوارئ الصحية -->
+<div class="page" id="page-readiness">
+  <div class="doc-hdr">
+    <img src="logo-white.png" class="doc-hdr-logo" alt=""/>
+    <div style="flex:1;">
+      <div class="doc-hdr-main">إدارة الأزمات والكوارث واستمرارية الأعمال — تجمع حائل الصحي</div>
+      <div class="doc-hdr-sub">Hail Health Cluster — Emergency Operation Center | وحدة التخطيط والاستعداد</div>
+    </div>
+    <div class="doc-hdr-badge">
+      <div class="doc-hdr-badge-main" id="hdr-period-3" contenteditable="false">الربع الأول 2026</div>
+    </div>
+  </div>
+  <div class="title-bar">
+    <span>📊 المؤشرات الربع سنوية — Quarterly Indicators</span>
+    <span>تاريخ الإصدار: <span id="date-3" contenteditable="false">01/04/26</span></span>
+  </div>
+  <div class="tbl-area">
+    <table id="tbl-readiness">
+      <caption>مؤشر الجاهزية للطوارئ الصحية</caption>
+      <thead>
+        <tr>
+          <th rowspan="2" style="width:28px;">م</th>
+          <th rowspan="2">اسم المستشفى</th>
+          <th rowspan="2">الإجمالي</th>
+          <th colspan="2">مهمة المستشفيات</th>
+          <th colspan="2">مهمة التجمع الصحي</th>
+        </tr>
+        <tr>
+          <th class="sub">عدد المحدث</th>
+          <th class="sub" style="width:55px;">نسبة المحدث</th>
+          <th class="sub">عدد المتحقق</th>
+          <th class="sub" style="width:55px;">نسبة المتحقق</th>
+        </tr>
+      </thead>
+      <tbody id="body-readiness">
+        <tr><td>1</td><td class="hosp" contenteditable="false">مستشفى الملك سلمان التخصصي</td><td class="num" contenteditable="false">1620</td><td class="num" contenteditable="false">1620</td><td class="pct g">100</td><td class="num" contenteditable="false">1620</td><td class="pct g">100</td></tr>
+        <tr><td>2</td><td class="hosp" contenteditable="false">مستشفى الملك خالد</td><td class="num" contenteditable="false">1620</td><td class="num" contenteditable="false">1620</td><td class="pct g">100</td><td class="num" contenteditable="false">1620</td><td class="pct g">100</td></tr>
+        <tr><td>3</td><td class="hosp" contenteditable="false">مستشفى حائل العام</td><td class="num" contenteditable="false">1620</td><td class="num" contenteditable="false">1620</td><td class="pct g">100</td><td class="num" contenteditable="false">1620</td><td class="pct g">100</td></tr>
+        <tr><td>4</td><td class="hosp" contenteditable="false">مستشفى الولادة والأطفال</td><td class="num" contenteditable="false">1620</td><td class="num" contenteditable="false">1620</td><td class="pct g">100</td><td class="num" contenteditable="false">1620</td><td class="pct g">100</td></tr>
+        <tr><td>5</td><td class="hosp" contenteditable="false">مجمع إرادة والصحة النفسية</td><td class="num" contenteditable="false">1620</td><td class="num" contenteditable="false">1620</td><td class="pct g">100</td><td class="num" contenteditable="false">1620</td><td class="pct g">100</td></tr>
+        <tr><td>6</td><td class="hosp" contenteditable="false">مستشفى شراف</td><td class="num" contenteditable="false">1620</td><td class="num" contenteditable="false">1620</td><td class="pct g">100</td><td class="num" contenteditable="false">1620</td><td class="pct g">100</td></tr>
+        <tr><td>7</td><td class="hosp" contenteditable="false">مستشفى أجا للرعاية المديدة</td><td class="num" contenteditable="false">1620</td><td class="num" contenteditable="false">1620</td><td class="pct g">100</td><td class="num" contenteditable="false">1620</td><td class="pct g">100</td></tr>
+        <tr><td>8</td><td class="hosp" contenteditable="false">مستشفى موقق العام</td><td class="num" contenteditable="false">1620</td><td class="num" contenteditable="false">1620</td><td class="pct g">100</td><td class="num" contenteditable="false">1620</td><td class="pct g">100</td></tr>
+        <tr><td>9</td><td class="hosp" contenteditable="false">مستشفى بقعاء العام</td><td class="num" contenteditable="false">1620</td><td class="num" contenteditable="false">1620</td><td class="pct g">100</td><td class="num" contenteditable="false">1620</td><td class="pct g">100</td></tr>
+        <tr><td>10</td><td class="hosp" contenteditable="false">مستشفى الغزالة العام</td><td class="num" contenteditable="false">1620</td><td class="num" contenteditable="false">1620</td><td class="pct g">100</td><td class="num" contenteditable="false">1620</td><td class="pct g">100</td></tr>
+        <tr><td>11</td><td class="hosp" contenteditable="false">مستشفى الشنان العام</td><td class="num" contenteditable="false">1620</td><td class="num" contenteditable="false">1620</td><td class="pct g">100</td><td class="num" contenteditable="false">1620</td><td class="pct g">100</td></tr>
+        <tr><td>12</td><td class="hosp" contenteditable="false">مستشفى الشملي العام</td><td class="num" contenteditable="false">1620</td><td class="num" contenteditable="false">1620</td><td class="pct g">100</td><td class="num" contenteditable="false">1620</td><td class="pct g">100</td></tr>
+        <tr><td>13</td><td class="hosp" contenteditable="false">مستشفى السليمي العام</td><td class="num" contenteditable="false">1620</td><td class="num" contenteditable="false">1620</td><td class="pct g">100</td><td class="num" contenteditable="false">1620</td><td class="pct g">100</td></tr>
+        <tr><td>14</td><td class="hosp" contenteditable="false">مستشفى الحائط العام</td><td class="num" contenteditable="false">1620</td><td class="num" contenteditable="false">1620</td><td class="pct g">100</td><td class="num" contenteditable="false">1620</td><td class="pct g">100</td></tr>
+        <tr><td>15</td><td class="hosp" contenteditable="false">مستشفى سميراء العام</td><td class="num" contenteditable="false">1620</td><td class="num" contenteditable="false">1620</td><td class="pct g">100</td><td class="num" contenteditable="false">1620</td><td class="pct g">100</td></tr>
+        <tr class="total-row"><td colspan="2">الإجمالي</td><td id="tot-rd-0">24300</td><td id="tot-rd-1">24300</td><td>100</td><td id="tot-rd-2">24300</td><td>100</td></tr>
+      </tbody>
+    </table>
+    <div class="legend">
+      <div class="leg-item"><div class="leg-box" style="background:#28a745;">✓</div> &gt;=90%</div>
+      <div class="leg-item"><div class="leg-box" style="background:#ffc107;color:#333;">!</div> &lt;90%</div>
+      <div class="leg-item"><div class="leg-box" style="background:#dc3545;">✗</div> &lt;50%</div>
+    </div>
+  </div>
+  <div class="doc-footer">
+    <span>تجمع حائل الصحي — إدارة الأزمات والكوارث واستمرارية الأعمال</span>
+    <span>مؤشر الجاهزية للطوارئ الصحية</span>
+  </div>
+</div>
+
+<script>
+var STORE_KEY = 'quarterly-indicators';
+var editMode = false;
+
+function toggleEdit(){
+  editMode = !editMode;
+  var btn = document.getElementById('editBtn');
+  btn.textContent = editMode ? '🔒 إيقاف التحرير' : '✏️ تفعيل التحرير';
+  btn.className = editMode ? 'tb-btn edit on' : 'tb-btn edit';
+  document.body.className = editMode ? 'edit-mode' : '';
+  var cells = document.querySelectorAll('.hosp, .num, [id^="date-"], [id^="cover-"], [id^="hdr-period"]');
+  cells.forEach(function(el){ el.contentEditable = editMode ? 'true' : 'false'; });
+  if(editMode){
+    document.querySelectorAll('.num').forEach(function(td){
+      td.addEventListener('input', function(){ calcTotals(); calcPcts(); });
+    });
+  }
+}
+
+function quarterPhrase(val){
+  // "الربع الأول 2026" -> "للربع الأول"
+  var q = val.replace(/\s*\d{4}\s*$/,'');
+  return q.replace(/^ال/, 'لل');
+}
+
+function syncPeriod(){
+  var val = document.getElementById('tb-period').value;
+  document.getElementById('cover-period').innerText = val;
+  ['hdr-period-1','hdr-period-2','hdr-period-3'].forEach(function(id){
+    document.getElementById(id).innerText = val;
+  });
+  var phrase = quarterPhrase(val);
+  document.querySelectorAll('.fp').forEach(function(el){ el.innerText = phrase; });
+}
+
+function getPct(c,t){
+  var cv = parseFloat(c)||0, tv = parseFloat(t)||0;
+  if(tv===0) return 100;
+  return Math.round((cv/tv)*100);
+}
+function pctClass(p){ return p>=90?'g': p>=50?'y':'r'; }
+
+function calcTotals(){
+  // planning
+  var body = document.getElementById('body-planning');
+  if(body){
+    var rows = body.querySelectorAll('tr:not(.total-row)'), s1=0, s2=0;
+    rows.forEach(function(tr){ var n=tr.querySelectorAll('.num'); if(n.length>=2){s1+=parseFloat(n[0].innerText)||0; s2+=parseFloat(n[1].innerText)||0;} });
+    var tot = body.querySelector('.total-row'); if(tot){ var tds=tot.querySelectorAll('td'); if(tds.length>=4){tds[1].innerText=s1; tds[2].innerText=s2;} }
+  }
+  // hypothesis
+  body = document.getElementById('body-hypothesis');
+  if(body){
+    var rows=body.querySelectorAll('tr:not(.total-row)'), s1=0, s2=0;
+    rows.forEach(function(tr){ var n=tr.querySelectorAll('.num'); if(n.length>=2){s1+=parseFloat(n[0].innerText)||0; s2+=parseFloat(n[1].innerText)||0;} });
+    var tot=body.querySelector('.total-row'); if(tot){ var tds=tot.querySelectorAll('td'); if(tds.length>=4){tds[1].innerText=s1; tds[2].innerText=s2;} }
+  }
+  // readiness
+  body = document.getElementById('body-readiness');
+  if(body){
+    var rows=body.querySelectorAll('tr:not(.total-row)'), s0=0,s1=0,s2=0;
+    rows.forEach(function(tr){ var n=tr.querySelectorAll('.num'); if(n.length>=3){s0+=parseFloat(n[0].innerText)||0; s1+=parseFloat(n[1].innerText)||0; s2+=parseFloat(n[2].innerText)||0;} });
+    var tot=body.querySelector('.total-row'); if(tot){ var tds=tot.querySelectorAll('td'); if(tds.length>=6){tds[1].innerText=s0; tds[2].innerText=s1; tds[4].innerText=s2;} }
+  }
+}
+
+function calcPcts(){
+  // planning & hypothesis — 2 num cols
+  ['planning','hypothesis'].forEach(function(tid){
+    var body=document.getElementById('body-'+tid); if(!body) return;
+    body.querySelectorAll('tr:not(.total-row)').forEach(function(tr){
+      var n=tr.querySelectorAll('.num'), pc=tr.querySelector('.pct');
+      if(n.length>=2&&pc){ var p=getPct(n[1].innerText,n[0].innerText); pc.innerText=p; pc.className='pct '+pctClass(p); }
+    });
+  });
+  // readiness — 3 num cols, 2 pct cols
+  var body=document.getElementById('body-readiness'); if(!body) return;
+  body.querySelectorAll('tr:not(.total-row)').forEach(function(tr){
+    var n=tr.querySelectorAll('.num'), pc=tr.querySelectorAll('.pct');
+    if(n.length>=3&&pc.length>=2){
+      var p1=getPct(n[1].innerText,n[0].innerText);
+      var p2=getPct(n[2].innerText,n[0].innerText);
+      pc[0].innerText=p1; pc[0].className='pct '+pctClass(p1);
+      pc[1].innerText=p2; pc[1].className='pct '+pctClass(p2);
+    }
+  });
+}
+
+function saveData(){
+  var data={};
+  data['period']=document.getElementById('tb-period').value;
+  ['date-1','date-2','date-3'].forEach(function(id){ data[id]=document.getElementById(id).innerText; });
+  data['cover-title']=document.getElementById('cover-title').innerText;
+  // tables
+  ['planning','hypothesis'].forEach(function(tid){
+    var body=document.getElementById('body-'+tid); if(!body) return;
+    body.querySelectorAll('tr:not(.total-row)').forEach(function(tr,ri){
+      var n=tr.querySelectorAll('.num'), h=tr.querySelector('.hosp'), pc=tr.querySelector('.pct');
+      if(h) data[tid+'-h-'+ri]=h.innerText;
+      if(n.length>=2){ data[tid+'-n0-'+ri]=n[0].innerText; data[tid+'-n1-'+ri]=n[1].innerText; }
+      if(pc){ data[tid+'-p-'+ri]=pc.innerText; data[tid+'-pc-'+ri]=pc.className; }
+    });
+  });
+  var body=document.getElementById('body-readiness'); if(body){
+    body.querySelectorAll('tr:not(.total-row)').forEach(function(tr,ri){
+      var n=tr.querySelectorAll('.num'), h=tr.querySelector('.hosp'), pc=tr.querySelectorAll('.pct');
+      if(h) data['readiness-h-'+ri]=h.innerText;
+      if(n.length>=3){ data['readiness-n0-'+ri]=n[0].innerText; data['readiness-n1-'+ri]=n[1].innerText; data['readiness-n2-'+ri]=n[2].innerText; }
+      if(pc.length>=2){ data['readiness-p0-'+ri]=pc[0].innerText; data['readiness-pc0-'+ri]=pc[0].className; data['readiness-p1-'+ri]=pc[1].innerText; data['readiness-pc1-'+ri]=pc[1].className; }
+    });
+  }
+  localStorage.setItem(STORE_KEY, JSON.stringify(data));
+  alert('✅ تم الحفظ بنجاح');
+}
+
+function loadData(){
+  var saved=localStorage.getItem(STORE_KEY); if(!saved) return;
+  var data=JSON.parse(saved);
+  if(data['period']){
+    document.getElementById('tb-period').value=data['period'];
+    document.getElementById('cover-period').innerText=data['period'];
+    ['hdr-period-1','hdr-period-2','hdr-period-3'].forEach(function(id){ document.getElementById(id).innerText=data['period']; });
+    var phrase=quarterPhrase(data['period']);
+    document.querySelectorAll('.fp').forEach(function(el){ el.innerText=phrase; });
+  }
+  ['date-1','date-2','date-3'].forEach(function(id){ if(data[id]) document.getElementById(id).innerText=data[id]; });
+  if(data['cover-title']) document.getElementById('cover-title').innerText=data['cover-title'];
+  ['planning','hypothesis'].forEach(function(tid){
+    var body=document.getElementById('body-'+tid); if(!body) return;
+    body.querySelectorAll('tr:not(.total-row)').forEach(function(tr,ri){
+      var n=tr.querySelectorAll('.num'), h=tr.querySelector('.hosp'), pc=tr.querySelector('.pct');
+      if(h&&data[tid+'-h-'+ri]) h.innerText=data[tid+'-h-'+ri];
+      if(n.length>=2){ if(data[tid+'-n0-'+ri]) n[0].innerText=data[tid+'-n0-'+ri]; if(data[tid+'-n1-'+ri]) n[1].innerText=data[tid+'-n1-'+ri]; }
+      if(pc&&data[tid+'-p-'+ri]){ pc.innerText=data[tid+'-p-'+ri]; pc.className=data[tid+'-pc-'+ri]||'pct g'; }
+    });
+  });
+  var body=document.getElementById('body-readiness'); if(body){
+    body.querySelectorAll('tr:not(.total-row)').forEach(function(tr,ri){
+      var n=tr.querySelectorAll('.num'), h=tr.querySelector('.hosp'), pc=tr.querySelectorAll('.pct');
+      if(h&&data['readiness-h-'+ri]) h.innerText=data['readiness-h-'+ri];
+      if(n.length>=3){ if(data['readiness-n0-'+ri]) n[0].innerText=data['readiness-n0-'+ri]; if(data['readiness-n1-'+ri]) n[1].innerText=data['readiness-n1-'+ri]; if(data['readiness-n2-'+ri]) n[2].innerText=data['readiness-n2-'+ri]; }
+      if(pc.length>=2){
+        if(data['readiness-p0-'+ri]){ pc[0].innerText=data['readiness-p0-'+ri]; pc[0].className=data['readiness-pc0-'+ri]||'pct g'; }
+        if(data['readiness-p1-'+ri]){ pc[1].innerText=data['readiness-p1-'+ri]; pc[1].className=data['readiness-pc1-'+ri]||'pct g'; }
+      }
+    });
+  }
+  calcTotals();
+}
+
+window.addEventListener('DOMContentLoaded', function(){
+  loadData();
+  document.getElementById('tb-period').addEventListener('change', syncPeriod);
+});
+</script>
+</body>
+</html>

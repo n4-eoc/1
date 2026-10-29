@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>مؤشر اللجنة الوزارية للسلامة المرورية — إدارة الأزمات والكوارث واستمرارية الأعمال</title>
+<link rel="stylesheet" href="css/00-fonts.css"/>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Cairo',sans-serif;}
+
+/* ═══ TOOLBAR ═══ */
+.toolbar{
+  position:sticky;top:0;z-index:999;
+  background:linear-gradient(135deg,#002A40,#003D5C);
+  border-bottom:3px solid #00AEEF;
+  padding:8px 16px;display:flex;align-items:center;gap:10px;flex-wrap:wrap;
+}
+.tb-title{color:#fff;font-size:13px;font-weight:900;flex:1;}
+.tb-period{background:rgba(255,255,255,.1);border:1px solid rgba(0,174,239,.5);
+  color:#00AEEF;font-size:12px;font-weight:800;padding:4px 10px;border-radius:6px;
+  min-width:100px;text-align:center;font-family:'Cairo',sans-serif;
+  appearance:none;-webkit-appearance:none;cursor:pointer;}
+.tb-period:focus{outline:2px solid #00AEEF;background:rgba(255,255,255,.15);}
+.tb-period option{background:#003D5C;color:#fff;}
+.tb-btn{padding:6px 14px;border-radius:6px;border:none;cursor:pointer;font-family:'Cairo',sans-serif;font-size:11px;font-weight:800;}
+.tb-btn.edit{background:#00AEEF;color:#fff;}
+.tb-btn.edit.on{background:#ff9800;}
+.tb-btn.save{background:#28a745;color:#fff;}
+.tb-btn.print{background:#6c5ce7;color:#fff;}
+.tb-hint{color:rgba(255,255,255,.6);font-size:10px;}
+
+/* ═══ SCREEN ═══ */
+@media screen{
+  body{background:linear-gradient(150deg,#021A2C,#06304A,#074A66);min-height:100vh;}
+  .page{width:297mm;margin:16px auto;background:#fff;border-radius:8px;
+    box-shadow:0 8px 40px rgba(0,0,0,.4);overflow:hidden;page-break-after:always;}
+}
+
+/* ═══ PRINT ═══ */
+@media print{
+  .toolbar{display:none!important;}
+  body{background:#fff;}
+  /* fixed height + hidden overflow = every .page is exactly ONE physical
+     sheet — this guarantees the PDF always has exactly 2 pages
+     (cover + جدول اللجنة الوزارية). */
+  .page{width:277mm;height:190mm;margin:0;border-radius:0;
+    box-shadow:none;overflow:hidden;page-break-after:always;break-after:page;
+    display:block;}
+  .page:last-child{page-break-after:auto;break-after:auto;}
+  table{width:100%;}
+  thead{display:table-header-group;}
+  table caption{padding:6px 10px!important;font-size:12px!important;}
+  thead th{padding:4px 6px!important;font-size:10px!important;}
+  tbody td{padding:3px 6px!important;font-size:10px!important;}
+  .legend{margin-top:4px!important;}
+  @page{size:A4 landscape;margin:10mm;}
+}
+
+/* ═══ COVER ═══ */
+.cover-page{
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  background:linear-gradient(150deg,#003D5C 0%,#005B82 40%,#0078A8 70%,#00AEEF 100%);
+  color:#fff;text-align:center;padding:30px;min-height:190mm;
+  position:relative;
+}
+.cover-logo{width:90px;height:90px;object-fit:contain;margin-bottom:20px;
+  filter:drop-shadow(0 4px 12px rgba(0,0,0,.4));}
+.cover-main-title{font-size:22px;font-weight:900;line-height:1.4;
+  text-shadow:0 2px 8px rgba(0,0,0,.3);margin-bottom:8px;}
+.cover-sub{font-size:20px;font-weight:700;color:rgba(255,255,255,.8);margin-bottom:24px;line-height:1.6;}
+.cover-period-box{
+  background:rgba(255,255,255,.15);border:2px solid rgba(255,255,255,.5);
+  border-radius:12px;padding:12px 40px;margin-bottom:20px;
+}
+.cover-period-label{font-size:11px;color:rgba(255,255,255,.7);margin-bottom:4px;}
+.cover-period-val{font-size:28px;font-weight:900;letter-spacing:2px;}
+.cover-org{font-size:13px;color:rgba(255,255,255,.7);margin-top:16px;
+  border-top:1px solid rgba(255,255,255,.3);padding-top:12px;}
+.cover-badge{
+  position:absolute;bottom:16px;right:20px;
+  background:rgba(0,0,0,.2);border:1px solid rgba(255,255,255,.3);
+  border-radius:20px;padding:4px 14px;font-size:9px;color:rgba(255,255,255,.7);
+}
+
+/* ═══ DOC HEADER ═══ */
+.doc-hdr{
+  background:linear-gradient(135deg,#003D5C,#005B82,#0078A8);
+  border-bottom:3px solid #00AEEF;
+  padding:8px 14px;display:flex;align-items:center;gap:10px;flex-shrink:0;
+}
+.doc-hdr-logo{width:36px;height:36px;object-fit:contain;filter:drop-shadow(0 1px 4px rgba(0,0,0,.3));}
+.doc-hdr-main{color:#fff;font-size:11px;font-weight:900;line-height:1.3;}
+.doc-hdr-sub{color:rgba(255,255,255,.65);font-size:8px;font-weight:600;margin-top:2px;}
+.doc-hdr-badge{
+  background:rgba(0,174,239,.18);border:1.5px solid #00AEEF;border-radius:16px;
+  padding:3px 10px;text-align:center;flex-shrink:0;
+}
+.doc-hdr-badge-main{color:#fff;font-size:10px;font-weight:900;}
+.doc-hdr-badge-sub{color:#00AEEF;font-size:8px;font-weight:700;}
+
+/* ═══ TITLE BAR ═══ */
+.title-bar{
+  background:linear-gradient(135deg,#004A70,#006A9A);
+  color:#fff;font-size:10px;font-weight:800;
+  padding:5px 14px;border-bottom:2px solid rgba(0,174,239,.3);
+  display:flex;justify-content:space-between;align-items:center;flex-shrink:0;
+}
+
+/* ═══ TABLE AREA ═══ */
+.tbl-area{flex:1;padding:10px 14px 6px;display:flex;flex-direction:column;}
+
+table{width:100%;border-collapse:collapse;font-family:'Cairo',sans-serif;}
+table caption{
+  background:linear-gradient(135deg,#003D5C,#005B82);color:#fff;
+  font-size:13px;font-weight:900;padding:8px 12px;text-align:center;
+  border:1px solid #0078A8;border-bottom:3px solid #00AEEF;letter-spacing:.2px;
+}
+thead th{
+  background:linear-gradient(135deg,#003D5C,#005B82);color:#fff;
+  font-weight:800;padding:6px 8px;text-align:center;
+  border:1px solid #0078A8;font-size:11px;
+}
+thead th.sub{background:linear-gradient(135deg,#004568,#006090)!important;}
+tbody tr:nth-child(even) td{background:#F2F8FC;}
+tbody tr:nth-child(odd) td{background:#fff;}
+tbody td{
+  border:1px solid #C8E4F0;padding:5px 8px;
+  text-align:center;font-size:11px;color:#1A3A4A;font-weight:600;
+}
+td.hosp{text-align:right;font-weight:700;color:#003D5C;}
+td.lvl{font-weight:700;color:#005B82;}
+td.num{min-width:40px;}
+td.pct{font-weight:900;font-size:12px;}
+td.pct.g{background:#28a745!important;color:#fff!important;}
+td.pct.y{background:#ffc107!important;color:#1a1a1a!important;}
+td.pct.r{background:#dc3545!important;color:#fff!important;}
+tr.total-row td{background:linear-gradient(135deg,#003D5C,#005B82)!important;color:#fff!important;font-weight:900!important;}
+
+/* editable */
+.edit-mode [contenteditable="true"]{
+  outline:1.5px dashed #00AEEF;background:rgba(0,174,239,.06)!important;cursor:text;
+}
+.edit-mode [contenteditable="true"]:focus{outline:2px solid #0078A8;background:rgba(0,120,168,.1)!important;}
+[contenteditable="true"]{outline:none;cursor:default;}
+
+/* ═══ LEGEND ═══ */
+.legend{display:flex;gap:10px;margin-top:6px;align-items:center;flex-shrink:0;}
+.leg-item{display:flex;align-items:center;gap:4px;font-size:9px;font-weight:700;color:#003D5C;}
+.leg-box{width:26px;height:14px;border-radius:3px;display:flex;align-items:center;justify-content:center;color:#fff;font-size:8px;font-weight:900;}
+
+/* ═══ FOOTER ═══ */
+.doc-footer{
+  background:linear-gradient(135deg,#003D5C,#005B82);
+  color:rgba(255,255,255,.7);font-size:8px;
+  padding:4px 14px;display:flex;justify-content:space-between;
+  border-top:2px solid #00AEEF;flex-shrink:0;
+}
+</style>
+</head>
+<body>
+
+<!-- TOOLBAR -->
+<div class="toolbar">
+  <div class="tb-title">🚦 مؤشر اللجنة الوزارية للسلامة المرورية — إدارة الأزمات والكوارث واستمرارية الأعمال</div>
+  <span class="tb-hint">الربع:</span>
+  <select class="tb-period" id="tb-period">
+    <option value="الربع الأول 2026">الربع الأول 2026</option>
+    <option value="الربع الثاني 2026" selected>الربع الثاني 2026</option>
+    <option value="الربع الثالث 2026">الربع الثالث 2026</option>
+    <option value="الربع الرابع 2026">الربع الرابع 2026</option>
+  </select>
+  <button class="tb-btn edit" id="editBtn" onclick="toggleEdit()">✏️ تفعيل التحرير</button>
+  <button class="tb-btn save" onclick="saveData()">💾 حفظ</button>
+  <button class="tb-btn print" onclick="window.print()">🖨️ طباعة</button>
+</div>
+
+<!-- PAGE 1 — COVER -->
+<div class="page cover-page" style="position:relative;">
+  <img src="logo-white.png" class="cover-logo" alt=""/>
+  <div class="cover-main-title" id="cover-title" contenteditable="false">مؤشر اللجنة الوزارية للسلامة المرورية</div>
+  <div class="cover-sub">تجمع حائل الصحي<br>إدارة الأزمات والكوارث واستمرارية الأعمال</div>
+  <div class="cover-period-box">
+    <div class="cover-period-label">الربع / Quarter</div>
+    <div class="cover-period-val" id="cover-period" contenteditable="false">الربع الثاني 2026</div>
+  </div>
+  <div style="color:rgba(255,255,255,.6);font-size:11px;">مؤشر اللجنة الوزارية للسلامة المرورية — Ministerial Traffic Safety Committee Indicator</div>
+  <div class="cover-org">Hail Health Cluster — Emergency Operation Center</div>
+  <div class="cover-badge">تجمع حائل الصحي</div>
+</div>
+
+<!-- PAGE 2 — مؤشر اللجنة الوزارية للسلامة المرورية -->
+<div class="page" id="page-ministerial">
+  <div class="doc-hdr">
+    <img src="logo-white.png" class="doc-hdr-logo" alt=""/>
+    <div style="flex:1;">
+      <div class="doc-hdr-main">إدارة الأزمات والكوارث واستمرارية الأعمال — تجمع حائل الصحي</div>
+      <div class="doc-hdr-sub">Hail Health Cluster — Emergency Operation Center | وحدة التخطيط والاستعداد</div>
+    </div>
+    <div class="doc-hdr-badge">
+      <div class="doc-hdr-badge-main" id="hdr-period-1" contenteditable="false">الربع الثاني 2026</div>
+    </div>
+  </div>
+  <div class="title-bar">
+    <span>🚦 مؤشر اللجنة الوزارية للسلامة المرورية</span>
+    <span>تاريخ الإصدار: <span id="date-1" contenteditable="false">01/07/26</span></span>
+  </div>
+  <div class="tbl-area">
+    <table id="tbl-ministerial">
+      <caption>مؤشر اللجنة الوزارية للسلامة المرورية</caption>
+      <thead>
+        <tr>
+          <th style="width:28px;">م</th>
+          <th>اسم المستشفى</th>
+          <th style="width:150px;">مستوى تصنيف مركز الاصابات</th>
+          <th style="width:90px;">عدد الفرضيات</th>
+          <th style="width:90px;">الفرضيات المكتملة</th>
+          <th style="width:70px;">النسبة %</th>
+        </tr>
+      </thead>
+      <tbody id="body-ministerial">
+        <tr><td>1</td><td class="hosp" contenteditable="false">مستشفى الملك خالد</td><td class="lvl" contenteditable="false">الأول</td><td class="num" contenteditable="false">1</td><td class="num" contenteditable="false">1</td><td class="pct g">100</td></tr>
+        <tr><td>2</td><td class="hosp" contenteditable="false">مستشفى الحائط العام</td><td class="lvl" contenteditable="false">الثاني</td><td class="num" contenteditable="false">1</td><td class="num" contenteditable="false">1</td><td class="pct g">100</td></tr>
+        <tr><td>3</td><td class="hosp" contenteditable="false">مستشفى موقق العام</td><td class="lvl" contenteditable="false">الثالث</td><td class="num" contenteditable="false">1</td><td class="num" contenteditable="false">1</td><td class="pct g">100</td></tr>
+        <tr><td>4</td><td class="hosp" contenteditable="false">مستشفى بقعاء العام</td><td class="lvl" contenteditable="false">الثالث</td><td class="num" contenteditable="false">1</td><td class="num" contenteditable="false">1</td><td class="pct g">100</td></tr>
+        <tr><td>5</td><td class="hosp" contenteditable="false">مستشفى الغزالة العام</td><td class="lvl" contenteditable="false">الثالث</td><td class="num" contenteditable="false">1</td><td class="num" contenteditable="false">1</td><td class="pct g">100</td></tr>
+        <tr><td>6</td><td class="hosp" contenteditable="false">مستشفى السليمي العام</td><td class="lvl" contenteditable="false">الثالث</td><td class="num" contenteditable="false">1</td><td class="num" contenteditable="false">1</td><td class="pct g">100</td></tr>
+        <tr><td>7</td><td class="hosp" contenteditable="false">مستشفى الشنان العام</td><td class="lvl" contenteditable="false">الثالث</td><td class="num" contenteditable="false">1</td><td class="num" contenteditable="false">1</td><td class="pct g">100</td></tr>
+        <tr><td>8</td><td class="hosp" contenteditable="false">مستشفى سميراء العام</td><td class="lvl" contenteditable="false">الثالث</td><td class="num" contenteditable="false">1</td><td class="num" contenteditable="false">1</td><td class="pct g">100</td></tr>
+        <tr><td>9</td><td class="hosp" contenteditable="false">مستشفى الشملي العام</td><td class="lvl" contenteditable="false">الثالث</td><td class="num" contenteditable="false">1</td><td class="num" contenteditable="false">1</td><td class="pct g">100</td></tr>
+        <tr class="total-row"><td colspan="3">الإجمالي</td><td id="tot-mc-1">9</td><td id="tot-mc-2">9</td><td>100</td></tr>
+      </tbody>
+    </table>
+    <div class="legend">
+      <div class="leg-item"><div class="leg-box" style="background:#28a745;">✓</div> &gt;=90%</div>
+      <div class="leg-item"><div class="leg-box" style="background:#ffc107;color:#333;">!</div> &lt;90%</div>
+      <div class="leg-item"><div class="leg-box" style="background:#dc3545;">✗</div> &lt;50%</div>
+    </div>
+  </div>
+  <div class="doc-footer">
+    <span>تجمع حائل الصحي — إدارة الأزمات والكوارث واستمرارية الأعمال</span>
+    <span>مؤشر اللجنة الوزارية للسلامة المرورية</span>
+  </div>
+</div>
+
+<script>
+var STORE_KEY = 'ministerial-committee-indicator';
+var editMode = false;
+
+function toggleEdit(){
+  editMode = !editMode;
+  var btn = document.getElementById('editBtn');
+  btn.textContent = editMode ? '🔒 إيقاف التحرير' : '✏️ تفعيل التحرير';
+  btn.className = editMode ? 'tb-btn edit on' : 'tb-btn edit';
+  document.body.className = editMode ? 'edit-mode' : '';
+  var cells = document.querySelectorAll('.hosp, .lvl, .num, [id^="date-"], [id^="cover-"], [id^="hdr-period"]');
+  cells.forEach(function(el){ el.contentEditable = editMode ? 'true' : 'false'; });
+  if(editMode){
+    document.querySelectorAll('.num').forEach(function(td){
+      td.addEventListener('input', function(){ calcTotals(); calcPcts(); });
+    });
+  }
+}
+
+function syncPeriod(){
+  var val = document.getElementById('tb-period').value;
+  document.getElementById('cover-period').innerText = val;
+  document.getElementById('hdr-period-1').innerText = val;
+}
+
+function getPct(c,t){
+  var cv = parseFloat(c)||0, tv = parseFloat(t)||0;
+  if(tv===0) return 100;
+  return Math.round((cv/tv)*100);
+}
+function pctClass(p){ return p>=90?'g': p>=50?'y':'r'; }
+
+function calcTotals(){
+  var body = document.getElementById('body-ministerial');
+  if(!body) return;
+  var rows = body.querySelectorAll('tr:not(.total-row)'), s1=0, s2=0;
+  rows.forEach(function(tr){ var n=tr.querySelectorAll('.num'); if(n.length>=2){s1+=parseFloat(n[0].innerText)||0; s2+=parseFloat(n[1].innerText)||0;} });
+  var tot = body.querySelector('.total-row');
+  if(tot){ var tds=tot.querySelectorAll('td'); if(tds.length>=4){tds[1].innerText=s1; tds[2].innerText=s2;} }
+}
+
+function calcPcts(){
+  var body = document.getElementById('body-ministerial');
+  if(!body) return;
+  body.querySelectorAll('tr:not(.total-row)').forEach(function(tr){
+    var n=tr.querySelectorAll('.num'), pc=tr.querySelector('.pct');
+    if(n.length>=2 && pc){ var p=getPct(n[1].innerText,n[0].innerText); pc.innerText=p; pc.className='pct '+pctClass(p); }
+  });
+}
+
+function saveData(){
+  var data={};
+  data['period']=document.getElementById('tb-period').value;
+  data['date-1']=document.getElementById('date-1').innerText;
+  data['cover-title']=document.getElementById('cover-title').innerText;
+  var body=document.getElementById('body-ministerial');
+  if(body){
+    body.querySelectorAll('tr:not(.total-row)').forEach(function(tr,ri){
+      var n=tr.querySelectorAll('.num'), h=tr.querySelector('.hosp'), l=tr.querySelector('.lvl'), pc=tr.querySelector('.pct');
+      if(h) data['h-'+ri]=h.innerText;
+      if(l) data['l-'+ri]=l.innerText;
+      if(n.length>=2){ data['n0-'+ri]=n[0].innerText; data['n1-'+ri]=n[1].innerText; }
+      if(pc){ data['p-'+ri]=pc.innerText; data['pc-'+ri]=pc.className; }
+    });
+  }
+  localStorage.setItem(STORE_KEY, JSON.stringify(data));
+  alert('✅ تم الحفظ بنجاح');
+}
+
+function loadData(){
+  var saved=localStorage.getItem(STORE_KEY); if(!saved) return;
+  var data=JSON.parse(saved);
+  if(data['period']){
+    document.getElementById('tb-period').value=data['period'];
+    document.getElementById('cover-period').innerText=data['period'];
+    document.getElementById('hdr-period-1').innerText=data['period'];
+  }
+  if(data['date-1']) document.getElementById('date-1').innerText=data['date-1'];
+  if(data['cover-title']) document.getElementById('cover-title').innerText=data['cover-title'];
+  var body=document.getElementById('body-ministerial');
+  if(body){
+    body.querySelectorAll('tr:not(.total-row)').forEach(function(tr,ri){
+      var n=tr.querySelectorAll('.num'), h=tr.querySelector('.hosp'), l=tr.querySelector('.lvl'), pc=tr.querySelector('.pct');
+      if(h&&data['h-'+ri]) h.innerText=data['h-'+ri];
+      if(l&&data['l-'+ri]) l.innerText=data['l-'+ri];
+      if(n.length>=2){ if(data['n0-'+ri]) n[0].innerText=data['n0-'+ri]; if(data['n1-'+ri]) n[1].innerText=data['n1-'+ri]; }
+      if(pc&&data['p-'+ri]){ pc.innerText=data['p-'+ri]; pc.className=data['pc-'+ri]||'pct g'; }
+    });
+  }
+  calcTotals();
+}
+
+window.addEventListener('DOMContentLoaded', function(){
+  loadData();
+  document.getElementById('tb-period').addEventListener('change', syncPeriod);
+});
+</script>
+</body>
+</html>

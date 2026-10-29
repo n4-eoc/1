@@ -1,0 +1,820 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>تقرير فرضية الاشتباه بحالة الإيبولا (EVD) — تجمع حائل الصحي</title>
+<link rel="stylesheet" href="css/00-fonts.css"/>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+body{
+  font-family:'Cairo',sans-serif;
+  direction:rtl;
+  background:linear-gradient(150deg,#021A2C 0%,#06304A 38%,#074A66 70%,#0A5E7E 100%);
+  min-height:100vh;
+  padding:24px 14px 60px;
+}
+
+/* ===== toolbar (screen only) ===== */
+.toolbar{
+  max-width:210mm;margin:0 auto 18px;display:flex;justify-content:space-between;align-items:center;
+  gap:10px;flex-wrap:wrap;
+}
+.toolbar-title{color:#fff;font-size:14px;font-weight:800;opacity:.85;}
+.btn{
+  padding:9px 18px;border-radius:10px;border:1.5px solid rgba(255,255,255,0.25);
+  background:rgba(255,255,255,0.1);font-family:'Cairo',sans-serif;font-size:12px;
+  font-weight:700;cursor:pointer;color:#fff;transition:all .2s;
+}
+.btn:hover{background:rgba(255,255,255,0.18);}
+.btn-print{background:rgba(0,174,239,.25);border-color:#00AEEF;}
+.btn-print:hover{background:rgba(0,174,239,.4);}
+
+/* ===== A4 page ===== */
+.hyp-page{
+  width:210mm;min-height:297mm;background:#fff;margin:0 auto 20px;border-radius:4px;
+  box-shadow:0 8px 40px rgba(0,0,0,.35);display:flex;flex-direction:column;overflow:hidden;
+  position:relative;font-family:'Cairo',sans-serif;direction:rtl;
+}
+.a4-header{
+  padding:12px 22px 10px;display:flex;align-items:center;gap:14px;border-bottom:4px solid #00AEEF;
+  background:linear-gradient(135deg,#003D5C 0%,#005B82 50%,#0078A8 100%);
+}
+.a4-logo{width:60px;height:60px;object-fit:contain;flex-shrink:0;}
+.a4-org-block{flex:1;}
+.a4-org-main{color:#fff;font-size:19px;font-weight:900;line-height:1.2;}
+.a4-org-sub{color:rgba(255,255,255,.65);font-size:10px;font-weight:600;margin-top:2px;}
+.a4-badge{
+  background:rgba(0,174,239,.25);border:1.5px solid #00AEEF;border-radius:20px;padding:5px 14px;
+  color:#fff;font-size:12px;font-weight:800;white-space:nowrap;
+}
+.a4-title-bar{
+  padding:5px 20px;color:#fff;font-size:14px;font-weight:900;display:flex;align-items:center;gap:10px;
+  background:linear-gradient(90deg,#00AEEF,#005B82);
+}
+.title-sep{opacity:.5;font-size:16px;}
+.a4-footer{
+  padding:8px 20px;color:rgba(255,255,255,.85);font-size:10px;font-weight:600;display:flex;
+  align-items:center;justify-content:space-between;border-top:2px solid #00AEEF;flex-shrink:0;
+  background:linear-gradient(135deg,#005B82,#003D5C);margin-top:auto;
+}
+.evd-card{page-break-inside:avoid;break-inside:avoid;}
+table.evd-table tr{page-break-inside:avoid;break-inside:avoid;}
+.section-title{
+  font-size:12px;font-weight:800;color:#005B82;text-transform:uppercase;letter-spacing:.7px;
+  margin-bottom:9px;display:flex;align-items:center;gap:6px;padding-bottom:5px;border-bottom:2px solid #00AEEF;
+}
+
+/* ===== page 1: title + info fields ===== */
+.hyp-spacer{height:34px;flex-shrink:0;}
+.evd-title-block{text-align:center;border-bottom:2px dashed #C8E4F0;padding:0 28px 16px;margin:0 28px 22px;}
+.evd-title-block h1{font-size:34px;font-weight:900;color:#003D5C;margin-bottom:6px;}
+.evd-title-block .sub{font-size:14px;font-weight:700;color:#00AEEF;}
+.info-grid-single{padding:0 28px;margin-bottom:14px;}
+.info-grid-single select{text-align:center;text-align-last:center;}
+.info-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;padding:0 28px;}
+.info-grid.cols-2{grid-template-columns:repeat(2,1fr);}
+.info-box{background:#F7FBFD;border:1px solid #C8E4F0;border-radius:10px;padding:12px 14px;text-align:center;}
+.info-box label{display:block;font-size:10px;font-weight:800;color:#4A5A6A;margin-bottom:6px;
+  text-transform:uppercase;letter-spacing:.5px;text-align:center;}
+.info-box input,.info-box select{
+  width:100%;border:none;background:transparent;outline:none;font-family:'Cairo',sans-serif;
+  font-size:15px;font-weight:800;color:#003D5C;border-bottom:1.5px solid #C8E4F0;padding-bottom:4px;
+  cursor:pointer;text-align:center;text-align-last:center;
+}
+
+/* ===== page 1: professional cover ===== */
+.cover-hero{text-align:center;padding:0 28px;margin-bottom:26px;}
+.cover-emblem{
+  width:78px;height:78px;margin:0 auto 16px;border-radius:50%;
+  background:linear-gradient(135deg,#003D5C 0%,#0078A8 100%);
+  display:flex;align-items:center;justify-content:center;
+  box-shadow:0 8px 22px rgba(0,61,92,.30);border:3px solid #E3F2FD;
+}
+.cover-emblem span{font-size:36px;line-height:1;}
+.cover-kicker{
+  display:inline-block;background:rgba(0,174,239,.10);border:1.5px solid #00AEEF;color:#005B82;
+  font-size:11px;font-weight:800;letter-spacing:1px;padding:5px 18px;border-radius:20px;margin-bottom:16px;
+}
+.cover-title{font-size:33px;font-weight:900;color:#003D5C;line-height:1.28;margin-bottom:9px;}
+.cover-title .hl{color:#0078A8;}
+.cover-sub-ar{font-size:15px;font-weight:700;color:#00AEEF;margin-bottom:5px;}
+.cover-sub-en{font-size:10.5px;font-weight:600;color:#7A8A96;letter-spacing:1.5px;text-transform:uppercase;}
+.cover-divider{width:130px;height:3px;background:linear-gradient(90deg,#00AEEF,#005B82);border-radius:3px;margin:18px auto 0;}
+.info-heading{
+  display:flex;align-items:center;gap:8px;padding:0 28px;margin-bottom:12px;
+  font-size:12px;font-weight:800;color:#005B82;letter-spacing:.5px;
+}
+.info-heading::before{content:"";width:4px;height:16px;border-radius:3px;background:linear-gradient(180deg,#00AEEF,#005B82);}
+.info-heading .line{flex:1;height:1px;background:linear-gradient(90deg,#C8E4F0,transparent);}
+.info-box{transition:box-shadow .2s;}
+.info-box:focus-within{box-shadow:0 0 0 2px rgba(0,174,239,.30);border-color:#00AEEF;}
+
+/* فريق التقييم */
+.team-section{padding:0 28px;margin-top:22px;}
+.team-list{display:flex;flex-direction:column;gap:8px;margin-bottom:10px;}
+.team-row{display:flex;gap:6px;align-items:center;}
+.team-row .team-input{
+  flex:1;background:#F7FBFD;border:1px solid #C8E4F0;border-radius:8px;padding:9px 12px;
+  font-family:'Cairo',sans-serif;font-size:13px;font-weight:700;color:#003D5C;outline:none;
+}
+.team-remove{
+  width:28px;height:28px;border-radius:6px;border:1px solid #f3c4c4;background:#fff;color:#dc2626;
+  cursor:pointer;font-size:12px;flex-shrink:0;
+}
+.btn-add-team{
+  background:rgba(0,174,239,.12);border:1.5px dashed #00AEEF;border-radius:8px;padding:7px 16px;
+  color:#005B82;font-family:'Cairo',sans-serif;font-size:12px;font-weight:700;cursor:pointer;
+}
+.btn-add-team:hover{background:rgba(0,174,239,.22);}
+.team-group{margin-bottom:14px;}
+.team-group:last-child{margin-bottom:0;}
+.team-group-title{font-size:10.5px;font-weight:800;color:#005B82;margin-bottom:6px;line-height:1.4;}
+.team-single-input{
+  width:100%;background:#fff;border:1px solid #C8E4F0;border-radius:8px;padding:9px 12px;
+  font-family:'Cairo',sans-serif;font-size:13px;font-weight:700;color:#003D5C;outline:none;
+}
+
+/* ===== evaluation tables ===== */
+.evd-section{padding:0 16px;margin-bottom:16px;}
+.evd-card{border:1px solid #C8E4F0;border-radius:8px;overflow:hidden;margin-bottom:14px;}
+.evd-card-head{font-size:12px;font-weight:800;color:#fff;background:linear-gradient(90deg,#005B82,#0078A8);padding:8px 14px;}
+table.evd-table{width:100%;border-collapse:collapse;}
+table.evd-table thead tr{background:linear-gradient(135deg,#003D5C,#005B82);}
+table.evd-table th{padding:8px 10px;color:#fff;font-weight:700;font-size:11.5px;text-align:center;}
+table.evd-table th.th-criteria{text-align:right;}
+table.evd-table td{padding:7px 10px;border-bottom:1px solid #E3F2FD;font-size:12px;color:#1A3A4A;background:#fff;vertical-align:middle;}
+table.evd-table td.td-criteria{font-weight:700;background:#F2F5F7;text-align:right;}
+table.evd-table td.td-eval{text-align:center;width:130px;}
+
+.eval-sel{
+  font-family:'Cairo',sans-serif;font-size:11.5px;font-weight:700;border:none;outline:none;
+  cursor:pointer;text-align:center;text-align-last:center;color:#16a34a;width:100%;background:transparent;
+}
+
+/* ===== page 6: results & recommendations ===== */
+.res-charts-row{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin-bottom:14px;}
+.res-chart-box{text-align:center;background:#F7FBFD;border:1px solid #C8E4F0;border-radius:10px;padding:12px 6px;}
+.res-chart-label{font-size:10.5px;font-weight:700;color:#1A3A4A;margin-top:6px;}
+.res-final-box{
+  background:linear-gradient(135deg,#F0F7FB,#E3F2FD);border:2px solid #00AEEF;border-radius:12px;
+  padding:14px 20px;display:flex;align-items:center;justify-content:center;
+}
+.res-stat-total{
+  background:linear-gradient(135deg,#003D5C,#005B82);border-radius:10px;padding:10px 16px;
+  display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;
+  box-shadow:0 3px 10px rgba(0,61,92,.25);
+}
+.res-stat-total span:first-child{color:rgba(255,255,255,.8);font-size:12px;font-weight:700;}
+.res-stat-total span:last-child{color:#fff;font-size:30px;font-weight:900;line-height:1;}
+.res-stat-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
+.res-stat-card{
+  background:#fff;border-radius:10px;padding:10px 12px;box-shadow:0 2px 8px rgba(0,0,0,.08);
+  display:flex;align-items:center;justify-content:space-between;
+}
+.res-stat-card .lbl{font-size:9px;font-weight:800;text-transform:uppercase;letter-spacing:.5px;margin-bottom:2px;}
+.res-stat-card .sub{font-size:9px;font-weight:600;}
+.res-stat-card .num{font-size:26px;font-weight:900;line-height:1;}
+.res-ics-top{
+  background:linear-gradient(135deg,#003D5C,#005B82);color:#fff;padding:7px 14px;border-radius:8px;
+  text-align:center;min-width:160px;box-shadow:0 2px 8px rgba(0,0,0,.2);margin:0 auto;
+}
+.res-ics-top .role{font-size:11px;font-weight:800;}
+.res-ics-name{
+  width:100%;background:transparent;border:none;outline:none;color:rgba(255,255,255,.85);
+  font-family:'Cairo',sans-serif;font-size:10px;text-align:center;border-top:1px solid rgba(255,255,255,.3);
+  margin-top:4px;padding-top:4px;
+}
+.res-ics-row{display:flex;justify-content:space-between;width:86%;gap:6px;margin:0 auto;}
+.res-ics-sub{
+  background:linear-gradient(135deg,#005B82,#0078A8);color:#fff;padding:6px 6px;border-radius:7px;
+  text-align:center;width:100%;box-shadow:0 2px 6px rgba(0,0,0,.15);
+}
+.res-ics-sub .role{font-size:10px;font-weight:800;}
+.res-ics-sub .res-ics-name{font-size:9px;border-top-color:rgba(255,255,255,.25);}
+.res-textarea{
+  width:100%;min-height:110px;border:1px solid #E3F2FD;border-radius:8px;background:#fff;
+  font-family:'Cairo',sans-serif;font-size:11px;color:#1A3A4A;padding:8px 10px;outline:none;resize:vertical;
+  line-height:1.8;
+}
+
+/* ===== print ===== */
+@media print{
+  html,body{background:#fff;padding:0;margin:0;height:auto;}
+  .toolbar{display:none;}
+  .hyp-page{
+    box-shadow:none;margin:0;border-radius:0;
+    height:297mm;min-height:297mm;max-height:297mm;overflow:hidden;
+    /* fixed page height (instead of just min-height) so the footer can be safely
+       pinned to the bottom of every page via margin-top:auto below, without
+       ever overflowing into a stray blank page */
+    page-break-after:always;break-after:page;
+    page-break-inside:avoid;      /* keep this section's chrome together where possible */
+  }
+  .hyp-page:last-child{page-break-after:auto;break-after:auto;}
+  .evd-section{padding-bottom:4px;}
+
+  /* hide the native clock/calendar picker icons on time & date fields */
+  input[type="time"]::-webkit-calendar-picker-indicator,
+  input[type="date"]::-webkit-calendar-picker-indicator{
+    display:none;
+    -webkit-appearance:none;
+  }
+  input[type="time"],input[type="date"]{
+    -webkit-appearance:none;appearance:none;
+  }
+  .info-box select{
+    -webkit-appearance:none;appearance:none;background-image:none;
+  }
+
+  /* hide placeholder text so empty fields print blank instead of showing hints */
+  ::placeholder{color:transparent !important;opacity:0 !important;}
+  .info-box input::placeholder{color:transparent !important;opacity:0 !important;}
+
+  /* فريق التقييم: hide the add/remove controls, and hide any name field
+     that was left empty so it doesn't show up on the printed page */
+  .btn-add-team,.team-remove{display:none;}
+  .team-input:placeholder-shown,.team-single-input:placeholder-shown{display:none;}
+
+  /* hide these labels when printing — keep only the entered/selected values visible.
+     (needs to out-specificity the always-on ".info-box label{display:block}" rule above) */
+  .info-box label.hosp-label,
+  .info-box label.hyp-type-label,
+  .info-box label.hyp-class-label{display:none !important;}
+
+  /* الرئيس التنفيذي المناوب — "أخرى": show only the typed name, hide the select itself,
+     and hide the typed-name field entirely if it was left empty */
+  .ceo-other-mode #ceo-select{display:none;}
+  #ceo-other:placeholder-shown{display:none;}
+}
+@page{size:A4;margin:0;}
+</style>
+</head>
+<body>
+
+<div class="toolbar">
+  <div class="toolbar-title">📋 نموذج تقييم فرضية الاشتباه بحالة الإيبولا (EVD)</div>
+  <button class="btn btn-print" onclick="window.print()">🖨️ طباعة / تصدير PDF</button>
+</div>
+
+<!-- ══════════════ الصفحة 1: البيانات الأساسية ══════════════ -->
+<div class="hyp-page">
+  <div class="a4-header">
+    <img class="a4-logo" src="logo-white.png" alt="شعار تجمع حائل الصحي"/>
+    <div class="a4-org-block">
+      <div class="a4-org-main">تجمع حائل الصحي</div>
+      <div class="a4-org-sub">إدارة الأزمات والكوارث واستمرارية الأعمال</div>
+    </div>
+    <div class="a4-badge">تقرير فرضية EVD</div>
+  </div>
+
+  <div class="hyp-spacer" style="height:24px;"></div>
+
+  <div class="cover-hero">
+    <div class="cover-emblem"><span>🦠</span></div>
+    <div class="cover-kicker">إدارة الأزمات والكوارث واستمرارية الأعمال</div>
+    <div class="cover-title">تقرير تقييم فرضية<br/>الاشتباه بحالة <span class="hl">الإيبولا (EVD)</span></div>
+    <div class="cover-sub-ar">نموذج تقييم الاستعداد والاستجابة للفرضية</div>
+    <div class="cover-sub-en">Ebola Virus Disease — Hypothesis Assessment Report</div>
+    <div class="cover-divider"></div>
+  </div>
+
+  <div class="info-heading">بيانات الفرضية <span class="line"></span></div>
+
+  <div class="info-grid-single">
+    <div class="info-box">
+      <label class="hosp-label">اسم المستشفى</label>
+      <select>
+        <option value="">— اختر —</option>
+        <option>مستشفى الملك سلمان التخصصي</option>
+        <option>مستشفى الملك خالد</option>
+        <option>مستشفى حائل العام</option>
+        <option>مستشفى الولادة والأطفال</option>
+        <option>مجمع إرادة والصحة النفسية</option>
+        <option>مستشفى أجا للرعاية المديدة</option>
+        <option>مستشفى شراف للرعاية العاجلة</option>
+        <option>مستشفى موقق العام</option>
+        <option>مستشفى بقعاء العام</option>
+        <option>مستشفى الغزالة العام</option>
+        <option>مستشفى الشنان العام</option>
+        <option>مستشفى الشملي العام</option>
+        <option>مستشفى السليمي العام</option>
+        <option>مستشفى الحائط العام</option>
+        <option>مستشفى سميراء العام</option>
+      </select>
+    </div>
+  </div>
+
+  <div class="info-grid cols-2" style="margin-top:14px;">
+    <div class="info-box">
+      <label class="hyp-type-label">نوع الفرضية</label>
+      <select>
+        <option value="">— اختر —</option>
+        <option>فرضية داخلية (مستوى أول)</option>
+        <option>فرضية داخلية (مستوى ثاني)</option>
+        <option>فرضية خارجية (مستوى أول)</option>
+        <option>فرضية خارجية (مستوى ثاني)</option>
+      </select>
+    </div>
+    <div class="info-box">
+      <label class="hyp-class-label">تصنيف الفرضية</label>
+      <input type="text" placeholder="اكتب تصنيف الفرضية..."/>
+    </div>
+  </div>
+
+  <div class="info-grid" style="margin-top:14px;">
+    <div class="info-box"><label>التاريخ</label><input type="date"/></div>
+    <div class="info-box"><label>وقت بداية الفرضية</label><input type="time"/></div>
+    <div class="info-box"><label>وقت نهاية الفرضية</label><input type="time"/></div>
+  </div>
+
+  <div class="info-grid cols-2" style="margin-top:14px;">
+    <div class="info-box"><label>عدد الحالات</label><input type="number" min="0" placeholder="0"/></div>
+    <div class="info-box"><label>اجمالي معايير التقييم</label><div id="total-criteria-p1" style="font-size:15px;font-weight:800;color:#003D5C;padding-bottom:4px;border-bottom:1.5px solid transparent;">0</div></div>
+  </div>
+
+  <div class="a4-footer"><span>تجمع حائل الصحي — Hail Health Cluster</span><span>تقرير فرضية EVD — Hypothesis Report</span></div>
+</div>
+
+<!-- ══════════════ الصفحة 2: اكتشاف الحالة + الاتصال والتنسيق + التبليغ والاستجابة ══════════════ -->
+<div class="hyp-page">
+  <div class="a4-header">
+    <img class="a4-logo" src="logo-white.png" alt="شعار تجمع حائل الصحي"/>
+    <div class="a4-org-block">
+      <div class="a4-org-main">تجمع حائل الصحي</div>
+      <div class="a4-org-sub">إدارة الأزمات والكوارث واستمرارية الأعمال</div>
+    </div>
+    <div class="a4-badge">تقرير فرضية EVD</div>
+  </div>
+  <div class="a4-title-bar"><span style="opacity:.8;">تقرير فرضية EVD</span><span class="title-sep">|</span><span>اكتشاف الحالة والاستجابة الأولية</span></div>
+
+  <div class="evd-section" style="padding-top:16px;">
+
+    <div class="evd-card">
+      <div class="evd-card-head">🔍 اكتشاف الحالة</div>
+      <table class="evd-table" data-section="اكتشاف الحالة">
+        <thead><tr><th class="th-criteria">المعيار</th><th>التقييم</th></tr></thead>
+        <tbody></tbody>
+      </table>
+    </div>
+
+    <div class="evd-card">
+      <div class="evd-card-head">📞 الاتصال والتنسيق</div>
+      <table class="evd-table" data-section="الاتصال والتنسيق">
+        <thead><tr><th class="th-criteria">المعيار</th><th>التقييم</th></tr></thead>
+        <tbody></tbody>
+      </table>
+    </div>
+
+    <div class="evd-card">
+      <div class="evd-card-head">📢 التبليغ والاستجابة</div>
+      <table class="evd-table" data-section="التبليغ والاستجابة">
+        <thead><tr><th class="th-criteria">المعيار</th><th>التقييم</th></tr></thead>
+        <tbody></tbody>
+      </table>
+    </div>
+
+  </div>
+  <div class="a4-footer"><span>تجمع حائل الصحي — Hail Health Cluster</span><span>تقرير فرضية EVD — Hypothesis Report</span></div>
+</div>
+
+<!-- ══════════════ الصفحة 3: العزل + ارتداء المعدات ══════════════ -->
+<div class="hyp-page">
+  <div class="a4-header">
+    <img class="a4-logo" src="logo-white.png" alt="شعار تجمع حائل الصحي"/>
+    <div class="a4-org-block">
+      <div class="a4-org-main">تجمع حائل الصحي</div>
+      <div class="a4-org-sub">إدارة الأزمات والكوارث واستمرارية الأعمال</div>
+    </div>
+    <div class="a4-badge">تقرير فرضية EVD</div>
+  </div>
+  <div class="a4-title-bar"><span style="opacity:.8;">تقرير فرضية EVD</span><span class="title-sep">|</span><span>العزل ومعدات الوقاية الشخصية</span></div>
+
+  <div class="evd-section" style="padding-top:16px;">
+
+    <div class="evd-card">
+      <div class="evd-card-head">🚪 العزل</div>
+      <table class="evd-table" data-section="العزل">
+        <thead><tr><th class="th-criteria">المعيار</th><th>التقييم</th></tr></thead>
+        <tbody></tbody>
+      </table>
+    </div>
+
+    <div class="evd-card">
+      <div class="evd-card-head">🥼 معدات الوقاية — ارتداء المعدات (DONNING)</div>
+      <table class="evd-table" data-section="معدات الوقاية ارتداء المعدات (DONNING)">
+        <thead><tr><th class="th-criteria">المعيار</th><th>التقييم</th></tr></thead>
+        <tbody></tbody>
+      </table>
+    </div>
+
+  </div>
+  <div class="a4-footer"><span>تجمع حائل الصحي — Hail Health Cluster</span><span>تقرير فرضية EVD — Hypothesis Report</span></div>
+</div>
+
+<!-- ══════════════ الصفحة 4: خلع المعدات + السلامة + الرعاية الطبية ══════════════ -->
+<div class="hyp-page">
+  <div class="a4-header">
+    <img class="a4-logo" src="logo-white.png" alt="شعار تجمع حائل الصحي"/>
+    <div class="a4-org-block">
+      <div class="a4-org-main">تجمع حائل الصحي</div>
+      <div class="a4-org-sub">إدارة الأزمات والكوارث واستمرارية الأعمال</div>
+    </div>
+    <div class="a4-badge">تقرير فرضية EVD</div>
+  </div>
+  <div class="a4-title-bar"><span style="opacity:.8;">تقرير فرضية EVD</span><span class="title-sep">|</span><span>خلع المعدات، السلامة، والرعاية الطبية</span></div>
+
+  <div class="evd-section" style="padding-top:16px;">
+
+    <div class="evd-card">
+      <div class="evd-card-head">🧤 معدات الوقاية — خلع المعدات (DOFFING)</div>
+      <table class="evd-table" data-section="معدات الوقاية خلع المعدات (DOFFING)">
+        <thead><tr><th class="th-criteria">المعيار</th><th>التقييم</th></tr></thead>
+        <tbody></tbody>
+      </table>
+    </div>
+
+    <div class="evd-card">
+      <div class="evd-card-head">🛡️ السلامة</div>
+      <table class="evd-table" data-section="السلامة">
+        <thead><tr><th class="th-criteria">المعيار</th><th>التقييم</th></tr></thead>
+        <tbody></tbody>
+      </table>
+    </div>
+
+    <div class="evd-card">
+      <div class="evd-card-head">⚕️ الرعاية الطبية</div>
+      <table class="evd-table" data-section="الرعاية الطبية">
+        <thead><tr><th class="th-criteria">المعيار</th><th>التقييم</th></tr></thead>
+        <tbody></tbody>
+      </table>
+    </div>
+
+  </div>
+  <div class="a4-footer"><span>تجمع حائل الصحي — Hail Health Cluster</span><span>تقرير فرضية EVD — Hypothesis Report</span></div>
+</div>
+
+<!-- ══════════════ الصفحة 5: المختبر + إدارة النفايات ══════════════ -->
+<div class="hyp-page">
+  <div class="a4-header">
+    <img class="a4-logo" src="logo-white.png" alt="شعار تجمع حائل الصحي"/>
+    <div class="a4-org-block">
+      <div class="a4-org-main">تجمع حائل الصحي</div>
+      <div class="a4-org-sub">إدارة الأزمات والكوارث واستمرارية الأعمال</div>
+    </div>
+    <div class="a4-badge">تقرير فرضية EVD</div>
+  </div>
+  <div class="a4-title-bar"><span style="opacity:.8;">تقرير فرضية EVD</span><span class="title-sep">|</span><span>المختبر وإدارة النفايات</span></div>
+
+  <div class="evd-section" style="padding-top:16px;">
+
+    <div class="evd-card">
+      <div class="evd-card-head">🧪 المختبر</div>
+      <table class="evd-table" data-section="المختبر">
+        <thead><tr><th class="th-criteria">المعيار</th><th>التقييم</th></tr></thead>
+        <tbody></tbody>
+      </table>
+    </div>
+
+    <div class="evd-card">
+      <div class="evd-card-head">🗑️ إدارة النفايات</div>
+      <table class="evd-table" data-section="إدارة النفايات">
+        <thead><tr><th class="th-criteria">المعيار</th><th>التقييم</th></tr></thead>
+        <tbody></tbody>
+      </table>
+    </div>
+
+  </div>
+  <div class="a4-footer"><span>تجمع حائل الصحي — Hail Health Cluster</span><span>تقرير فرضية EVD — Hypothesis Report</span></div>
+</div>
+
+<!-- ══════════════ الصفحة 6: نتائج التقييم النهائية والتوصيات ══════════════ -->
+<div class="hyp-page">
+  <div class="a4-header">
+    <img class="a4-logo" src="logo-white.png" alt="شعار تجمع حائل الصحي"/>
+    <div class="a4-org-block">
+      <div class="a4-org-main">تجمع حائل الصحي</div>
+      <div class="a4-org-sub">إدارة الأزمات والكوارث واستمرارية الأعمال</div>
+    </div>
+    <div class="a4-badge">تقرير فرضية EVD</div>
+  </div>
+  <div class="a4-title-bar"><span style="opacity:.8;">تقرير فرضية EVD</span><span class="title-sep">|</span><span>النتائج والتوصيات</span></div>
+
+  <div style="padding:14px 16px;">
+    <div class="section-title" style="margin-bottom:14px;">📊 نتائج التقييم النهائية</div>
+
+    <div class="res-charts-row" id="res-charts-row"></div>
+
+    <div class="res-final-box">
+      <div style="display:flex;flex-direction:column;align-items:center;gap:6px;">
+        <svg viewBox="0 0 36 36" width="100" height="100" style="display:block;">
+          <path fill="none" stroke="#C8E4F0" stroke-width="3.8" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"/>
+          <path id="res-final-circle" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-dasharray="0,100" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"/>
+          <text x="18" y="21" fill="currentColor" font-family="Cairo,sans-serif" font-weight="bold" font-size="7" text-anchor="middle" id="res-final-pct">—</text>
+        </svg>
+        <div style="font-size:13px;font-weight:900;color:#003D5C;">التقييم النهائي</div>
+      </div>
+    </div>
+  </div>
+
+  <div style="display:grid;grid-template-columns:1fr 1fr;border-top:2px solid #E3F2FD;">
+    <div style="padding:14px 16px;border-left:2px solid #E3F2FD;background:#F7FBFD;">
+      <div class="section-title" style="margin-bottom:12px;">📈 ملخص الفرضية</div>
+      <div class="res-stat-total"><span>إجمالي المعايير</span><span id="res-total">0</span></div>
+      <div class="res-stat-grid">
+        <div class="res-stat-card" style="border-right:5px solid #16a34a;">
+          <div><div class="lbl" style="color:#14532d;">مكتمل</div><div class="sub" style="color:#4ade80;">Complete</div></div>
+          <span class="num" id="res-c" style="color:#16a34a;">0</span>
+        </div>
+        <div class="res-stat-card" style="border-right:5px solid #ca8a04;">
+          <div><div class="lbl" style="color:#78350f;">مكتمل جزئي</div><div class="sub" style="color:#fbbf24;">Partial</div></div>
+          <span class="num" id="res-p" style="color:#ca8a04;">0</span>
+        </div>
+        <div class="res-stat-card" style="border-right:5px solid #dc2626;">
+          <div><div class="lbl" style="color:#991b1b;">غير مكتمل</div><div class="sub" style="color:#f87171;">Incomplete</div></div>
+          <span class="num" id="res-i" style="color:#dc2626;">0</span>
+        </div>
+        <div class="res-stat-card" style="border-right:5px solid #00AEEF;">
+          <div><div class="lbl" style="color:#005B82;">نسبة الإنجاز</div><div class="sub" style="color:#0078A8;">من الإجمالي</div></div>
+          <span class="num" id="res-pct" style="color:#00AEEF;">0%</span>
+        </div>
+      </div>
+    </div>
+
+    <div style="padding:14px 16px;">
+      <div class="section-title" style="margin-bottom:16px;">🏛️ فريق قيادة الحدث</div>
+      <div class="res-ics-top">
+        <div class="role">قائد الحدث</div>
+        <input class="res-ics-name" type="text" placeholder="—"/>
+      </div>
+      <div style="width:2px;height:14px;background:#00AEEF;margin:0 auto;"></div>
+      <div style="width:80%;border-top:2px solid #00AEEF;margin:0 auto;"></div>
+      <div class="res-ics-row" style="margin-top:8px;">
+        <div style="flex:1;">
+          <div class="res-ics-sub"><div class="role">قائد العمليات</div><input class="res-ics-name" type="text" placeholder="—"/></div>
+        </div>
+        <div style="flex:1;">
+          <div class="res-ics-sub"><div class="role">قائد التخطيط</div><input class="res-ics-name" type="text" placeholder="—"/></div>
+        </div>
+        <div style="flex:1;">
+          <div class="res-ics-sub"><div class="role">ضابط السلامة</div><input class="res-ics-name" type="text" placeholder="—"/></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div style="display:grid;grid-template-columns:1fr 1fr;border-top:2px solid #E3F2FD;flex:1;">
+    <div style="padding:12px 16px;border-left:2px solid #E3F2FD;background:#F7FBFD;">
+      <div class="section-title" style="margin-bottom:8px;">📋 فريق التقييم</div>
+
+      <div class="team-group">
+        <div class="team-group-title">إدارة الاستعداد للطوارئ بإدارة الأزمات والكوارث واستمرارية الأعمال</div>
+        <div class="team-list" id="team-list-1">
+          <div class="team-row"><input type="text" class="team-input" placeholder="اسم عضو فريق التقييم"/><button type="button" class="team-remove" onclick="this.parentElement.remove()">✕</button></div>
+          <div class="team-row"><input type="text" class="team-input" placeholder="اسم عضو فريق التقييم"/><button type="button" class="team-remove" onclick="this.parentElement.remove()">✕</button></div>
+        </div>
+        <button type="button" class="btn-add-team" onclick="addTeamRow('team-list-1')">+ إضافة اسم</button>
+      </div>
+
+      <div class="team-group">
+        <div class="team-group-title">مشرف وحدة التخطيط والاستعداد للطوارئ</div>
+        <input type="text" class="team-single-input" placeholder="اسم المشرف"/>
+      </div>
+    </div>
+    <div style="padding:12px 16px;">
+      <div class="section-title" style="margin-bottom:8px;">💡 التوصيات وفرص التحسين</div>
+      <textarea class="res-textarea" placeholder="اكتب التوصيات هنا..."></textarea>
+    </div>
+  </div>
+
+  <div class="a4-footer"><span>تجمع حائل الصحي — Hail Health Cluster</span><span>تقرير فرضية EVD — Hypothesis Report</span></div>
+</div>
+
+<script>
+const DATA = {
+  "اكتشاف الحالة": [
+    "استقبال الحالة وفق إجراءات الفرز",
+    "السؤال عن تاريخ السفر",
+    "السؤال عن المخالطين",
+    "الاشتباه بالحالة خلال اقل من 5 دقائق",
+  ],
+  "الاتصال والتنسيق": [
+    "سرعة الاتصال",
+    "توزيع المهام",
+    "توثيق الاحداث",
+  ],
+  "التبليغ والاستجابة": [
+    "إبلاغ الطبيب",
+    "إبلاغ مكافحة العدوى",
+    "تفعيل الفريق",
+    "إشعار وحدة التخطيط والاستعداد",
+    "تسجيل الاوقات",
+  ],
+  "العزل": [
+    "نقل المريض وفق المسار المخصص",
+    "عدم المرور بالانتظار",
+    "إغلاق غرفة العزل",
+    "يوجد لوحات تحذيرية",
+    "تقييد الدخول",
+  ],
+  "معدات الوقاية ارتداء المعدات (DONNING)": [
+    "غسل اليدين",
+    "ارتداء الرداء",
+    "ارتداء الكمامة المناسبة",
+    "واقي الوجه",
+    "ارتداء القفازات",
+    "وجود مراقب",
+  ],
+  "معدات الوقاية خلع المعدات (DOFFING)": [
+    "إتباع التسلسل الصحيح",
+    "نظافة اليدين بين الخطوات",
+    "التخلص من المعدات بالطريقة الصحيحة",
+    "عدم حدوث تلوث",
+    "وجود مراقب",
+  ],
+  "السلامة": [
+    "عدم وجود تعرض للعاملين",
+    "عدم وجود تلوث بيئي",
+    "الالتزام بسياسات السلامة",
+  ],
+  "الرعاية الطبية": [
+    "تطبيق الاحتياطات القياسية",
+    "استخدام ادوات مخصصة",
+    "تقليل عدد مقدمي الرعاية",
+    "توثيق الحالة",
+  ],
+  "المختبر": [
+    "جمع العينة بالطريقة الصحيحة",
+    "التغليف الثلاثي للعينة",
+    "التنسيق مع المختبر",
+    "نقل العينة بأمان",
+  ],
+  "إدارة النفايات": [
+    "فصل النفايات",
+    "استخدام الحاويات المناسبة",
+    "تطهير البيئة",
+    "التخلص النهائي للنفايات",
+  ],
+};
+
+const GROUPS = [
+  { key:"discovery", label:"اكتشاف الحالة والاستجابة", sections:["اكتشاف الحالة","الاتصال والتنسيق","التبليغ والاستجابة"] },
+  { key:"isolation", label:"العزل ومعدات الوقاية", sections:["العزل","معدات الوقاية ارتداء المعدات (DONNING)","معدات الوقاية خلع المعدات (DOFFING)"] },
+  { key:"safety", label:"السلامة", sections:["السلامة"] },
+  { key:"medical", label:"الرعاية الطبية", sections:["الرعاية الطبية"] },
+  { key:"lab-waste", label:"المختبر وإدارة النفايات", sections:["المختبر","إدارة النفايات"] },
+];
+
+function addTeamRow(listId){
+  const list = document.getElementById(listId || 'team-list-1');
+  const row = document.createElement('div');
+  row.className = 'team-row';
+  row.innerHTML = `<input type="text" class="team-input" placeholder="اسم عضو فريق التقييم"/><button type="button" class="team-remove" onclick="this.parentElement.remove()">✕</button>`;
+  list.appendChild(row);
+}
+
+// الرئيس التنفيذي المناوب: عند اختيار "+ إضافة اسم جديد" يظهر حقل كتابة الاسم يدوياً
+function onCeoChange(sel){
+  const box = document.getElementById('ceo-box');
+  const other = document.getElementById('ceo-other');
+  if(sel.value === '__other__'){
+    box.classList.add('ceo-other-mode');
+    other.style.display = 'block';
+    other.focus();
+  } else {
+    box.classList.remove('ceo-other-mode');
+    other.style.display = 'none';
+    other.value = '';
+  }
+}
+
+const EVAL_COLORS = {c:'#16a34a',p:'#ca8a04',i:'#dc2626',n:'#6b7280'};
+
+function evalChanged(sel){
+  sel.style.color = EVAL_COLORS[sel.value] || '#16a34a';
+  computeStats();
+}
+
+document.querySelectorAll('table.evd-table').forEach(table=>{
+  const section = table.dataset.section;
+  const items = DATA[section] || [];
+  const tbody = table.querySelector('tbody');
+  items.forEach(text=>{
+    const tr = document.createElement('tr');
+    tr.innerHTML = `
+      <td class="td-criteria">${text}</td>
+      <td class="td-eval">
+        <select class="eval-sel" onchange="evalChanged(this)">
+          <option value="c" selected>مكتمل</option>
+          <option value="p">مكتمل جزئي</option>
+          <option value="i">غير مكتمل</option>
+          <option value="n">لا ينطبق</option>
+        </select>
+      </td>
+    `;
+    tbody.appendChild(tr);
+  });
+});
+
+// build the 5 mini result charts
+const chartsRow = document.getElementById('res-charts-row');
+GROUPS.forEach(g=>{
+  const box = document.createElement('div');
+  box.className = 'res-chart-box';
+  box.dataset.group = g.key;
+  box.innerHTML = `
+    <svg viewBox="0 0 36 36" width="80" height="80" style="display:block;margin:0 auto;">
+      <path fill="none" stroke="#E3F2FD" stroke-width="3.8" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"/>
+      <path class="res-mini-circle" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-dasharray="0,100" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"/>
+      <text x="18" y="21" class="res-mini-pct" fill="currentColor" font-family="Cairo,sans-serif" font-weight="bold" font-size="7.5" text-anchor="middle">—</text>
+    </svg>
+    <div class="res-chart-label">${g.label}</div>
+  `;
+  chartsRow.appendChild(box);
+});
+
+// aggregate c/p/i/n + weighted score across a list of sections
+// scoring model matches the index dashboard: complete=100%, partial=80%, incomplete=0%, n/a excluded
+function aggregateSections(sections){
+  let total=0, gained=0, c=0, p=0, i=0, n=0;
+  sections.forEach(sec=>{
+    const table = document.querySelector(`table.evd-table[data-section="${CSS.escape(sec)}"]`);
+    if(!table) return;
+    table.querySelectorAll('.eval-sel').forEach(sel=>{
+      if(sel.value==='n'){ n++; return; }
+      total+=100;
+      if(sel.value==='c'){ gained+=100; c++; }
+      else if(sel.value==='p'){ gained+=80; p++; }
+      else if(sel.value==='i'){ i++; }
+    });
+  });
+  return {total,gained,c,p,i,n};
+}
+
+function colorFor(pct){
+  if(pct>=95) return '#16a34a';
+  if(pct>=85) return '#d97706';
+  return '#dc2626';
+}
+
+function computeStats(){
+  // per-group mini charts
+  document.querySelectorAll('.res-chart-box').forEach(box=>{
+    const g = GROUPS.find(x=>x.key===box.dataset.group);
+    const agg = aggregateSections(g.sections);
+    const circle = box.querySelector('.res-mini-circle');
+    const label = box.querySelector('.res-mini-pct');
+    if(agg.total===0){
+      circle.setAttribute('stroke-dasharray','0,100');
+      circle.style.color = '#B9C4CC';
+      label.style.color = '#B9C4CC';
+      label.textContent = '—';
+    } else {
+      const pct = Math.round((agg.gained/agg.total)*100);
+      circle.setAttribute('stroke-dasharray', `${pct},100`);
+      const col = colorFor(pct);
+      circle.style.color = col;
+      label.style.color = col;
+      label.textContent = pct+'%';
+    }
+  });
+
+  // overall totals across everything
+  const allSections = Object.keys(DATA);
+  const agg = aggregateSections(allSections);
+  const totalCriteria = document.querySelectorAll('.eval-sel').length;
+  document.getElementById('res-total').textContent = totalCriteria;
+  document.getElementById('res-c').textContent = agg.c;
+  document.getElementById('res-p').textContent = agg.p;
+  document.getElementById('res-i').textContent = agg.i;
+  const pct = agg.total>0 ? Math.round((agg.gained/agg.total)*100) : 0;
+  document.getElementById('res-pct').textContent = pct+'%';
+
+  const finalCircle = document.getElementById('res-final-circle');
+  const finalPct = document.getElementById('res-final-pct');
+  if(agg.total===0){
+    finalCircle.setAttribute('stroke-dasharray','0,100');
+    finalCircle.style.color = '#B9C4CC';
+    finalPct.style.color = '#B9C4CC';
+    finalPct.textContent = '—';
+  } else {
+    finalCircle.setAttribute('stroke-dasharray', `${pct},100`);
+    const c = colorFor(pct);
+    finalCircle.style.color = c;
+    finalPct.style.color = c;
+    finalPct.textContent = pct+'%';
+  }
+}
+
+computeStats();
+
+// total criteria count shown on page 1 (fixed reference figure derived from DATA)
+const totalCriteriaP1 = document.getElementById('total-criteria-p1');
+if(totalCriteriaP1){
+  const totalCount = Object.values(DATA).reduce((sum, arr) => sum + arr.length, 0);
+  totalCriteriaP1.textContent = totalCount;
+}
+</script>
+
+</body>
+</html>

@@ -1,0 +1,65 @@
+{
+  "name": "لوحة تحكم البطاقات — تجمع حائل الصحي",
+  "short_name": "حائل الصحي",
+  "description": "لوحة تحكم البطاقات الطارئة لإدارة الأزمات والكوارث واستمرارية الأعمال بتجمع حائل الصحي",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#021A2C",
+  "theme_color": "#003D5C",
+  "lang": "ar",
+  "dir": "rtl",
+  "categories": [
+    "medical",
+    "health",
+    "productivity"
+  ],
+  "icons": [
+    {
+      "src": "icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ],
+  "screenshots": [],
+  "shortcuts": [
+    {
+      "name": "بطاقة الاستعداد",
+      "short_name": "استعداد",
+      "description": "تسجيل فرضية طوارئ",
+      "url": "./index.html#readiness"
+    },
+    {
+      "name": "انقطاع كهرباء",
+      "short_name": "كهرباء",
+      "description": "توثيق انقطاع التيار الكهربائي",
+      "url": "./index.html#electricity"
+    },
+    {
+      "name": "حريق",
+      "short_name": "حريق",
+      "description": "توثيق حادثة حريق",
+      "url": "./index.html#fire"
+    },
+    {
+      "name": "إصابات متعددة",
+      "short_name": "إصابات",
+      "description": "توثيق إصابات جماعية",
+      "url": "./index.html#injuries"
+    }
+  ]
+}

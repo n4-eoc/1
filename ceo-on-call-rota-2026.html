@@ -1,0 +1,1369 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>CEO On-Call Monthly Rota 2026 — Hail Health Cluster</title>
+<link rel="stylesheet" href="css/00-fonts.css"/>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+html,body{font-family:'Cairo',sans-serif;}
+
+/* ══════════════════════════════════════════
+   SCREEN — dark background
+══════════════════════════════════════════ */
+@media screen{
+  body{background:linear-gradient(150deg,#021A2C 0%,#06304A 38%,#074A66 70%,#0A5E7E 100%);
+    min-height:100vh;padding:24px 16px 60px;}
+}
+
+/* ══════════════════════════════════════════
+   A4 LANDSCAPE PAGE  297mm × 210mm
+══════════════════════════════════════════ */
+.page{
+  width:297mm;height:210mm;
+  background:#fff;margin:0 auto 20px;
+  display:flex;flex-direction:column;overflow:hidden;
+  font-family:'Cairo',sans-serif;
+}
+@media screen{
+  .page{border-radius:6px;box-shadow:0 8px 40px rgba(0,0,0,0.4);}
+}
+
+/* ══════════════════════════════════════════
+   HEADER — RCK Identity
+══════════════════════════════════════════ */
+.doc-hdr{
+  flex-shrink:0;
+  padding:9px 20px;display:flex;align-items:center;gap:14px;
+  background:linear-gradient(135deg,#003D5C 0%,#005B82 50%,#0078A8 100%);
+  border-bottom:3px solid #00AEEF;
+}
+.doc-hdr-logo{width:48px;height:48px;object-fit:contain;flex-shrink:0;
+  filter:drop-shadow(0 1px 4px rgba(0,0,0,0.3));}
+.doc-hdr-org{flex:1;}
+.doc-hdr-main{color:#fff;font-size:14.5px;font-weight:900;line-height:1.25;
+  letter-spacing:.2px;}
+.doc-hdr-sub{color:rgba(255,255,255,0.65);font-size:9.5px;font-weight:600;
+  margin-top:3px;letter-spacing:.1px;}
+.doc-hdr-badge{
+  background:rgba(0,174,239,0.18);border:1.5px solid #00AEEF;border-radius:18px;
+  padding:5px 16px;color:#fff;text-align:center;white-space:nowrap;
+  box-shadow:0 0 12px rgba(0,174,239,0.15);
+}
+.doc-hdr-badge .b-months{font-size:14px;font-weight:900;display:block;
+  line-height:1.15;letter-spacing:.5px;}
+.doc-hdr-badge .b-year{font-size:9px;opacity:.75;letter-spacing:.3px;}
+
+/* ══════════════════════════════════════════
+   TITLE BAR — RCK Identity
+══════════════════════════════════════════ */
+.title-bar{
+  flex-shrink:0;
+  padding:5px 20px;background:linear-gradient(90deg,#005B82,#003D5C);
+  color:#fff;font-size:11px;font-weight:800;
+  display:flex;align-items:center;gap:10px;
+  letter-spacing:.2px;
+}
+.title-sep{opacity:.4;font-size:13px;}
+
+/* ══════════════════════════════════════════
+   TABLE WRAPPER — fills remaining height
+══════════════════════════════════════════ */
+.doc-body{
+  flex:1;min-height:0;
+  padding:4px 8px 3px;
+  display:flex;flex-direction:column;
+}
+
+/* ══════════════════════════════════════════
+   ROTA TABLE — full height  ★ RCK Identity
+══════════════════════════════════════════ */
+.rota-tbl{
+  width:100%;height:100%;
+  border-collapse:collapse;
+  table-layout:fixed;
+  font-family:'Cairo',sans-serif;
+}
+
+/* ── THEAD ── */
+.rota-tbl thead tr.tr-month th{
+  background:linear-gradient(135deg,#003D5C,#005B82);
+  color:#fff;font-size:10px;font-weight:800;
+  padding:7px 5px;text-align:center;
+  border:1px solid #0078A8;height:9mm;
+  letter-spacing:.4px;
+}
+.rota-tbl thead tr.tr-week th{
+  background:linear-gradient(135deg,#002A40,#003D5C);
+  color:rgba(255,255,255,0.90);font-size:9px;font-weight:800;
+  padding:5px 3px;text-align:center;
+  border:1px solid #0078A8;height:6.5mm;
+  letter-spacing:.2px;
+}
+.rota-tbl thead tr.tr-dates th{
+  background:linear-gradient(135deg,#002A40,#003D5C);
+  color:rgba(255,255,255,0.80);font-size:7.5px;font-weight:700;
+  padding:5px 4px;text-align:center;
+  border:1px solid #0078A8;height:8mm;
+}
+/* CEO column header — same gradient as month headers */
+.th-ceo{
+  background:linear-gradient(135deg,#003D5C,#005B82)!important;
+  text-align:left!important;padding-left:10px!important;
+  font-size:13px!important;font-weight:900!important;
+  min-width:135px;width:135px;letter-spacing:.3px;
+}
+
+/* ── TBODY ── */
+.rota-tbl tbody tr{height:calc((100% - 23.5mm) / 5);}
+
+/* CEO column — dark gradient matching month headers (November style) */
+.td-ceo{
+  background:linear-gradient(135deg,#003D5C,#005B82);
+  font-weight:900;font-size:11px;color:#fff;
+  padding:5px 10px;border:1px solid #0078A8;
+  text-align:left;vertical-align:middle;
+  white-space:nowrap;overflow:hidden;
+  border-right:3px solid #00AEEF;
+  -webkit-print-color-adjust:exact;print-color-adjust:exact;
+}
+.rota-tbl tbody tr:nth-child(even) .td-ceo{
+  background:linear-gradient(135deg,#004568,#006090);
+}
+
+/* Data cells — matches rck-tbl td */
+.td-cell{
+  border:1px solid #C8E4F0;
+  background:#fff;text-align:center;vertical-align:middle;
+  padding:4px 3px;font-size:0;
+}
+/* Active cell inner layout — centered */
+.td-cell.active{
+  display:table-cell;
+  vertical-align:middle!important;
+}
+.rota-tbl tbody tr:nth-child(even) .td-cell{background:#F2F8FC;}
+
+/* Active cell */
+.td-cell.active{
+  background:#EAF4FF!important;
+  border:1.5px solid #0078A8!important;
+}
+.rota-tbl tbody tr:nth-child(even) .td-cell.active{
+  background:#DDF0FF!important;
+}
+.cell-name{display:block;font-size:9px;font-weight:900;color:#003D5C;line-height:1.35;}
+.cell-name2{display:block;font-size:8px;font-weight:800;color:#005B82;line-height:1.3;
+  border-top:1px dashed #C8E4F0;padding-top:2px;margin-top:2px;}
+.cell-empty{background:#F7FBFD!important;}
+.rota-tbl tbody tr:nth-child(even) .cell-empty{background:#F2F8FC!important;}
+.cell-dash{color:#B8CDD8;font-size:14px;font-weight:200;line-height:1;}
+
+/* ══════════════════════════════════════════
+   FOOTER — RCK Identity
+══════════════════════════════════════════ */
+.doc-footer{
+  flex-shrink:0;
+  padding:5px 20px;background:linear-gradient(135deg,#005B82,#003D5C);
+  border-top:2px solid #00AEEF;
+  display:flex;align-items:center;justify-content:space-between;
+  color:rgba(255,255,255,0.78);font-size:8.5px;font-weight:700;
+  letter-spacing:.2px;
+}
+
+/* ══════════════════════════════════════════
+   EDITABLE FIELDS
+══════════════════════════════════════════ */
+[contenteditable="true"]{
+  outline:none;cursor:text;
+  min-width:4px;display:inline-block;
+  border-radius:2px;transition:background .15s;
+}
+@media screen{
+  [contenteditable="true"]:hover{
+    background:rgba(0,120,168,0.08)!important;
+  }
+  [contenteditable="true"]:focus{
+    background:rgba(0,174,239,0.12)!important;
+    box-shadow:0 0 0 1.5px #00AEEF;
+  }
+  .edit-hint{
+    position:fixed;bottom:18px;right:18px;
+    background:rgba(0,30,50,0.92);color:#fff;
+    font-family:'Cairo',sans-serif;font-size:11px;font-weight:700;
+    padding:10px 18px;border-radius:12px;border:1.5px solid rgba(0,174,239,0.4);
+    backdrop-filter:blur(10px);z-index:999;
+    box-shadow:0 4px 20px rgba(0,0,0,0.3);
+    pointer-events:none;
+  }
+}
+
+/* ══════════════════════════════════════════
+   TOOLBAR (screen only)
+══════════════════════════════════════════ */
+.toolbar{
+  width:297mm;margin:0 auto 14px;
+  display:flex;align-items:center;gap:10px;flex-wrap:wrap;
+}
+.toolbar button{
+  font-family:'Cairo',sans-serif;font-size:11px;font-weight:800;
+  padding:8px 18px;border-radius:10px;border:none;cursor:pointer;
+  transition:all .2s;
+}
+.btn-print{background:linear-gradient(135deg,#003D5C,#005B82);color:#fff;
+  box-shadow:0 3px 14px rgba(0,0,0,0.3);}
+.btn-print:hover{transform:translateY(-1px);box-shadow:0 5px 18px rgba(0,0,0,0.4);}
+.btn-edit{background:rgba(0,174,239,0.15);color:#fff;
+  border:1.5px solid rgba(0,174,239,0.4);}
+.btn-edit.active{background:rgba(0,174,239,0.35);border-color:#00AEEF;}
+.toolbar-label{color:rgba(255,255,255,0.6);font-size:10px;font-weight:600;margin-right:4px;}
+
+/* ══════════════════════════════════════════
+   PRINT
+══════════════════════════════════════════ */
+@media print{
+  body{background:#fff!important;padding:0!important;margin:0!important;}
+  .page{
+    margin:0!important;box-shadow:none!important;border-radius:0!important;
+    page-break-after:always;break-after:page;
+  }
+  .toolbar,.edit-hint,.no-print{display:none!important;}
+  [contenteditable="true"]:focus,[contenteditable="true"]:hover{
+    background:transparent!important;box-shadow:none!important;
+  }
+  .officer-select{
+    -webkit-appearance:none;appearance:none;
+    border:none!important;background:transparent!important;
+    pointer-events:none;
+  }
+
+  /* ★ Force colors — مطابق لـ RCK ★ */
+  .doc-hdr,
+  .title-bar,
+  .doc-footer,
+  .rota-tbl th,
+  .rota-tbl thead tr.tr-month th,
+  .rota-tbl thead tr.tr-week th,
+  .rota-tbl thead tr.tr-dates th,
+  .td-cell.active,
+  .td-ceo,
+  .contact-tbl th,
+  .contact-tbl .td-num,
+  .contact-tbl .td-name,
+  .page-cover,
+  .cover-badge {
+    -webkit-print-color-adjust:exact!important;
+    print-color-adjust:exact!important;
+    color-adjust:exact!important;
+  }
+
+  /* إعادة تطبيق الألوان صراحةً */
+  .rota-tbl th { background:linear-gradient(135deg,#003D5C,#005B82)!important; color:#fff!important; }
+  .th-ceo { background:linear-gradient(135deg,#003D5C,#005B82)!important; }
+  .rota-tbl thead tr.tr-week th,
+  .rota-tbl thead tr.tr-dates th { background:linear-gradient(135deg,#002A40,#003D5C)!important; }
+  .td-ceo { background:linear-gradient(135deg,#003D5C,#005B82)!important; color:#fff!important; }
+  .rota-tbl tbody tr:nth-child(even) .td-ceo { background:linear-gradient(135deg,#004568,#006090)!important; }
+  .td-cell { background:#fff!important; }
+  .rota-tbl tbody tr:nth-child(even) .td-cell { background:#F2F8FC!important; }
+  .td-cell.active { background:#EAF4FF!important; border:1.5px solid #0078A8!important; }
+  .rota-tbl tbody tr:nth-child(even) .td-cell.active { background:#DDF0FF!important; }
+  .cell-name { color:#003D5C!important; }
+  .cell-name2 { color:#005B82!important; }
+  .doc-hdr { background:linear-gradient(135deg,#003D5C,#005B82,#0078A8)!important; }
+  .title-bar { background:linear-gradient(90deg,#005B82,#003D5C)!important; }
+  .doc-footer { background:linear-gradient(135deg,#005B82,#003D5C)!important; }
+  .contact-tbl th { background:linear-gradient(135deg,#003D5C,#005B82)!important; color:#fff!important; }
+  .contact-tbl .th-num,.contact-tbl .th-name { background:linear-gradient(135deg,#002A40,#003D5C)!important; }
+  .contact-tbl tbody tr:nth-child(even) td { background:#F2F8FC!important; }
+  .contact-tbl .td-num { background:#F7FBFD!important; border-right:2px solid #00AEEF!important; }
+  .contact-tbl .td-name { background:#F7FBFD!important; }
+  .contact-tbl .td-phone { background:#F8FBFE!important; }
+  .contact-tbl tbody tr:nth-child(even) .td-num,
+  .contact-tbl tbody tr:nth-child(even) .td-name { background:#EAF4FA!important; }
+  .contact-tbl tbody tr:nth-child(even) .td-phone { background:#F0F7FC!important; }
+  .td-ceo { border-right:2px solid #00AEEF!important; }
+  .page-cover { background:linear-gradient(150deg,#001E30,#003050,#004870,#0062A0)!important; }
+
+  @page{size:A4 landscape;margin:0;}
+}
+
+/* ══════════════════════════════════════════
+   OFFICER SELECT DROPDOWN
+══════════════════════════════════════════ */
+.officer-select{
+  display:block;width:100%;
+  border:none;background:transparent;
+  font-family:'Cairo',sans-serif;
+  font-size:9px;font-weight:900;color:#003D5C;
+  text-align:center;text-align-last:center;
+  cursor:pointer;outline:none;padding:1px 0;margin:0;
+  line-height:1.35;
+}
+.sel-name2{
+  font-size:8px!important;font-weight:800!important;
+  color:#005B82!important;
+  border-top:1px dashed #C8E4F0!important;
+  margin-top:3px;padding-top:3px;
+}
+@media screen{
+  .officer-select:hover{background:rgba(0,120,168,0.08)!important;border-radius:4px;}
+  .officer-select:focus{outline:2px solid #00AEEF;border-radius:4px;}
+}
+
+/* ══════════════════════════════════════════
+   APPROVAL PAGE — صفحة الاعتماد
+══════════════════════════════════════════ */
+.appr-body{
+  flex:1;display:flex;flex-direction:column;
+  align-items:center;justify-content:center;
+  padding:16px 28px;gap:16px;
+}
+.appr-title{
+  font-size:17px;font-weight:900;color:#003D5C;
+  text-align:center;padding-bottom:10px;
+  border-bottom:2px solid #00AEEF;width:100%;
+  letter-spacing:.3px;
+}
+.appr-title-ar{
+  font-size:14px;font-weight:800;color:#005B82;
+  text-align:center;margin-top:4px;
+}
+.appr-doc-box{
+  background:#F2F8FC;border:1px solid #C8E4F0;
+  border-radius:8px;padding:10px 20px;
+  width:100%;display:flex;gap:30px;
+  justify-content:center;align-items:center;
+  font-size:10px;font-weight:700;color:#1A3A4A;
+}
+.appr-doc-item{text-align:center;}
+.appr-doc-label{color:#005B82;font-size:9px;font-weight:600;margin-bottom:2px;}
+.appr-doc-val{font-size:11px;font-weight:900;color:#003D5C;}
+.appr-sigs{
+  display:flex;gap:16px;width:100%;
+}
+.appr-sig-box{
+  flex:1;border:1.5px solid #C8E4F0;border-radius:10px;
+  overflow:hidden;background:#fff;
+  display:flex;flex-direction:column;
+}
+.appr-sig-hdr{
+  background:linear-gradient(135deg,#003D5C,#005B82);
+  color:#fff;font-size:10px;font-weight:900;
+  padding:7px 12px;text-align:center;
+  border-bottom:2px solid #00AEEF;
+  letter-spacing:.3px;
+}
+.appr-sig-content{
+  flex:1;padding:12px 16px;
+  display:flex;flex-direction:column;
+  align-items:center;gap:8px;
+}
+.appr-sig-name{
+  font-size:10px;font-weight:800;color:#1A3A4A;
+  text-align:center;
+}
+.appr-sig-title{
+  font-size:9px;font-weight:600;color:#005B82;
+  text-align:center;font-style:italic;
+}
+.appr-sig-line{
+  width:80%;height:1px;background:#0078A8;
+  margin:6px 0;
+}
+.appr-stamp-circle{
+  width:70px;height:70px;border-radius:50%;
+  border:2px dashed #C8E4F0;
+  display:flex;align-items:center;justify-content:center;
+  color:#C8E4F0;font-size:8px;font-weight:700;
+  text-align:center;line-height:1.3;
+  margin-top:4px;
+}
+.appr-date-box{
+  width:100%;background:#F7FBFD;border:1px solid #C8E4F0;
+  border-radius:8px;padding:10px 20px;
+  display:flex;align-items:center;justify-content:space-between;
+  font-size:10px;font-weight:700;color:#1A3A4A;
+}
+.appr-date-label{color:#005B82;font-weight:800;}
+.appr-date-line{
+  flex:1;height:1px;background:#C8E4F0;
+  margin:0 16px;
+}
+
+/* ══════════════════════════════════════════
+   COVER PAGE
+══════════════════════════════════════════ */
+.page-cover{
+  background:linear-gradient(150deg,#001E30 0%,#003050 35%,#004870 65%,#0062A0 100%)!important;
+  -webkit-print-color-adjust:exact;print-color-adjust:exact;
+}
+.cover-body{
+  flex:1;display:flex;flex-direction:column;
+  align-items:center;justify-content:center;gap:10px;padding:16px 30px;
+}
+.cover-logo{width:90px;height:90px;object-fit:contain;
+  filter:drop-shadow(0 0 18px rgba(0,174,239,0.5));margin-bottom:4px;}
+.cover-title{color:#fff;font-size:22px;font-weight:900;
+  text-align:center;letter-spacing:.5px;line-height:1.2;}
+.cover-year{color:#00AEEF;font-size:54px;font-weight:900;
+  line-height:1;letter-spacing:6px;text-shadow:0 0 30px rgba(0,174,239,0.4);}
+.cover-divider{width:120px;height:3px;border-radius:2px;
+  background:linear-gradient(90deg,transparent,#00AEEF,transparent);margin:2px 0;}
+.cover-org{color:rgba(255,255,255,0.92);font-size:14px;font-weight:800;text-align:center;}
+.cover-sub{color:rgba(255,255,255,0.6);font-size:10.5px;font-weight:600;text-align:center;}
+.cover-badge{
+  background:rgba(0,174,239,0.18);border:1.5px solid rgba(0,174,239,0.5);
+  border-radius:22px;padding:7px 30px;color:#fff;font-size:12px;
+  font-weight:800;margin-top:6px;letter-spacing:.3px;
+}
+
+/* ══════════════════════════════════════════
+   CONTACT PAGE  ★ RCK Identity
+══════════════════════════════════════════ */
+.contact-body{
+  padding:14px 22px 8px;
+  display:flex;flex-direction:column;
+}
+.contact-heading{
+  text-align:center;margin-bottom:12px;
+  padding-bottom:10px;border-bottom:2px solid #00AEEF;
+}
+.contact-heading .ch-en{
+  color:#003D5C;font-size:15px;font-weight:900;letter-spacing:.3px;
+}
+.contact-heading .ch-ar{
+  color:#005B82;font-size:12px;font-weight:700;margin-top:4px;
+}
+/* ── CONTACT TABLE — exact RCK match ── */
+.contact-tbl{
+  width:100%;border-collapse:collapse;
+  font-family:'Cairo',sans-serif;font-size:10.5px;
+}
+.contact-tbl thead tr th{
+  background:linear-gradient(135deg,#003D5C,#005B82);
+  color:#fff;font-size:10px;font-weight:800;
+  padding:8px 10px;border:1px solid #0078A8;
+  text-align:center;letter-spacing:.3px;
+}
+.contact-tbl thead tr th.th-num{
+  background:linear-gradient(135deg,#002A40,#003D5C);
+  width:40px;text-align:center;
+}
+.contact-tbl thead tr th.th-name{
+  text-align:left;padding-left:12px;
+  background:linear-gradient(135deg,#002A40,#003D5C);
+}
+.contact-tbl tbody tr td{
+  font-size:10.5px;font-weight:700;
+  padding:7px 10px;border:1px solid #C8E4F0;
+  text-align:center;color:#1A3A4A;background:#fff;
+  vertical-align:middle;
+}
+.contact-tbl tbody tr:nth-child(even) td{background:#F2F8FC;}
+/* # column */
+.contact-tbl .td-num{
+  background:#F7FBFD!important;
+  color:#003D5C;font-weight:900;font-size:11px;text-align:center;
+  border-right:2px solid #00AEEF!important;width:40px;
+}
+.contact-tbl tbody tr:nth-child(even) .td-num{background:#EAF4FA!important;}
+/* Name column */
+.contact-tbl .td-name{
+  text-align:left!important;padding-left:12px!important;
+  font-weight:800;color:#1A3A4A;
+  background:#F7FBFD!important;
+  border-right:1px solid #C8E4F0;
+}
+.contact-tbl tbody tr:nth-child(even) .td-name{background:#EAF4FA!important;}
+/* Role column */
+.contact-tbl .td-role{
+  font-size:10px;font-weight:700;color:#005B82;
+  width:150px;font-style:italic;
+}
+/* Phone column */
+.contact-tbl .td-phone{
+  font-family:'Courier New',monospace;
+  font-size:11.5px;font-weight:700;
+  color:#003D5C;letter-spacing:1.5px;
+  width:140px;background:#F8FBFE!important;
+}
+.contact-tbl tbody tr:nth-child(even) .td-phone{background:#F0F7FC!important;}
+/* Row hover on screen */
+@media screen{
+  .contact-tbl tbody tr:hover td{
+    background:#E4F2FA!important;transition:background .12s;
+  }
+}
+</style>
+</head>
+<body>
+
+<!-- ══════════════════════════════════════════
+     TOOLBAR
+══════════════════════════════════════════ -->
+<div class="toolbar no-print">
+  <button class="btn-print" onclick="window.print()">🖨️ طباعة A4 أفقي</button>
+  <button class="btn-edit" id="editToggle" onclick="toggleEdit()">✏️ تفعيل التحرير</button>
+  <span class="toolbar-label">— انقر على أي تاريخ أو اسم مناوب لتعديله مباشرة</span>
+</div>
+
+<div class="edit-hint no-print" id="editHint" style="display:none">
+  ✏️ وضع التحرير مفعّل — انقر على أي خلية للتعديل
+</div>
+
+<!-- ══════════════════════════════════════════
+     COVER PAGE
+══════════════════════════════════════════ -->
+<div class="page page-cover">
+  <div class="doc-hdr">
+    <img src="logo-white.png" class="doc-hdr-logo" alt=""/>
+    <div class="doc-hdr-org">
+      <div class="doc-hdr-main">CEO On-Call Monthly Rota — Emergency Operation Center</div>
+      <div class="doc-hdr-sub">Hail Health Cluster — تجمع حائل الصحي | إدارة الأزمات والكوارث واستمرارية الأعمال</div>
+    </div>
+    <div class="doc-hdr-badge">
+      <span class="b-months">2026</span>
+      <span class="b-year">Annual Rota</span>
+    </div>
+  </div>
+  <div class="cover-body">
+    <img src="logo-white.png" class="cover-logo" alt="Hail Health Cluster"/>
+    <div class="cover-title">CEO On-Call Monthly Rota</div>
+    <div class="cover-year">2026</div>
+    <div class="cover-divider"></div>
+    <div class="cover-org">Hail Health Cluster — تجمع حائل الصحي</div>
+    <div class="cover-sub">Emergency Operation Center &nbsp;·&nbsp; إدارة الأزمات والكوارث واستمرارية الأعمال</div>
+    <div class="cover-badge">جدول مناوبة قادة الحدث &nbsp;|&nbsp; On-Call Weekly Schedule</div>
+  </div>
+  <div class="doc-footer">
+    <span>Hail Health Cluster — Emergency Operation Center</span>
+    <span style="color:rgba(255,255,255,0.5);font-size:8px;">Confidential — للاستخدام الرسمي فقط</span>
+    <span>CEO On-Call Monthly Rota 2026</span>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════
+     CONTACT INFORMATION PAGE
+══════════════════════════════════════════ -->
+<div class="page">
+  <div class="doc-hdr">
+    <img src="logo-white.png" class="doc-hdr-logo" alt=""/>
+    <div class="doc-hdr-org">
+      <div class="doc-hdr-main">CEO On-Call Monthly Rota — Emergency Operation Center Monthly Rota</div>
+      <div class="doc-hdr-sub">Hail Health Cluster — تجمع حائل الصحي | إدارة الأزمات والكوارث واستمرارية الأعمال</div>
+    </div>
+    <div class="doc-hdr-badge">
+      <span class="b-months">Contact</span>
+      <span class="b-year">Officers 2026</span>
+    </div>
+  </div>
+  <div class="title-bar">
+    <span>📋 On-Call Officers — Contact Information</span>
+    <span class="title-sep">|</span>
+    <span>قائمة المناوبين وأرقام التواصل</span>
+  </div>
+  <div class="doc-body contact-body">
+    <div class="contact-heading">
+      <div class="ch-en">On-Call Officers — Hail Health Cluster Emergency Operation Center</div>
+      <div class="ch-ar">ضباط المناوبة — إدارة الأزمات والكوارث واستمرارية الأعمال بتجمع حائل الصحي</div>
+    </div>
+    <table class="contact-tbl">
+      <thead>
+        <tr>
+          <th class="th-num">#</th>
+          <th class="th-name">Officer Name — اسم المناوب</th>
+          <th>Role — الدور</th>
+          <th>Mobile — الجوال</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="td-num">1</td>
+          <td class="td-name">Eng. HATEM MOHAMMED ALRASHDAN</td>
+          <td class="td-role">CEO</td>
+          <td class="td-phone">0505159376</td>
+        </tr>
+        <tr>
+          <td class="td-num">2</td>
+          <td class="td-name">Dr. SALEM FAHAD ALRUDIAN</td>
+          <td class="td-role">Deputy CEO</td>
+          <td class="td-phone">0550780577</td>
+        </tr>
+        <tr>
+          <td class="td-num">3</td>
+          <td class="td-name">Dr. SULTAN NAIS ALSHAMMARI</td>
+          <td class="td-role">Deputy CEO</td>
+          <td class="td-phone">0501223733</td>
+        </tr>
+        <tr>
+          <td class="td-num">4</td>
+          <td class="td-name">Dr. MAHER ABDULRAHMAN ALDUKHAIL</td>
+          <td class="td-role">Deputy CEO</td>
+          <td class="td-phone">0532331304</td>
+        </tr>
+        <tr>
+          <td class="td-num">5</td>
+          <td class="td-name">FAHAD HAMDAN ALHARBEED</td>
+          <td class="td-role">Deputy CEO</td>
+          <td class="td-phone">0554871118</td>
+        </tr>
+        <tr>
+          <td class="td-num">6</td>
+          <td class="td-name">ABDULLAH AWAD ALSULAIMI</td>
+          <td class="td-role">Medical services</td>
+          <td class="td-phone">0558982011</td>
+        </tr>
+        <tr>
+          <td class="td-num">7</td>
+          <td class="td-name">DR. FAIZ MAYAH ALSHAMMARI</td>
+          <td class="td-role">Medical services</td>
+          <td class="td-phone">0555798383</td>
+        </tr>
+        <tr>
+          <td class="td-num">8</td>
+          <td class="td-name">Eng. ABDULAZIZ OBAID AL AQLAA</td>
+          <td class="td-role">Logistics Support</td>
+          <td class="td-phone">0567720021</td>
+        </tr>
+        <tr>
+          <td class="td-num">9</td>
+          <td class="td-name">FAISAL MATHOUD ALSHAMMARI</td>
+          <td class="td-role">Logistics Support</td>
+          <td class="td-phone">0543698888</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="doc-footer">
+    <span>Hail Health Cluster — Emergency Operation Center</span>
+    <span>CEO On-Call Monthly Rota 2026</span>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════
+     PAGE 1 — JAN / FEB
+══════════════════════════════════════════ -->
+<div class="page">
+  <div class="doc-hdr">
+    <img src="logo-white.png" class="doc-hdr-logo" alt=""/>
+    <div class="doc-hdr-org">
+      <div class="doc-hdr-main">CEO On-Call Monthly Rota — Emergency Operation Center Monthly Rota</div>
+      <div class="doc-hdr-sub">Hail Health Cluster — تجمع حائل الصحي | إدارة الأزمات والكوارث واستمرارية الأعمال</div>
+    </div>
+    <div class="doc-hdr-badge">
+      <span class="b-months">Jan — Feb</span>
+      <span class="b-year">2026</span>
+    </div>
+  </div>
+  <div class="title-bar">
+    <span>📅 CEO On-Call Monthly Rota</span>
+    <span class="title-sep">|</span>
+    <span>January 2026 — February 2026</span>
+  </div>
+  <div class="doc-body">
+    <table class="rota-tbl">
+      <thead>
+        <tr class="tr-month">
+          <th class="th-ceo" rowspan="3">CEO / Officer</th>
+          <th colspan="4">January — يناير 2026</th>
+          <th colspan="4">February — فبراير 2026</th>
+        </tr>
+        <tr class="tr-week">
+          <th>Week 1</th><th>Week 2</th><th>Week 3</th><th>Week 4</th>
+          <th>Week 1</th><th>Week 2</th><th>Week 3</th><th>Week 4</th>
+        </tr>
+        <tr class="tr-dates">
+          <th><span class="editable" contenteditable="false">Dec 28 – Jan 3</span></th>
+          <th><span class="editable" contenteditable="false">Jan 4 – Jan 10</span></th>
+          <th><span class="editable" contenteditable="false">Jan 11 – Jan 17</span></th>
+          <th><span class="editable" contenteditable="false">Jan 18 – Jan 24</span></th>
+          <th><span class="editable" contenteditable="false">Jan 25 – Jan 31</span></th>
+          <th><span class="editable" contenteditable="false">Feb 1 – Feb 7</span></th>
+          <th><span class="editable" contenteditable="false">Feb 8 – Feb 14</span></th>
+          <th><span class="editable" contenteditable="false">Feb 15 – Feb 21</span></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="td-ceo"><span class="editable" contenteditable="false">Eng. HATEM ALRASHDAN</span></td>
+          <td class="td-cell active"><span class="cell-name editable" contenteditable="false">Dr. Sultan Alnais</span><span class="cell-name2 editable" contenteditable="false">Eng. Eid Ayed</span></td>
+          <td class="td-cell cell-empty"><span class="cell-dash">—</span></td>
+          <td class="td-cell cell-empty"><span class="cell-dash">—</span></td>
+          <td class="td-cell cell-empty"><span class="cell-dash">—</span></td>
+          <td class="td-cell active"><span class="cell-name editable" contenteditable="false">Dr. Sultan Alnais</span><span class="cell-name2 editable" contenteditable="false">Eng. Eid Ayed</span></td>
+          <td class="td-cell cell-empty"><span class="cell-dash">—</span></td>
+          <td class="td-cell cell-empty"><span class="cell-dash">—</span></td>
+          <td class="td-cell cell-empty"><span class="cell-dash">—</span></td>
+        </tr>
+        <tr>
+          <td class="td-ceo"><span class="editable" contenteditable="false">Dr. SALEM ALRUDIAN</span></td>
+          <td class="td-cell cell-empty"><span class="cell-dash">—</span></td>
+          <td class="td-cell active"><span class="cell-name editable" contenteditable="false">Dr. Sultan Alnais</span><span class="cell-name2 editable" contenteditable="false">Eng. Eid Ayed</span></td>
+          <td class="td-cell cell-empty"><span class="cell-dash">—</span></td>
+          <td class="td-cell cell-empty"><span class="cell-dash">—</span></td>
+          <td class="td-cell cell-empty"><span class="cell-dash">—</span></td>
+          <td class="td-cell active"><span class="cell-name editable" contenteditable="false">Dr. Sultan Alnais</span><span class="cell-name2 editable" contenteditable="false">Eng. Eid Ayed</span></td>
+          <td class="td-cell cell-empty"><span class="cell-dash">—</span></td>
+          <td class="td-cell cell-empty"><span class="cell-dash">—</span></td>
+        </tr>
+        <tr>
+          <td class="td-ceo"><span class="editable" contenteditable="false">Dr. SULTAN ALSHAMMARI</span></td>
+          <td class="td-cell cell-empty"><span class="cell-dash">—</span></td>
+          <td class="td-cell cell-empty"><span class="cell-dash">—</span></td>
+          <td class="td-cell active"><span class="cell-name editable" contenteditable="false">Dr. Sultan Alnais</span><span class="cell-name2 editable" contenteditable="false">Eng. Eid Ayed</span></td>
+          <td class="td-cell cell-empty"><span class="cell-dash">—</span></td>
+          <td class="td-cell cell-empty"><span class="cell-dash">—</span></td>
+          <td class="td-cell cell-empty"><span class="cell-dash">—</span></td>
+          <td class="td-cell active"><span class="cell-name editable" contenteditable="false">Dr. Sultan Alnais</span><span class="cell-name2 editable" contenteditable="false">Eng. Eid Ayed</span></td>
+          <td class="td-cell cell-empty"><span class="cell-dash">—</span></td>
+        </tr>
+        <tr>
+          <td class="td-ceo"><span class="editable" contenteditable="false">Dr. MAHER ALDUKHAIL</span></td>
+          <td class="td-cell cell-empty"><span class="cell-dash">—</span></td>
+          <td class="td-cell cell-empty"><span class="cell-dash">—</span></td>
+          <td class="td-cell cell-empty"><span class="cell-dash">—</span></td>
+          <td class="td-cell active"><span class="cell-name editable" contenteditable="false">Dr. Sultan Alnais</span><span class="cell-name2 editable" contenteditable="false">Eng. Eid Ayed</span></td>
+          <td class="td-cell cell-empty"><span class="cell-dash">—</span></td>
+          <td class="td-cell cell-empty"><span class="cell-dash">—</span></td>
+          <td class="td-cell cell-empty"><span class="cell-dash">—</span></td>
+          <td class="td-cell active"><span class="cell-name editable" contenteditable="false">Dr. Sultan Alnais</span><span class="cell-name2 editable" contenteditable="false">Eng. Eid Ayed</span></td>
+        </tr>
+        <tr>
+          <td class="td-ceo"><span class="editable" contenteditable="false">FAHAD ALHARBEED</span></td>
+          <td class="td-cell cell-empty"><span class="cell-dash">—</span></td>
+          <td class="td-cell cell-empty"><span class="cell-dash">—</span></td>
+          <td class="td-cell cell-empty"><span class="cell-dash">—</span></td>
+          <td class="td-cell cell-empty"><span class="cell-dash">—</span></td>
+          <td class="td-cell cell-empty"><span class="cell-dash">—</span></td>
+          <td class="td-cell cell-empty"><span class="cell-dash">—</span></td>
+          <td class="td-cell cell-empty"><span class="cell-dash">—</span></td>
+          <td class="td-cell cell-empty"><span class="cell-dash">—</span></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="doc-footer">
+    <span>Hail Health Cluster — Emergency Operation Center</span>
+    <span>CEO On-Call Monthly Rota 2026</span>
+  </div>
+</div>
+
+<!-- PAGE 2 — MAR / APR (part 1) -->
+<div class="page">
+  <div class="doc-hdr">
+    <img src="logo-white.png" class="doc-hdr-logo" alt=""/>
+    <div class="doc-hdr-org">
+      <div class="doc-hdr-main">CEO On-Call Monthly Rota — Emergency Operation Center Monthly Rota</div>
+      <div class="doc-hdr-sub">Hail Health Cluster — تجمع حائل الصحي | إدارة الأزمات والكوارث واستمرارية الأعمال</div>
+    </div>
+    <div class="doc-hdr-badge"><span class="b-months">Mar — Apr</span><span class="b-year">2026</span></div>
+  </div>
+  <div class="title-bar">
+    <span>📅 CEO On-Call Monthly Rota</span><span class="title-sep">|</span>
+    <span>March 2026 — April 2026</span>
+  </div>
+  <div class="doc-body">
+    <table class="rota-tbl">
+      <thead>
+        <tr class="tr-month">
+          <th class="th-ceo" rowspan="3">CEO / Officer</th>
+          <th colspan="4">March — مارس 2026</th>
+          <th colspan="4">April — أبريل 2026</th>
+        </tr>
+        <tr class="tr-week">
+          <th>Week 1</th><th>Week 2</th><th>Week 3</th><th>Week 4</th>
+          <th>Week 1</th><th>Week 2</th><th>Week 3</th><th>Week 4</th>
+        </tr>
+        <tr class="tr-dates">
+          <th><span class="editable" contenteditable="false">Feb 22 – Feb 28</span></th>
+          <th><span class="editable" contenteditable="false">Mar 1 – Mar 7</span></th>
+          <th><span class="editable" contenteditable="false">Mar 8 – Mar 14</span></th>
+          <th><span class="editable" contenteditable="false">Mar 15 – Mar 21</span></th>
+          <th><span class="editable" contenteditable="false">Mar 22 – Mar 28</span></th>
+          <th><span class="editable" contenteditable="false">Mar 29 – Apr 4</span></th>
+          <th><span class="editable" contenteditable="false">Apr 5 – Apr 11</span></th>
+          <th><span class="editable" contenteditable="false">Apr 12 – Apr 18</span></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="td-ceo"><span class="editable" contenteditable="false">Eng. HATEM ALRASHDAN</span></td>
+          <td class="td-cell active"><span class="cell-name editable" contenteditable="false">Dr. Sultan Alnais</span><span class="cell-name2 editable" contenteditable="false">Eng. Eid Ayed</span></td>
+          <td class="td-cell cell-empty"><span class="cell-dash">—</span></td><td class="td-cell cell-empty"><span class="cell-dash">—</span></td><td class="td-cell cell-empty"><span class="cell-dash">—</span></td>
+          <td class="td-cell active"><span class="cell-name editable" contenteditable="false">Dr. FAIZ MAYAH</span><span class="cell-name2 editable" contenteditable="false">FAHAD HAMDEN</span></td>
+          <td class="td-cell cell-empty"><span class="cell-dash">—</span></td><td class="td-cell cell-empty"><span class="cell-dash">—</span></td><td class="td-cell cell-empty"><span class="cell-dash">—</span></td>
+        </tr>
+        <tr>
+          <td class="td-ceo"><span class="editable" contenteditable="false">Dr. SALEM ALRUDIAN</span></td>
+          <td class="td-cell cell-empty"><span class="cell-dash">—</span></td>
+          <td class="td-cell active"><span class="cell-name editable" contenteditable="false">ABDULLAH AWAD</span><span class="cell-name2 editable" contenteditable="false">FAHAD HAMDEN</span></td>
+          <td class="td-cell cell-empty"><span class="cell-dash">—</span></td><td class="td-cell cell-empty"><span class="cell-dash">—</span></td><td class="td-cell cell-empty"><span class="cell-dash">—</span></td>
+          <td class="td-cell active"><span class="cell-name editable" contenteditable="false">ABDULLAH AWAD</span><span class="cell-name2 editable" contenteditable="false">FAHAD HAMDEN</span></td>
+          <td class="td-cell cell-empty"><span class="cell-dash">—</span></td><td class="td-cell cell-empty"><span class="cell-dash">—</span></td>
+        </tr>
+        <tr>
+          <td class="td-ceo"><span class="editable" contenteditable="false">Dr. SULTAN ALSHAMMARI</span></td>
+          <td class="td-cell cell-empty"><span class="cell-dash">—</span></td><td class="td-cell cell-empty"><span class="cell-dash">—</span></td>
+          <td class="td-cell active"><span class="cell-name editable" contenteditable="false">Dr. FAIZ MAYAH</span><span class="cell-name2 editable" contenteditable="false">FAHAD HAMDEN</span></td>
+          <td class="td-cell cell-empty"><span class="cell-dash">—</span></td><td class="td-cell cell-empty"><span class="cell-dash">—</span></td><td class="td-cell cell-empty"><span class="cell-dash">—</span></td>
+          <td class="td-cell active"><span class="cell-name editable" contenteditable="false">Dr. FAIZ MAYAH</span><span class="cell-name2 editable" contenteditable="false">FAHAD HAMDEN</span></td>
+          <td class="td-cell cell-empty"><span class="cell-dash">—</span></td>
+        </tr>
+        <tr>
+          <td class="td-ceo"><span class="editable" contenteditable="false">Dr. MAHER ALDUKHAIL</span></td>
+          <td class="td-cell cell-empty"><span class="cell-dash">—</span></td><td class="td-cell cell-empty"><span class="cell-dash">—</span></td><td class="td-cell cell-empty"><span class="cell-dash">—</span></td>
+          <td class="td-cell active"><span class="cell-name editable" contenteditable="false">ABDULLAH AWAD</span><span class="cell-name2 editable" contenteditable="false">FAHAD HAMDEN</span></td>
+          <td class="td-cell cell-empty"><span class="cell-dash">—</span></td><td class="td-cell cell-empty"><span class="cell-dash">—</span></td><td class="td-cell cell-empty"><span class="cell-dash">—</span></td>
+          <td class="td-cell active"><span class="cell-name editable" contenteditable="false">ABDULLAH AWAD</span><span class="cell-name2 editable" contenteditable="false">FAISAL MATHOUD</span></td>
+        </tr>
+        <tr>
+          <td class="td-ceo"><span class="editable" contenteditable="false">FAHAD ALHARBEED</span></td>
+          <td class="td-cell cell-empty"><span class="cell-dash">—</span></td><td class="td-cell cell-empty"><span class="cell-dash">—</span></td><td class="td-cell cell-empty"><span class="cell-dash">—</span></td><td class="td-cell cell-empty"><span class="cell-dash">—</span></td>
+          <td class="td-cell cell-empty"><span class="cell-dash">—</span></td><td class="td-cell cell-empty"><span class="cell-dash">—</span></td><td class="td-cell cell-empty"><span class="cell-dash">—</span></td><td class="td-cell cell-empty"><span class="cell-dash">—</span></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="doc-footer">
+    <span>Hail Health Cluster — Emergency Operation Center</span>
+    <span>CEO On-Call Monthly Rota 2026</span>
+  </div>
+</div>
+
+<!-- PAGE 3 — APR19 / MAY / JUN -->
+<div class="page">
+  <div class="doc-hdr">
+    <img src="logo-white.png" class="doc-hdr-logo" alt=""/>
+    <div class="doc-hdr-org">
+      <div class="doc-hdr-main">CEO On-Call Monthly Rota — Emergency Operation Center Monthly Rota</div>
+      <div class="doc-hdr-sub">Hail Health Cluster — تجمع حائل الصحي | إدارة الأزمات والكوارث واستمرارية الأعمال</div>
+    </div>
+    <div class="doc-hdr-badge"><span class="b-months">Apr — Jun</span><span class="b-year">2026</span></div>
+  </div>
+  <div class="title-bar">
+    <span>📅 CEO On-Call Monthly Rota</span><span class="title-sep">|</span>
+    <span>April 2026 (cont.) — May 2026 — June 2026</span>
+  </div>
+  <div class="doc-body">
+    <table class="rota-tbl">
+      <thead>
+        <tr class="tr-month">
+          <th class="th-ceo" rowspan="3">CEO / Officer</th>
+          <th colspan="2">April — أبريل</th>
+          <th colspan="4">May — مايو 2026</th>
+          <th colspan="2">June — يونيو</th>
+        </tr>
+        <tr class="tr-week">
+          <th>Week 1</th><th>Week 2</th>
+          <th>Week 3</th><th>Week 4</th><th>Week 1</th><th>Week 2</th>
+          <th>Week 3</th><th>Week 4</th>
+        </tr>
+        <tr class="tr-dates">
+          <th><span class="editable" contenteditable="false">Apr 19 – Apr 25</span></th>
+          <th><span class="editable" contenteditable="false">Apr 26 – May 2</span></th>
+          <th><span class="editable" contenteditable="false">May 3 – May 9</span></th>
+          <th><span class="editable" contenteditable="false">May 10 – May 16</span></th>
+          <th><span class="editable" contenteditable="false">May 17 – May 23</span></th>
+          <th><span class="editable" contenteditable="false">May 24 – May 30</span></th>
+          <th><span class="editable" contenteditable="false">May 31 – Jun 6</span></th>
+          <th><span class="editable" contenteditable="false">Jun 7 – Jun 13</span></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="td-ceo"><span class="editable" contenteditable="false">Eng. HATEM ALRASHDAN</span></td>
+          <td class="td-cell cell-empty"><span class="cell-dash">—</span></td>
+          <td class="td-cell active"><span class="cell-name editable" contenteditable="false">ABDULLAH AWAD</span><span class="cell-name2 editable" contenteditable="false">FAISAL MATHOUD</span></td>
+          <td class="td-cell cell-empty"><span class="cell-dash">—</span></td><td class="td-cell cell-empty"><span class="cell-dash">—</span></td><td class="td-cell cell-empty"><span class="cell-dash">—</span></td><td class="td-cell cell-empty"><span class="cell-dash">—</span></td>
+          <td class="td-cell active"><span class="cell-name editable" contenteditable="false">Dr. FAIZ MAYAH</span><span class="cell-name2 editable" contenteditable="false">Eng. ABDULAZIZ OBAID</span></td>
+          <td class="td-cell cell-empty"><span class="cell-dash">—</span></td>
+        </tr>
+        <tr>
+          <td class="td-ceo"><span class="editable" contenteditable="false">Dr. SALEM ALRUDIAN</span></td>
+          <td class="td-cell cell-empty"><span class="cell-dash">—</span></td><td class="td-cell cell-empty"><span class="cell-dash">—</span></td>
+          <td class="td-cell active"><span class="cell-name editable" contenteditable="false">Dr. FAIZ MAYAH</span><span class="cell-name2 editable" contenteditable="false">Eng. ABDULAZIZ OBAID</span></td>
+          <td class="td-cell cell-empty"><span class="cell-dash">—</span></td><td class="td-cell cell-empty"><span class="cell-dash">—</span></td><td class="td-cell cell-empty"><span class="cell-dash">—</span></td><td class="td-cell cell-empty"><span class="cell-dash">—</span></td>
+          <td class="td-cell active"><span class="cell-name editable" contenteditable="false">ABDULLAH AWAD</span><span class="cell-name2 editable" contenteditable="false">FAISAL MATHOUD</span></td>
+        </tr>
+        <tr>
+          <td class="td-ceo"><span class="editable" contenteditable="false">Dr. SULTAN ALSHAMMARI</span></td>
+          <td class="td-cell cell-empty"><span class="cell-dash">—</span></td><td class="td-cell cell-empty"><span class="cell-dash">—</span></td><td class="td-cell cell-empty"><span class="cell-dash">—</span></td>
+          <td class="td-cell active"><span class="cell-name editable" contenteditable="false">ABDULLAH AWAD</span><span class="cell-name2 editable" contenteditable="false">FAISAL MATHOUD</span></td>
+          <td class="td-cell cell-empty"><span class="cell-dash">—</span></td><td class="td-cell cell-empty"><span class="cell-dash">—</span></td><td class="td-cell cell-empty"><span class="cell-dash">—</span></td><td class="td-cell cell-empty"><span class="cell-dash">—</span></td>
+        </tr>
+        <tr>
+          <td class="td-ceo"><span class="editable" contenteditable="false">Dr. MAHER ALDUKHAIL</span></td>
+          <td class="td-cell cell-empty"><span class="cell-dash">—</span></td><td class="td-cell cell-empty"><span class="cell-dash">—</span></td><td class="td-cell cell-empty"><span class="cell-dash">—</span></td><td class="td-cell cell-empty"><span class="cell-dash">—</span></td>
+          <td class="td-cell active"><span class="cell-name editable" contenteditable="false">Dr. FAIZ MAYAH</span><span class="cell-name2 editable" contenteditable="false">Eng. ABDULAZIZ OBAID</span></td>
+          <td class="td-cell cell-empty"><span class="cell-dash">—</span></td><td class="td-cell cell-empty"><span class="cell-dash">—</span></td><td class="td-cell cell-empty"><span class="cell-dash">—</span></td>
+        </tr>
+        <tr>
+          <td class="td-ceo"><span class="editable" contenteditable="false">FAHAD ALHARBEED</span></td>
+          <td class="td-cell active"><span class="cell-name editable" contenteditable="false">Dr. FAIZ MAYAH</span><span class="cell-name2 editable" contenteditable="false">Eng. ABDULAZIZ OBAID</span></td>
+          <td class="td-cell cell-empty"><span class="cell-dash">—</span></td><td class="td-cell cell-empty"><span class="cell-dash">—</span></td><td class="td-cell cell-empty"><span class="cell-dash">—</span></td><td class="td-cell cell-empty"><span class="cell-dash">—</span></td>
+          <td class="td-cell active"><span class="cell-name editable" contenteditable="false">ABDULLAH AWAD</span><span class="cell-name2 editable" contenteditable="false">FAISAL MATHOUD</span></td>
+          <td class="td-cell cell-empty"><span class="cell-dash">—</span></td><td class="td-cell cell-empty"><span class="cell-dash">—</span></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="doc-footer">
+    <span>Hail Health Cluster — Emergency Operation Center</span>
+    <span>CEO On-Call Monthly Rota 2026</span>
+  </div>
+</div>
+
+<!-- PAGE 4 — JUN14 / JUL / AUG -->
+<div class="page">
+  <div class="doc-hdr">
+    <img src="logo-white.png" class="doc-hdr-logo" alt=""/>
+    <div class="doc-hdr-org">
+      <div class="doc-hdr-main">CEO On-Call Monthly Rota — Emergency Operation Center Monthly Rota</div>
+      <div class="doc-hdr-sub">Hail Health Cluster — تجمع حائل الصحي | إدارة الأزمات والكوارث واستمرارية الأعمال</div>
+    </div>
+    <div class="doc-hdr-badge"><span class="b-months">Jun — Aug</span><span class="b-year">2026</span></div>
+  </div>
+  <div class="title-bar">
+    <span>📅 CEO On-Call Monthly Rota</span><span class="title-sep">|</span>
+    <span>June 2026 (cont.) — July 2026 — August 2026</span>
+  </div>
+  <div class="doc-body">
+    <table class="rota-tbl">
+      <thead>
+        <tr class="tr-month">
+          <th class="th-ceo" rowspan="3">CEO / Officer</th>
+          <th colspan="2">June — يونيو</th>
+          <th colspan="4">July — يوليو 2026</th>
+          <th colspan="2">August — أغسطس</th>
+        </tr>
+        <tr class="tr-week">
+          <th>Week 1</th><th>Week 2</th>
+          <th>Week 3</th><th>Week 4</th><th>Week 1</th><th>Week 2</th>
+          <th>Week 3</th><th>Week 4</th>
+        </tr>
+        <tr class="tr-dates">
+          <th><span class="editable" contenteditable="false">Jun 14 – Jun 20</span></th>
+          <th><span class="editable" contenteditable="false">Jun 21 – Jun 27</span></th>
+          <th><span class="editable" contenteditable="false">Jun 28 – Jul 4</span></th>
+          <th><span class="editable" contenteditable="false">Jul 5 – Jul 11</span></th>
+          <th><span class="editable" contenteditable="false">Jul 12 – Jul 18</span></th>
+          <th><span class="editable" contenteditable="false">Jul 19 – Jul 25</span></th>
+          <th><span class="editable" contenteditable="false">Jul 26 – Aug 1</span></th>
+          <th><span class="editable" contenteditable="false">Aug 2 – Aug 8</span></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="td-ceo"><span class="editable" contenteditable="false">Eng. HATEM ALRASHDAN</span></td>
+          <td class="td-cell cell-empty"><span class="cell-dash">—</span></td><td class="td-cell cell-empty"><span class="cell-dash">—</span></td><td class="td-cell cell-empty"><span class="cell-dash">—</span></td>
+          <td class="td-cell active"><span class="cell-name editable" contenteditable="false">ABDULLAH AWAD</span><span class="cell-name2 editable" contenteditable="false">FAISAL MATHOUD</span></td>
+          <td class="td-cell cell-empty"><span class="cell-dash">—</span></td><td class="td-cell cell-empty"><span class="cell-dash">—</span></td><td class="td-cell cell-empty"><span class="cell-dash">—</span></td><td class="td-cell cell-empty"><span class="cell-dash">—</span></td>
+        </tr>
+        <tr>
+          <td class="td-ceo"><span class="editable" contenteditable="false">Dr. SALEM ALRUDIAN</span></td>
+          <td class="td-cell cell-empty"><span class="cell-dash">—</span></td><td class="td-cell cell-empty"><span class="cell-dash">—</span></td><td class="td-cell cell-empty"><span class="cell-dash">—</span></td><td class="td-cell cell-empty"><span class="cell-dash">—</span></td>
+          <td class="td-cell active"><span class="cell-name editable" contenteditable="false">Dr. FAIZ MAYAH</span><span class="cell-name2 editable" contenteditable="false">Eng. ABDULAZIZ OBAID</span></td>
+          <td class="td-cell cell-empty"><span class="cell-dash">—</span></td><td class="td-cell cell-empty"><span class="cell-dash">—</span></td><td class="td-cell cell-empty"><span class="cell-dash">—</span></td>
+        </tr>
+        <tr>
+          <td class="td-ceo"><span class="editable" contenteditable="false">Dr. SULTAN ALSHAMMARI</span></td>
+          <td class="td-cell active"><span class="cell-name editable" contenteditable="false">Dr. FAIZ MAYAH</span><span class="cell-name2 editable" contenteditable="false">Eng. ABDULAZIZ OBAID</span></td>
+          <td class="td-cell cell-empty"><span class="cell-dash">—</span></td><td class="td-cell cell-empty"><span class="cell-dash">—</span></td><td class="td-cell cell-empty"><span class="cell-dash">—</span></td><td class="td-cell cell-empty"><span class="cell-dash">—</span></td>
+          <td class="td-cell active"><span class="cell-name editable" contenteditable="false">ABDULLAH AWAD</span><span class="cell-name2 editable" contenteditable="false">FAISAL MATHOUD</span></td>
+          <td class="td-cell cell-empty"><span class="cell-dash">—</span></td><td class="td-cell cell-empty"><span class="cell-dash">—</span></td>
+        </tr>
+        <tr>
+          <td class="td-ceo"><span class="editable" contenteditable="false">Dr. MAHER ALDUKHAIL</span></td>
+          <td class="td-cell cell-empty"><span class="cell-dash">—</span></td>
+          <td class="td-cell active"><span class="cell-name editable" contenteditable="false">ABDULLAH AWAD</span><span class="cell-name2 editable" contenteditable="false">FAISAL MATHOUD</span></td>
+          <td class="td-cell cell-empty"><span class="cell-dash">—</span></td><td class="td-cell cell-empty"><span class="cell-dash">—</span></td><td class="td-cell cell-empty"><span class="cell-dash">—</span></td><td class="td-cell cell-empty"><span class="cell-dash">—</span></td>
+          <td class="td-cell active"><span class="cell-name editable" contenteditable="false">Dr. FAIZ MAYAH</span><span class="cell-name2 editable" contenteditable="false">Eng. ABDULAZIZ OBAID</span></td>
+          <td class="td-cell cell-empty"><span class="cell-dash">—</span></td>
+        </tr>
+        <tr>
+          <td class="td-ceo"><span class="editable" contenteditable="false">FAHAD ALHARBEED</span></td>
+          <td class="td-cell cell-empty"><span class="cell-dash">—</span></td><td class="td-cell cell-empty"><span class="cell-dash">—</span></td>
+          <td class="td-cell active"><span class="cell-name editable" contenteditable="false">Dr. FAIZ MAYAH</span><span class="cell-name2 editable" contenteditable="false">Eng. ABDULAZIZ OBAID</span></td>
+          <td class="td-cell cell-empty"><span class="cell-dash">—</span></td><td class="td-cell cell-empty"><span class="cell-dash">—</span></td><td class="td-cell cell-empty"><span class="cell-dash">—</span></td><td class="td-cell cell-empty"><span class="cell-dash">—</span></td>
+          <td class="td-cell active"><span class="cell-name editable" contenteditable="false">ABDULLAH AWAD</span><span class="cell-name2 editable" contenteditable="false">FAISAL MATHOUD</span></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="doc-footer">
+    <span>Hail Health Cluster — Emergency Operation Center</span>
+    <span>CEO On-Call Monthly Rota 2026</span>
+  </div>
+</div>
+
+<!-- PAGE 5 — AUG9 / SEP -->
+<div class="page">
+  <div class="doc-hdr">
+    <img src="logo-white.png" class="doc-hdr-logo" alt=""/>
+    <div class="doc-hdr-org">
+      <div class="doc-hdr-main">CEO On-Call Monthly Rota — Emergency Operation Center Monthly Rota</div>
+      <div class="doc-hdr-sub">Hail Health Cluster — تجمع حائل الصحي | إدارة الأزمات والكوارث واستمرارية الأعمال</div>
+    </div>
+    <div class="doc-hdr-badge"><span class="b-months">Aug — Sep</span><span class="b-year">2026</span></div>
+  </div>
+  <div class="title-bar">
+    <span>📅 CEO On-Call Monthly Rota</span><span class="title-sep">|</span>
+    <span>August 2026 (cont.) — September 2026</span>
+  </div>
+  <div class="doc-body">
+    <table class="rota-tbl">
+      <thead>
+        <tr class="tr-month">
+          <th class="th-ceo" rowspan="3">CEO / Officer</th>
+          <th colspan="4">August — أغسطس 2026</th>
+          <th colspan="4">September — سبتمبر 2026</th>
+        </tr>
+        <tr class="tr-week">
+          <th>Week 1</th><th>Week 2</th><th>Week 3</th><th>Week 4</th>
+          <th>Week 1</th><th>Week 2</th><th>Week 3</th><th>Week 4</th>
+        </tr>
+        <tr class="tr-dates">
+          <th><span class="editable" contenteditable="false">Aug 9 – Aug 15</span></th>
+          <th><span class="editable" contenteditable="false">Aug 16 – Aug 22</span></th>
+          <th><span class="editable" contenteditable="false">Aug 23 – Aug 29</span></th>
+          <th><span class="editable" contenteditable="false">Aug 30 – Sep 5</span></th>
+          <th><span class="editable" contenteditable="false">Sep 6 – Sep 12</span></th>
+          <th><span class="editable" contenteditable="false">Sep 13 – Sep 19</span></th>
+          <th><span class="editable" contenteditable="false">Sep 20 – Sep 26</span></th>
+          <th><span class="editable" contenteditable="false">Sep 27 – Oct 3</span></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="td-ceo"><span class="editable" contenteditable="false">Eng. HATEM ALRASHDAN</span></td>
+          <td class="td-cell active"><span class="cell-name editable" contenteditable="false">Dr. FAIZ MAYAH</span><span class="cell-name2 editable" contenteditable="false">Eng. ABDULAZIZ OBAID</span></td>
+          <td class="td-cell cell-empty"><span class="cell-dash">—</span></td><td class="td-cell cell-empty"><span class="cell-dash">—</span></td><td class="td-cell cell-empty"><span class="cell-dash">—</span></td><td class="td-cell cell-empty"><span class="cell-dash">—</span></td>
+          <td class="td-cell active"><span class="cell-name editable" contenteditable="false">ABDULLAH AWAD</span><span class="cell-name2 editable" contenteditable="false">FAISAL MATHOUD</span></td>
+          <td class="td-cell cell-empty"><span class="cell-dash">—</span></td><td class="td-cell cell-empty"><span class="cell-dash">—</span></td>
+        </tr>
+        <tr>
+          <td class="td-ceo"><span class="editable" contenteditable="false">Dr. SALEM ALRUDIAN</span></td>
+          <td class="td-cell cell-empty"><span class="cell-dash">—</span></td>
+          <td class="td-cell active"><span class="cell-name editable" contenteditable="false">ABDULLAH AWAD</span><span class="cell-name2 editable" contenteditable="false">FAISAL MATHOUD</span></td>
+          <td class="td-cell cell-empty"><span class="cell-dash">—</span></td><td class="td-cell cell-empty"><span class="cell-dash">—</span></td><td class="td-cell cell-empty"><span class="cell-dash">—</span></td><td class="td-cell cell-empty"><span class="cell-dash">—</span></td>
+          <td class="td-cell active"><span class="cell-name editable" contenteditable="false">Dr. FAIZ MAYAH</span><span class="cell-name2 editable" contenteditable="false">Eng. ABDULAZIZ OBAID</span></td>
+          <td class="td-cell cell-empty"><span class="cell-dash">—</span></td>
+        </tr>
+        <tr>
+          <td class="td-ceo"><span class="editable" contenteditable="false">Dr. SULTAN ALSHAMMARI</span></td>
+          <td class="td-cell cell-empty"><span class="cell-dash">—</span></td><td class="td-cell cell-empty"><span class="cell-dash">—</span></td>
+          <td class="td-cell active"><span class="cell-name editable" contenteditable="false">Dr. FAIZ MAYAH</span><span class="cell-name2 editable" contenteditable="false">Eng. ABDULAZIZ OBAID</span></td>
+          <td class="td-cell cell-empty"><span class="cell-dash">—</span></td><td class="td-cell cell-empty"><span class="cell-dash">—</span></td><td class="td-cell cell-empty"><span class="cell-dash">—</span></td><td class="td-cell cell-empty"><span class="cell-dash">—</span></td>
+          <td class="td-cell active"><span class="cell-name editable" contenteditable="false">ABDULLAH AWAD</span><span class="cell-name2 editable" contenteditable="false">FAISAL MATHOUD</span></td>
+        </tr>
+        <tr>
+          <td class="td-ceo"><span class="editable" contenteditable="false">Dr. MAHER ALDUKHAIL</span></td>
+          <td class="td-cell cell-empty"><span class="cell-dash">—</span></td><td class="td-cell cell-empty"><span class="cell-dash">—</span></td><td class="td-cell cell-empty"><span class="cell-dash">—</span></td>
+          <td class="td-cell active"><span class="cell-name editable" contenteditable="false">ABDULLAH AWAD</span><span class="cell-name2 editable" contenteditable="false">FAISAL MATHOUD</span></td>
+          <td class="td-cell cell-empty"><span class="cell-dash">—</span></td><td class="td-cell cell-empty"><span class="cell-dash">—</span></td><td class="td-cell cell-empty"><span class="cell-dash">—</span></td><td class="td-cell cell-empty"><span class="cell-dash">—</span></td>
+        </tr>
+        <tr>
+          <td class="td-ceo"><span class="editable" contenteditable="false">FAHAD ALHARBEED</span></td>
+          <td class="td-cell cell-empty"><span class="cell-dash">—</span></td><td class="td-cell cell-empty"><span class="cell-dash">—</span></td><td class="td-cell cell-empty"><span class="cell-dash">—</span></td><td class="td-cell cell-empty"><span class="cell-dash">—</span></td>
+          <td class="td-cell active"><span class="cell-name editable" contenteditable="false">Dr. FAIZ MAYAH</span><span class="cell-name2 editable" contenteditable="false">Eng. ABDULAZIZ OBAID</span></td>
+          <td class="td-cell cell-empty"><span class="cell-dash">—</span></td><td class="td-cell cell-empty"><span class="cell-dash">—</span></td><td class="td-cell cell-empty"><span class="cell-dash">—</span></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="doc-footer">
+    <span>Hail Health Cluster — Emergency Operation Center</span>
+    <span>CEO On-Call Monthly Rota 2026</span>
+  </div>
+</div>
+
+<!-- PAGE 6 — OCT / NOV -->
+<div class="page">
+  <div class="doc-hdr">
+    <img src="logo-white.png" class="doc-hdr-logo" alt=""/>
+    <div class="doc-hdr-org">
+      <div class="doc-hdr-main">CEO On-Call Monthly Rota — Emergency Operation Center Monthly Rota</div>
+      <div class="doc-hdr-sub">Hail Health Cluster — تجمع حائل الصحي | إدارة الأزمات والكوارث واستمرارية الأعمال</div>
+    </div>
+    <div class="doc-hdr-badge"><span class="b-months">Oct — Nov</span><span class="b-year">2026</span></div>
+  </div>
+  <div class="title-bar">
+    <span>📅 CEO On-Call Monthly Rota</span><span class="title-sep">|</span>
+    <span>October 2026 — November 2026</span>
+  </div>
+  <div class="doc-body">
+    <table class="rota-tbl">
+      <thead>
+        <tr class="tr-month">
+          <th class="th-ceo" rowspan="3">CEO / Officer</th>
+          <th colspan="4">October — أكتوبر 2026</th>
+          <th colspan="4">November — نوفمبر 2026</th>
+        </tr>
+        <tr class="tr-week">
+          <th>Week 1</th><th>Week 2</th><th>Week 3</th><th>Week 4</th>
+          <th>Week 1</th><th>Week 2</th><th>Week 3</th><th>Week 4</th>
+        </tr>
+        <tr class="tr-dates">
+          <th><span class="editable" contenteditable="false">Oct 4 – Oct 10</span></th>
+          <th><span class="editable" contenteditable="false">Oct 11 – Oct 17</span></th>
+          <th><span class="editable" contenteditable="false">Oct 18 – Oct 24</span></th>
+          <th><span class="editable" contenteditable="false">Oct 25 – Oct 31</span></th>
+          <th><span class="editable" contenteditable="false">Nov 1 – Nov 7</span></th>
+          <th><span class="editable" contenteditable="false">Nov 8 – Nov 14</span></th>
+          <th><span class="editable" contenteditable="false">Nov 15 – Nov 21</span></th>
+          <th><span class="editable" contenteditable="false">Nov 22 – Nov 28</span></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="td-ceo"><span class="editable" contenteditable="false">Eng. HATEM ALRASHDAN</span></td>
+          <td class="td-cell cell-empty"><span class="cell-dash">—</span></td><td class="td-cell cell-empty"><span class="cell-dash">—</span></td>
+          <td class="td-cell active"><span class="cell-name editable" contenteditable="false">Dr. FAIZ MAYAH</span><span class="cell-name2 editable" contenteditable="false">Eng. ABDULAZIZ OBAID</span></td>
+          <td class="td-cell cell-empty"><span class="cell-dash">—</span></td><td class="td-cell cell-empty"><span class="cell-dash">—</span></td><td class="td-cell cell-empty"><span class="cell-dash">—</span></td><td class="td-cell cell-empty"><span class="cell-dash">—</span></td>
+          <td class="td-cell active"><span class="cell-name editable" contenteditable="false">ABDULLAH AWAD</span><span class="cell-name2 editable" contenteditable="false">FAISAL MATHOUD</span></td>
+        </tr>
+        <tr>
+          <td class="td-ceo"><span class="editable" contenteditable="false">Dr. SALEM ALRUDIAN</span></td>
+          <td class="td-cell cell-empty"><span class="cell-dash">—</span></td><td class="td-cell cell-empty"><span class="cell-dash">—</span></td><td class="td-cell cell-empty"><span class="cell-dash">—</span></td>
+          <td class="td-cell active"><span class="cell-name editable" contenteditable="false">ABDULLAH AWAD</span><span class="cell-name2 editable" contenteditable="false">FAISAL MATHOUD</span></td>
+          <td class="td-cell cell-empty"><span class="cell-dash">—</span></td><td class="td-cell cell-empty"><span class="cell-dash">—</span></td><td class="td-cell cell-empty"><span class="cell-dash">—</span></td><td class="td-cell cell-empty"><span class="cell-dash">—</span></td>
+        </tr>
+        <tr>
+          <td class="td-ceo"><span class="editable" contenteditable="false">Dr. SULTAN ALSHAMMARI</span></td>
+          <td class="td-cell cell-empty"><span class="cell-dash">—</span></td><td class="td-cell cell-empty"><span class="cell-dash">—</span></td><td class="td-cell cell-empty"><span class="cell-dash">—</span></td><td class="td-cell cell-empty"><span class="cell-dash">—</span></td>
+          <td class="td-cell active"><span class="cell-name editable" contenteditable="false">Dr. FAIZ MAYAH</span><span class="cell-name2 editable" contenteditable="false">Eng. ABDULAZIZ OBAID</span></td>
+          <td class="td-cell cell-empty"><span class="cell-dash">—</span></td><td class="td-cell cell-empty"><span class="cell-dash">—</span></td><td class="td-cell cell-empty"><span class="cell-dash">—</span></td>
+        </tr>
+        <tr>
+          <td class="td-ceo"><span class="editable" contenteditable="false">Dr. MAHER ALDUKHAIL</span></td>
+          <td class="td-cell active"><span class="cell-name editable" contenteditable="false">Dr. FAIZ MAYAH</span><span class="cell-name2 editable" contenteditable="false">Eng. ABDULAZIZ OBAID</span></td>
+          <td class="td-cell cell-empty"><span class="cell-dash">—</span></td><td class="td-cell cell-empty"><span class="cell-dash">—</span></td><td class="td-cell cell-empty"><span class="cell-dash">—</span></td><td class="td-cell cell-empty"><span class="cell-dash">—</span></td>
+          <td class="td-cell active"><span class="cell-name editable" contenteditable="false">ABDULLAH AWAD</span><span class="cell-name2 editable" contenteditable="false">FAISAL MATHOUD</span></td>
+          <td class="td-cell cell-empty"><span class="cell-dash">—</span></td><td class="td-cell cell-empty"><span class="cell-dash">—</span></td>
+        </tr>
+        <tr>
+          <td class="td-ceo"><span class="editable" contenteditable="false">FAHAD ALHARBEED</span></td>
+          <td class="td-cell cell-empty"><span class="cell-dash">—</span></td>
+          <td class="td-cell active"><span class="cell-name editable" contenteditable="false">ABDULLAH AWAD</span><span class="cell-name2 editable" contenteditable="false">FAISAL MATHOUD</span></td>
+          <td class="td-cell cell-empty"><span class="cell-dash">—</span></td><td class="td-cell cell-empty"><span class="cell-dash">—</span></td><td class="td-cell cell-empty"><span class="cell-dash">—</span></td><td class="td-cell cell-empty"><span class="cell-dash">—</span></td>
+          <td class="td-cell active"><span class="cell-name editable" contenteditable="false">Dr. FAIZ MAYAH</span><span class="cell-name2 editable" contenteditable="false">Eng. ABDULAZIZ OBAID</span></td>
+          <td class="td-cell cell-empty"><span class="cell-dash">—</span></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="doc-footer">
+    <span>Hail Health Cluster — Emergency Operation Center</span>
+    <span>CEO On-Call Monthly Rota 2026</span>
+  </div>
+</div>
+
+<!-- PAGE 7 — NOV29 / DEC -->
+<div class="page">
+  <div class="doc-hdr">
+    <img src="logo-white.png" class="doc-hdr-logo" alt=""/>
+    <div class="doc-hdr-org">
+      <div class="doc-hdr-main">CEO On-Call Monthly Rota — Emergency Operation Center Monthly Rota</div>
+      <div class="doc-hdr-sub">Hail Health Cluster — تجمع حائل الصحي | إدارة الأزمات والكوارث واستمرارية الأعمال</div>
+    </div>
+    <div class="doc-hdr-badge"><span class="b-months">Nov — Dec</span><span class="b-year">2026</span></div>
+  </div>
+  <div class="title-bar">
+    <span>📅 CEO On-Call Monthly Rota</span><span class="title-sep">|</span>
+    <span>November 2026 (cont.) — December 2026</span>
+  </div>
+  <div class="doc-body">
+    <table class="rota-tbl">
+      <thead>
+        <tr class="tr-month">
+          <th class="th-ceo" rowspan="3">CEO / Officer</th>
+          <th colspan="2">November — نوفمبر</th>
+          <th colspan="4">December — ديسمبر 2026</th>
+          <th colspan="2">Jan 2027</th>
+        </tr>
+        <tr class="tr-week">
+          <th>Week 1</th><th>Week 2</th>
+          <th>Week 3</th><th>Week 4</th><th>Week 1</th><th>Week 2</th>
+          <th colspan="2"></th>
+        </tr>
+        <tr class="tr-dates">
+          <th><span class="editable" contenteditable="false">Nov 29 – Dec 5</span></th>
+          <th><span class="editable" contenteditable="false">Dec 6 – Dec 12</span></th>
+          <th><span class="editable" contenteditable="false">Dec 13 – Dec 19</span></th>
+          <th><span class="editable" contenteditable="false">Dec 20 – Dec 26</span></th>
+          <th><span class="editable" contenteditable="false">Dec 27 – Jan 2</span></th>
+          <th></th>
+          <th></th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="td-ceo"><span class="editable" contenteditable="false">Eng. HATEM ALRASHDAN</span></td>
+          <td class="td-cell cell-empty"><span class="cell-dash">—</span></td><td class="td-cell cell-empty"><span class="cell-dash">—</span></td><td class="td-cell cell-empty"><span class="cell-dash">—</span></td><td class="td-cell cell-empty"><span class="cell-dash">—</span></td>
+          <td class="td-cell active"><span class="cell-name editable" contenteditable="false">Dr. FAIZ MAYAH</span><span class="cell-name2 editable" contenteditable="false">Eng. ABDULAZIZ OBAID</span></td>
+          <td class="td-cell cell-empty"><span class="cell-dash">—</span></td><td class="td-cell cell-empty"><span class="cell-dash">—</span></td><td class="td-cell cell-empty"><span class="cell-dash">—</span></td>
+        </tr>
+        <tr>
+          <td class="td-ceo"><span class="editable" contenteditable="false">Dr. SALEM ALRUDIAN</span></td>
+          <td class="td-cell active"><span class="cell-name editable" contenteditable="false">Dr. FAIZ MAYAH</span><span class="cell-name2 editable" contenteditable="false">Eng. ABDULAZIZ OBAID</span></td>
+          <td class="td-cell cell-empty"><span class="cell-dash">—</span></td><td class="td-cell cell-empty"><span class="cell-dash">—</span></td><td class="td-cell cell-empty"><span class="cell-dash">—</span></td><td class="td-cell cell-empty"><span class="cell-dash">—</span></td>
+          <td class="td-cell cell-empty"><span class="cell-dash">—</span></td><td class="td-cell cell-empty"><span class="cell-dash">—</span></td><td class="td-cell cell-empty"><span class="cell-dash">—</span></td>
+        </tr>
+        <tr>
+          <td class="td-ceo"><span class="editable" contenteditable="false">Dr. SULTAN ALSHAMMARI</span></td>
+          <td class="td-cell cell-empty"><span class="cell-dash">—</span></td>
+          <td class="td-cell active"><span class="cell-name editable" contenteditable="false">ABDULLAH AWAD</span><span class="cell-name2 editable" contenteditable="false">FAISAL MATHOUD</span></td>
+          <td class="td-cell cell-empty"><span class="cell-dash">—</span></td><td class="td-cell cell-empty"><span class="cell-dash">—</span></td><td class="td-cell cell-empty"><span class="cell-dash">—</span></td>
+          <td class="td-cell cell-empty"><span class="cell-dash">—</span></td><td class="td-cell cell-empty"><span class="cell-dash">—</span></td><td class="td-cell cell-empty"><span class="cell-dash">—</span></td>
+        </tr>
+        <tr>
+          <td class="td-ceo"><span class="editable" contenteditable="false">Dr. MAHER ALDUKHAIL</span></td>
+          <td class="td-cell cell-empty"><span class="cell-dash">—</span></td><td class="td-cell cell-empty"><span class="cell-dash">—</span></td>
+          <td class="td-cell active"><span class="cell-name editable" contenteditable="false">Dr. FAIZ MAYAH</span><span class="cell-name2 editable" contenteditable="false">Eng. ABDULAZIZ OBAID</span></td>
+          <td class="td-cell cell-empty"><span class="cell-dash">—</span></td><td class="td-cell cell-empty"><span class="cell-dash">—</span></td>
+          <td class="td-cell cell-empty"><span class="cell-dash">—</span></td><td class="td-cell cell-empty"><span class="cell-dash">—</span></td><td class="td-cell cell-empty"><span class="cell-dash">—</span></td>
+        </tr>
+        <tr>
+          <td class="td-ceo"><span class="editable" contenteditable="false">FAHAD ALHARBEED</span></td>
+          <td class="td-cell cell-empty"><span class="cell-dash">—</span></td><td class="td-cell cell-empty"><span class="cell-dash">—</span></td><td class="td-cell cell-empty"><span class="cell-dash">—</span></td>
+          <td class="td-cell active"><span class="cell-name editable" contenteditable="false">ABDULLAH AWAD</span><span class="cell-name2 editable" contenteditable="false">FAISAL MATHOUD</span></td>
+          <td class="td-cell cell-empty"><span class="cell-dash">—</span></td>
+          <td class="td-cell cell-empty"><span class="cell-dash">—</span></td><td class="td-cell cell-empty"><span class="cell-dash">—</span></td><td class="td-cell cell-empty"><span class="cell-dash">—</span></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="doc-footer">
+    <span>APPROVED BY: Eng. HATEM MOHAMMED ALRASHDAN — CEO</span>
+    <span>CEO On-Call Monthly Rota 2026</span>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════
+     APPROVAL PAGE — صفحة الاعتماد
+══════════════════════════════════════════ -->
+<div class="page">
+  <div class="doc-hdr">
+    <img src="logo-white.png" class="doc-hdr-logo" alt=""/>
+    <div class="doc-hdr-org">
+      <div class="doc-hdr-main">CEO On-Call Monthly Rota — Emergency Operation Center Monthly Rota</div>
+      <div class="doc-hdr-sub">Hail Health Cluster — تجمع حائل الصحي | إدارة الأزمات والكوارث واستمرارية الأعمال</div>
+    </div>
+    <div class="doc-hdr-badge">
+      <span class="b-months">Approval</span>
+      <span class="b-year">اعتماد</span>
+    </div>
+  </div>
+  <div class="title-bar">
+    <span>✅ Document Approval — اعتماد الوثيقة</span>
+    <span class="title-sep">|</span>
+    <span>CEO On-Call Monthly Rota 2026</span>
+  </div>
+  <div class="appr-body">
+
+    <div style="width:100%;text-align:center;margin-bottom:4px;">
+      <div class="appr-title">CEO On-Call Monthly Rota — 2026</div>
+      <div class="appr-title-ar">جدول مناوبة قادة الحدث — تجمع حائل الصحي</div>
+    </div>
+
+    <div class="appr-sigs" style="justify-content:center;">
+      <div class="appr-sig-box" style="border-color:#0078A8;width:100%;">
+        <div class="appr-sig-hdr" style="background:linear-gradient(135deg,#002A40,#004060);font-size:13px;padding:10px 16px;">Approved By — اعتماد</div>
+        <div class="appr-sig-content" style="padding:24px 40px;gap:12px;">
+          <div class="appr-sig-name" style="font-size:13px;">Eng. HATEM MOHAMMED ALRASHDAN</div>
+          <div class="appr-sig-title" style="font-size:11px;">CEO — Hail Health Cluster<br>الرئيس التنفيذي لتجمع حائل الصحي</div>
+          <div class="appr-sig-line" style="background:#003D5C;width:60%;margin:12px 0;"></div>
+          <div style="font-size:10px;color:#8899A6;margin-top:6px;">Date / التاريخ: ___________</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="appr-date-box">
+      <span class="appr-date-label">Issue Date — تاريخ الإصدار:</span>
+      <div class="appr-date-line"></div>
+      <span class="appr-date-label">Next Review Date — تاريخ المراجعة القادمة:</span>
+      <div class="appr-date-line"></div>
+    </div>
+
+  </div>
+  <div class="doc-footer">
+    <span>Hail Health Cluster — Emergency Operation Center</span>
+    <span>CEO On-Call Monthly Rota 2026 — Document Approval</span>
+  </div>
+</div>
+
+<script>
+var editMode = false;
+function toggleEdit(){
+  editMode = !editMode;
+  var btn = document.getElementById('editToggle');
+  var hint = document.getElementById('editHint');
+  var fields = document.querySelectorAll('.editable');
+  fields.forEach(function(el){
+    el.contentEditable = editMode ? 'true' : 'false';
+  });
+  if(editMode){
+    btn.textContent = '🔒 إيقاف التحرير';
+    btn.classList.add('active');
+    hint.style.display = 'block';
+  } else {
+    btn.textContent = '✏️ تفعيل التحرير';
+    btn.classList.remove('active');
+    hint.style.display = 'none';
+  }
+}
+// Prevent enter key in editable fields
+document.addEventListener('keydown', function(e){
+  if(e.key === 'Enter' && document.activeElement && document.activeElement.contentEditable === 'true'){
+    e.preventDefault();
+    document.activeElement.blur();
+  }
+});
+
+// ══════════════════════════════════════════
+// Convert active-cell name spans → select dropdowns
+// ══════════════════════════════════════════
+(function(){
+  var OFFICERS = [
+    'Dr. Sultan Alnais',
+    'Eng. Eid Ayed',
+    'Dr. FAIZ MAYAH',
+    'ABDULLAH AWAD',
+    'FAISAL MATHOUD',
+    'Eng. ABDULAZIZ OBAID',
+    'FAHAD HAMDEN',
+    'Eng. HATEM ALRASHDAN',
+    'Dr. SALEM ALRUDIAN',
+    'Dr. SULTAN ALSHAMMARI',
+    'Dr. MAHER ALDUKHAIL',
+    'FAHAD ALHARBEED'
+  ];
+
+  function buildOpts(current){
+    return OFFICERS.map(function(n){
+      return '<option'+(n===current?' selected':'')+'>'+n+'</option>';
+    }).join('');
+  }
+
+  function spanToSelect(span, cls){
+    var val = span.textContent.trim();
+    var sel = document.createElement('select');
+    sel.className = 'officer-select '+cls;
+    sel.innerHTML = buildOpts(val);
+    span.parentNode.replaceChild(sel, span);
+  }
+
+  // Run on load
+  document.querySelectorAll('.td-cell.active .cell-name').forEach(function(el){
+    spanToSelect(el, 'sel-name1');
+  });
+  document.querySelectorAll('.td-cell.active .cell-name2').forEach(function(el){
+    spanToSelect(el, 'sel-name2');
+  });
+})();
+</script>
+</body>
+</html>
