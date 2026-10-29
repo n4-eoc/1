@@ -2,6 +2,8 @@
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="UTF-8"/>
+<!-- الوضع الفاتح/الداكن من اختيار اللوحة نفسه، قبل أي رسم لتجنّب الوميض -->
+<script>try{document.documentElement.setAttribute("data-theme",localStorage.getItem("hh_theme")||(matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light"));}catch(e){}</script>
 <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
 <title>رسائل تنبيه لجنة الطوارئ — تجمع حائل الصحي</title>
 <link rel="stylesheet" href="css/00-fonts.css"/>
@@ -366,8 +368,10 @@ select:focus,input:focus{
   .time-row{grid-template-columns:1fr 1fr 1fr;}
 }
 </style>
+<!-- لغة اللوحة على الشاشة فقط؛ الطباعة كما هي -->
+<link rel="stylesheet" href="css/11-pages.css"/>
 </head>
-<body>
+<body class="hh-doc hh-alerts">
 
 <!-- HEADER -->
 <header class="hdr">

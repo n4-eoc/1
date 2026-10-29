@@ -2,6 +2,8 @@
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="UTF-8"/>
+<!-- الوضع الفاتح/الداكن من اختيار اللوحة نفسه، قبل أي رسم لتجنّب الوميض -->
+<script>try{document.documentElement.setAttribute("data-theme",localStorage.getItem("hh_theme")||(matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light"));}catch(e){}</script>
 <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
 <title>المؤشرات الشهرية — الجاهزية للطوارئ و QFR-6 — إدارة الأزمات والكوارث واستمرارية الأعمال</title>
 <link rel="stylesheet" href="css/00-fonts.css"/>
@@ -166,8 +168,10 @@ tr.total-row td{background:linear-gradient(135deg,#003D5C,#005B82)!important;col
 }
 td.base{font-weight:700;color:#005B82;background:#F5FBFE!important;}
 </style>
+<!-- لغة اللوحة على الشاشة فقط؛ الطباعة كما هي -->
+<link rel="stylesheet" href="css/11-pages.css"/>
 </head>
-<body>
+<body class="hh-doc hh-ind">
 
 <!-- TOOLBAR -->
 <div class="toolbar">

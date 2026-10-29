@@ -4,7 +4,7 @@
    ===================================================== */
 
 // ارفع الرقم عند إضافة ملفات أو حذفها حتى تُحذف النسخ القديمة من الأجهزة
-const CACHE_VERSION = 9;
+const CACHE_VERSION = 11;
 const CACHE_NAME = 'hail-health-v' + CACHE_VERSION;
 
 // الملفات الأساسية التي تُخزَّن فوراً عند التثبيت — يكفي فتحها مرة واحدة لتعمل بلا إنترنت
@@ -26,6 +26,8 @@ const CORE_FILES = [
   './css/07-stats-log.css',
   './css/08-splash.css',
   './css/09-theme.css',
+  './css/10-refine.css',
+  './css/11-pages.css',
   './js/01-home.js',
   './js/02-ops-tetra.js',
   './js/03-hypothesis.js',

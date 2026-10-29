@@ -1,0 +1,214 @@
+/* ══════════════════════════════════════════════════════════════════
+   الصفحات المستقلة — نفس لغة اللوحة («هدوء القيادة»، design/philosophy.md)
+   - شريط الهوية في الأعلى ونسيج النجمة خلف أول ورقة، والأرضية من رموز الوضع الفاتح/الداكن
+   - كل القواعد داخل @media screen: الأوراق نفسها والطباعة وحفظ PDF لا تتغير
+   - الرموز بالبادئة --hh- حتى لا تتعارض مع متغيرات الصفحات (مثل --accent في رسائل التنبيه)
+   - تُحمَّل آخر <head>، وكل صفحة تحمل على <body> صنفاً يحدد نوعها
+   ══════════════════════════════════════════════════════════════════ */
+
+:root {
+  --hh-ground: #f4f6f8; --hh-surface: #ffffff; --hh-raised: #f0f3f5; --hh-active: #e6ebef;
+  --hh-border: #e1e6ea; --hh-control: #c9d1d8;
+  --hh-text: #0e1a22; --hh-muted: #4b5862; --hh-faint: #5f6b74;
+  --hh-accent: #00739e; --hh-accent-soft: #e3f3fa; --hh-accent-line: #9fd3ea;
+  --hh-negative: #b4232a; --hh-negative-soft: #ffedea; --hh-positive: #247b50;
+  --hh-bar: #003d5c; --hh-bar-ink: #ffffff; --hh-bar-muted: rgba(255,255,255,.78);
+  --hh-bar-line: rgba(255,255,255,.32); --hh-bar-hover: rgba(255,255,255,.12);
+  --hh-focus: 0 0 0 3px rgba(0, 115, 158, .25);
+  --hh-lift: 0 1px 2px rgba(0, 30, 45, .06), 0 14px 32px -18px rgba(0, 30, 45, .32);
+  --hh-band: 220px;
+  --hh-star: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='64' height='64' viewBox='0 0 64 64'%3E%3Cg fill='none' stroke='white' stroke-width='1'%3E%3Crect x='22' y='22' width='20' height='20'/%3E%3Crect x='22' y='22' width='20' height='20' transform='rotate(45 32 32)'/%3E%3C/g%3E%3C/svg%3E");
+}
+:root[data-theme="dark"] {
+  --hh-ground: #0e1011; --hh-surface: #16191b; --hh-raised: #1e2225; --hh-active: #262b2f;
+  --hh-border: #272c30; --hh-control: #3c4349;
+  --hh-text: #f2f4f5; --hh-muted: #b4bbc0; --hh-faint: #959ca1;
+  --hh-accent: #2bb5ee; --hh-accent-soft: #0f2a36; --hh-accent-line: #1d5f7c;
+  --hh-negative: #ef6b6b; --hh-negative-soft: #2c1a1c; --hh-positive: #3fc07a;
+  --hh-focus: 0 0 0 3px rgba(43, 181, 238, .3);
+  --hh-lift: 0 0 0 1px var(--hh-border), 0 14px 32px -18px rgba(0, 0, 0, .7);
+}
+
+@media screen {
+
+/* ── الأرضية والرأس: لون الهوية بعرض الشاشة ونسيج النجمة يتلاشى من اليمين ── */
+html:has(body.hh-doc) { background: var(--hh-ground); }
+html body.hh-doc { background: transparent !important; }
+html body.hh-doc::before { display: none !important; }
+html:has(body.hh-doc)::before, html:has(body.hh-doc)::after {
+  content: ""; position: absolute; z-index: -1; top: 0; left: 0; right: 0; height: var(--hh-band); pointer-events: none;
+}
+html:has(body.hh-doc)::before { background: var(--hh-bar); }
+html:has(body.hh-doc)::after {
+  background: var(--hh-star) 0 0 / 64px 64px repeat; opacity: .085;
+  -webkit-mask-image: linear-gradient(to left, #000 0%, rgba(0,0,0,.55) 45%, transparent 85%);
+          mask-image: linear-gradient(to left, #000 0%, rgba(0,0,0,.55) 45%, transparent 85%);
+}
+html:has(body.hh-doc) { position: relative; min-height: 100%; }
+::selection { background: var(--hh-accent-soft); }
+
+/* الأوراق ترتفع عن الأرضية بظل هادئ */
+body.hh-doc :is(.page, .hyp-page, .rck-a4) { box-shadow: var(--hh-lift) !important; }
+
+/* ── أزرار الشريط: شفافة بحد فاتح، والطباعة هي الإجراء الرئيسي ── */
+body.hh-doc :is(.tb-btn, .toolbar button, .toolbar .btn, .top-actions button) {
+  display: inline-flex; align-items: center; justify-content: center; gap: 6px;
+  height: 36px; padding: 0 14px; border-radius: 6px; box-shadow: none; transform: none;
+  background: transparent !important; border: 1px solid var(--hh-bar-line) !important; color: var(--hh-bar-ink) !important;
+  font-family: 'Cairo', sans-serif; font-size: 13px; font-weight: 600; cursor: pointer;
+  transition: background .15s;
+}
+body.hh-doc :is(.tb-btn, .toolbar button, .toolbar .btn, .top-actions button):hover { background: var(--hh-bar-hover) !important; }
+body.hh-doc :is(.tb-btn.print, .toolbar .btn-print, #btnPrint) {
+  background: #ffffff !important; border-color: #ffffff !important; color: var(--hh-bar) !important; font-weight: 700;
+}
+body.hh-doc :is(.tb-btn.print, .toolbar .btn-print, #btnPrint):hover { background: #e6f1f6 !important; }
+body.hh-doc :is(.tb-btn.edit.on, .btn-edit.active) { background: rgba(255,255,255,.2) !important; border-color: #ffffff !important; }
+body.hh-doc :is(.toolbar, .top-bar) :is(.btn-reset, #btnClear) { color: #ffc4c4 !important; }
+body.hh-doc :focus-visible { outline: 2px solid var(--hh-accent); outline-offset: 2px; }
+body.hh-doc :is(.toolbar, .top-bar, .hdr, .tabs) :focus-visible { outline-color: #ffffff; }
+
+/* ══ تقارير المؤشرات (الشهرية والربعية واللجنة الوزارية وQFR-6) ══ */
+body.hh-ind .toolbar {
+  background: var(--hh-bar); border-bottom: none;
+  padding: 12px max(16px, calc(50% - 148.5mm)); gap: 10px; min-height: 64px;
+}
+body.hh-ind .tb-title { font-size: 15px; font-weight: 700; color: var(--hh-bar-ink); }
+body.hh-ind .tb-hint { font-size: 12px; color: var(--hh-bar-muted); }
+body.hh-ind .tb-period {
+  height: 36px; padding: 0 12px; min-width: 120px; border-radius: 6px;
+  background: rgba(255,255,255,.1); border: 1px solid var(--hh-bar-line); color: var(--hh-bar-ink);
+  font-family: 'Cairo', sans-serif; font-size: 13px; font-weight: 700; line-height: 34px;
+}
+body.hh-ind select.tb-period option { background: var(--hh-surface); color: var(--hh-text); }
+body.hh-ind .page { margin: 28px auto; border-radius: 10px; }
+
+/* ══ تقرير الإيبولا وجدول مناوبة الرؤساء التنفيذيين: شريط أدوات فوق الورقة على الرأس ══ */
+body.hh-evd { padding-top: 20px; }
+body.hh-evd .toolbar { margin-bottom: 20px; }
+body.hh-evd .toolbar-title { font-size: 15px; font-weight: 700; color: var(--hh-bar-ink); opacity: 1; }
+body.hh-ceo { padding-top: 20px; }
+body.hh-ceo .toolbar { margin-bottom: 20px; }
+body.hh-ceo .toolbar-label { font-size: 12px; color: var(--hh-bar-muted); }
+
+/* ══ الجدول الأسبوعي لقادة الحدث ══ */
+html:has(body.hh-weekly) { --hh-band: 260px; }
+body.hh-weekly { padding-top: 20px; }
+body.hh-weekly .top-bar { margin-bottom: 20px; }
+body.hh-weekly .top-title { font-size: 22px; font-weight: 700; }
+body.hh-weekly .top-sub { color: var(--hh-bar-muted); font-size: 12px; font-weight: 500; }
+body.hh-weekly .top-bar .btn-cyan { color: var(--hh-bar-ink) !important; }
+/* أزرار التنقل بين الأسابيع داخل لوحة الإعدادات */
+body.hh-weekly .form-section .btn-cyan {
+  min-height: 40px; padding: 0 16px; border-radius: 6px; font-size: 13px; font-weight: 600;
+  background: var(--hh-surface); border: 1px solid var(--hh-control); color: var(--hh-text);
+}
+body.hh-weekly .form-section .btn-cyan:hover { background: var(--hh-raised); }
+body.hh-weekly .form-section {
+  background: var(--hh-surface); border: 1px solid transparent; border-radius: 16px; box-shadow: var(--hh-lift);
+  padding: 22px 24px; backdrop-filter: none; -webkit-backdrop-filter: none;
+}
+body.hh-weekly .form-title { color: var(--hh-text); font-size: 16px; letter-spacing: 0; }
+body.hh-weekly .form-title::after { background: var(--hh-border); }
+body.hh-weekly .rc-field label { color: var(--hh-muted); font-size: 13px; font-weight: 600; }
+body.hh-weekly .rc-field :is(input, select) {
+  min-height: 42px; background: var(--hh-surface); border: 1px solid var(--hh-control); border-radius: 6px;
+  color: var(--hh-text); font-size: 14px;
+}
+body.hh-weekly .rc-field :is(input, select):focus { border-color: var(--hh-accent); box-shadow: var(--hh-focus); background: var(--hh-surface); }
+body.hh-weekly .rc-field select option { background: var(--hh-surface); color: var(--hh-text); }
+body.hh-weekly .drop { background: var(--hh-accent-soft); border: 2px dashed var(--hh-accent-line); border-radius: 12px; }
+body.hh-weekly :is(.drop:hover, .drop.over) { background: var(--hh-accent-soft); border-color: var(--hh-accent); }
+body.hh-weekly .drop .big { color: var(--hh-text); font-size: 16px; font-weight: 700; }
+body.hh-weekly .drop .sm, body.hh-weekly .hint, body.hh-weekly .status { color: var(--hh-muted); }
+body.hh-weekly .hint b { color: var(--hh-accent); }
+body.hh-weekly .status.err { color: var(--hh-negative); }
+body.hh-weekly .status.ok { color: var(--hh-positive); }
+body.hh-weekly :is(.chip, .minibtn) {
+  background: var(--hh-surface); border: 1px solid var(--hh-control); color: var(--hh-text); border-radius: 6px;
+}
+body.hh-weekly :is(.chip, .minibtn):hover { background: var(--hh-raised); border-color: var(--hh-control); color: var(--hh-text); }
+body.hh-weekly .minibtn.danger { color: var(--hh-negative); }
+body.hh-weekly .minibtn.danger:hover { background: var(--hh-negative-soft); }
+body.hh-weekly .sheettools .nm, body.hh-weekly .empty { color: var(--hh-muted); }
+
+/* ══ رسائل التنبيه: أداة كاملة — المعاينة (#msg-card) تبقى كما هي لأنها شكل الرسالة ══ */
+html:has(body.hh-alerts)::before, html:has(body.hh-alerts)::after { display: none; }   /* الشريط والتبويبات هما الرأس هنا */
+body.hh-alerts { color: var(--hh-text); }
+body.hh-alerts .hdr { background: var(--hh-bar); border-bottom: none; backdrop-filter: none; -webkit-backdrop-filter: none; padding: 12px 24px; }
+body.hh-alerts .hdr-logo { filter: none; }
+body.hh-alerts .hdr-title { font-size: 17px; font-weight: 700; }
+body.hh-alerts .hdr-sub { color: var(--hh-bar-muted); font-size: 12px; }
+body.hh-alerts .tabs {
+  position: relative; background: var(--hh-bar); border-bottom: none; padding: 4px 24px 16px; gap: 8px;
+}
+body.hh-alerts .tabs::after {
+  content: ""; position: absolute; inset: 0; pointer-events: none;
+  background: var(--hh-star) 0 0 / 64px 64px repeat; opacity: .085;
+  -webkit-mask-image: linear-gradient(to left, #000, transparent 85%); mask-image: linear-gradient(to left, #000, transparent 85%);
+}
+body.hh-alerts .tab-btn {
+  position: relative; z-index: 1; height: 40px; padding: 0 16px; border-radius: 8px;
+  background: transparent; border: 1px solid var(--hh-bar-line); color: var(--hh-bar-muted); font-weight: 600;
+}
+body.hh-alerts .tab-btn:hover { background: var(--hh-bar-hover); color: #fff; border-color: var(--hh-bar-line); }
+body.hh-alerts .tab-btn.active { background: #ffffff; border-color: #ffffff; color: var(--hh-bar); box-shadow: none; font-weight: 700; }
+
+body.hh-alerts .main { max-width: 1280px; margin: 0 auto; gap: 24px; padding: 24px; min-height: 0; grid-template-columns: 1fr 400px; }
+body.hh-alerts .form-panel { padding: 0; }
+body.hh-alerts .section-title { color: var(--hh-text); font-size: 20px; font-weight: 700; }
+body.hh-alerts .section-title::after { background: var(--hh-border); }
+body.hh-alerts .field-group {
+  background: var(--hh-surface); border: 1px solid transparent; border-radius: 14px; box-shadow: var(--hh-lift);
+  padding: 16px 18px; backdrop-filter: none; -webkit-backdrop-filter: none;
+}
+body.hh-alerts .field-group:focus-within { border-color: var(--hh-accent-line); }
+body.hh-alerts .field-label { color: var(--hh-muted); font-size: 13px; font-weight: 600; letter-spacing: 0; }
+body.hh-alerts :is(select, input[type="text"], input[type="number"]) {
+  min-height: 42px; background: var(--hh-surface); border: 1px solid var(--hh-control); border-radius: 6px; color: var(--hh-text);
+}
+body.hh-alerts :is(select, input):focus { border-color: var(--hh-accent); background: var(--hh-surface); box-shadow: var(--hh-focus); }
+body.hh-alerts select option { background: var(--hh-surface); color: var(--hh-text); }
+body.hh-alerts .chk-item { background: var(--hh-surface); border: 1px solid var(--hh-control); color: var(--hh-text); border-radius: 6px; }
+body.hh-alerts .chk-item:hover { background: var(--hh-raised); border-color: var(--hh-accent-line); }
+body.hh-alerts .chk-item:has(input:checked) { background: var(--hh-accent-soft); border-color: var(--hh-accent-line); }
+body.hh-alerts .chk-item input[type="checkbox"] { accent-color: var(--hh-accent); }
+body.hh-alerts .triage-box { background: var(--hh-raised); border: none; border-radius: 10px; }
+body.hh-alerts .triage-box label { color: var(--hh-muted); font-size: 12px; font-weight: 600; }
+body.hh-alerts .generate-btn {
+  background: var(--hh-bar); border-radius: 10px; box-shadow: var(--hh-lift); font-size: 16px; font-weight: 700; min-height: 52px;
+}
+body.hh-alerts .generate-btn:hover { transform: translateY(-1px); box-shadow: var(--hh-lift); filter: brightness(1.12); }
+
+body.hh-alerts .preview-panel {
+  align-self: start; position: sticky; top: 16px;
+  background: var(--hh-surface); border: 1px solid transparent; border-radius: 16px; box-shadow: var(--hh-lift);
+  backdrop-filter: none; -webkit-backdrop-filter: none;
+}
+body.hh-alerts .preview-title { color: var(--hh-text); font-size: 15px; }
+body.hh-alerts .action-btn { min-height: 40px; border-radius: 6px; font-size: 13px; font-weight: 600; }
+body.hh-alerts .btn-copy { background: var(--hh-bar); color: #fff; border: 1px solid var(--hh-bar); }
+body.hh-alerts .btn-copy:hover { background: var(--hh-bar); filter: brightness(1.15); }
+body.hh-alerts .btn-img { background: var(--hh-surface); color: var(--hh-text); border: 1px solid var(--hh-control); }
+body.hh-alerts .btn-img:hover { background: var(--hh-raised); }
+body.hh-alerts .btn-reset { background: var(--hh-surface); color: var(--hh-negative) !important; border: 1px solid var(--hh-control); }
+body.hh-alerts .btn-reset:hover { background: var(--hh-negative-soft); color: var(--hh-negative); }
+body.hh-alerts .text-preview { background: var(--hh-raised); border: 1px solid var(--hh-border); color: var(--hh-text); }
+
+@media (prefers-reduced-motion: reduce) { body.hh-doc * { transition: none !important; } }
+}
+
+/* ── الجوال ── */
+@media screen and (max-width: 900px) {
+  body.hh-alerts .main { grid-template-columns: 1fr; padding: 16px; }
+  body.hh-alerts .preview-panel { position: static; border-top: none; }
+  body.hh-alerts :is(.hdr, .tabs) { padding-inline: 16px; }
+}
+@media screen and (max-width: 700px) {
+  :root { --hh-band: 180px; }
+  body.hh-ind .toolbar { padding: 10px 16px; }
+  body.hh-ind .tb-title { flex-basis: 100%; font-size: 14px; }
+  body.hh-doc :is(.tb-btn, .toolbar button, .toolbar .btn, .top-actions button) { min-height: 44px; }
+  body.hh-weekly .form-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  body.hh-weekly .form-section { padding: 18px 16px; }
+}

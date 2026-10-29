@@ -1,0 +1,205 @@
+/* ══════════════════════════════════════════════════════════════════
+   الصقل — «هدوء القيادة» (design/philosophy.md)
+   - شريط الهوية يمتد إلى رأس الصفحة الرئيسية، وعليه نسيج نجمة ثمانية خافت يتلاشى من اليمين
+   - بطاقات الأقسام ترتفع فوق حافة الشريط، لكل قسم خط لونه ورقمه وسهم الانتقال
+   - يطبَّق على الشاشة فقط؛ الطباعة لا تتغير
+   ══════════════════════════════════════════════════════════════════ */
+
+:root {
+  --band: 236px;                         /* ارتفاع رأس الرئيسية تحت الشريط */
+  --lift: 0 1px 2px rgba(0, 30, 45, .06), 0 14px 32px -18px rgba(0, 30, 45, .32);
+  --lift-hover: 0 1px 2px rgba(0, 30, 45, .08), 0 22px 40px -20px rgba(0, 30, 45, .42);
+  --star-tile: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='64' height='64' viewBox='0 0 64 64'%3E%3Cg fill='none' stroke='white' stroke-width='1'%3E%3Crect x='22' y='22' width='20' height='20'/%3E%3Crect x='22' y='22' width='20' height='20' transform='rotate(45 32 32)'/%3E%3C/g%3E%3C/svg%3E");
+}
+:root[data-theme="dark"] {
+  --lift: 0 0 0 1px var(--border), 0 14px 32px -18px rgba(0, 0, 0, .7);
+  --lift-hover: 0 0 0 1px var(--control), 0 22px 40px -20px rgba(0, 0, 0, .8);
+}
+
+@media screen {
+
+/* الشريط والرأس قطعة واحدة: لا فاصل بينهما */
+html #panel-home .hx-bar { margin-bottom: 0; }
+body:has(#panel-home.active) { overflow-x: clip; }
+
+/* ── رأس الرئيسية: لون الهوية بعرض الشاشة + نسيج النجمة ── */
+#panel-home .hx { display: flex; flex-direction: column; min-height: calc(100vh - 32px); }
+.hx-main { position: relative; isolation: isolate; padding: 44px 0 8px; }
+.hx-main::before, .hx-main::after {
+  content: ""; position: absolute; z-index: -1; top: 0; height: var(--band);
+  inset-inline: calc(50% - 50vw);
+}
+.hx-main::before { background: var(--bar-bg); }
+.hx-main::after {
+  background: var(--star-tile) 0 0 / 64px 64px repeat; opacity: .085;
+  -webkit-mask-image: linear-gradient(to left, #000 0%, rgba(0,0,0,.55) 45%, transparent 85%);
+          mask-image: linear-gradient(to left, #000 0%, rgba(0,0,0,.55) 45%, transparent 85%);
+}
+.hx-main[data-page] { --band: 140px; }
+
+.hx-title { color: var(--bar-ink); font-size: 32px; font-weight: 700; letter-spacing: -0.015em; }
+.hx-lede { color: var(--bar-muted); font-size: 15px; margin-top: 6px; }
+
+/* ── بطاقات الأقسام: ترتفع فوق حافة الرأس ── */
+.hx-cats { counter-reset: cat; gap: 20px; margin: 44px 0 8px; }
+.hx-cat[data-cat="ops"]   { --cat: #D93025; }
+.hx-cat[data-cat="ready"] { --cat: #0077B6; }
+.hx-cat[data-cat="stats"] { --cat: #188038; }
+:root[data-theme="dark"] .hx-cat[data-cat="ops"]   { --cat: #FB7185; }
+:root[data-theme="dark"] .hx-cat[data-cat="ready"] { --cat: #5BD0F8; }
+:root[data-theme="dark"] .hx-cat[data-cat="stats"] { --cat: #4ADE80; }
+
+.hx-cat {
+  counter-increment: cat; position: relative;
+  align-items: flex-start; justify-content: flex-end; gap: 4px;
+  min-height: 212px; padding: 24px 26px 22px; text-align: right;
+  border-color: transparent; border-radius: 16px;
+  background-image: linear-gradient(var(--cat), var(--cat)); background-size: 100% 3px; background-repeat: no-repeat;
+  box-shadow: var(--lift);
+  transition: box-shadow .2s, transform .2s, background .15s;
+}
+.hx-cat:hover {
+  background-color: var(--surface); background-image: linear-gradient(var(--cat), var(--cat));
+  transform: translateY(-3px); box-shadow: var(--lift-hover);
+}
+.hx-cat .hx-ic-lg { margin-bottom: auto; width: 56px; height: 56px; border-radius: 16px; }
+.hx-cat .hx-ic-lg svg { width: 26px; height: 26px; }
+.hx-cat-name { font-size: 20px; margin-top: 20px; }
+.hx-cat-meta { font-size: 13px; font-variant-numeric: tabular-nums; }
+/* رقم القسم في الزاوية، كإحداثي في مخطط */
+.hx-cat::after {
+  content: counter(cat, decimal-leading-zero);
+  position: absolute; top: 24px; left: 26px;
+  font-size: 12px; font-weight: 600; letter-spacing: .12em; color: var(--faint);
+  font-variant-numeric: tabular-nums;
+}
+/* سهم الانتقال: يتقدم قليلاً عند المرور */
+.hx-cat::before, .hx-tile:not(.hx-tile-ext)::after {
+  content: ""; position: absolute; width: 18px; height: 18px; background: var(--faint);
+  -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M19 12H5'/%3E%3Cpath d='m12 19-7-7 7-7'/%3E%3C/svg%3E") center / contain no-repeat;
+          mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M19 12H5'/%3E%3Cpath d='m12 19-7-7 7-7'/%3E%3C/svg%3E") center / contain no-repeat;
+  transition: transform .2s, background .15s;
+}
+.hx-cat::before { bottom: 26px; left: 26px; }
+.hx-cat:hover::before { background: var(--cat); transform: translateX(-4px); }
+
+/* ── صفحة القسم: العنوان على الرأس، والبطاقات ترتفع فوق حافته ── */
+.hx-main[data-page] { padding-top: 32px; }
+.hx-page-head { margin: 0 0 40px; }
+.hx-page-title { color: var(--bar-ink); font-size: 26px; }
+.hx-page-meta { color: var(--bar-muted); }
+.hx-page-head .hx-ic { --ic: #ffffff; background: rgba(255, 255, 255, .12); }
+.hx-page-head .hx-back { background: transparent; border-color: var(--bar-line); color: var(--bar-ink); }
+.hx-page-head .hx-back:hover { background: var(--bar-hover); }
+.hx-page-head :focus-visible { outline-color: #ffffff; }
+
+.hx-pane { gap: 14px; }
+.hx-tile {
+  border-color: transparent; border-radius: 14px; box-shadow: var(--lift);
+  transition: box-shadow .2s, transform .2s, background .15s;
+}
+.hx-tile:hover { background: var(--surface); border-color: transparent; transform: translateY(-2px); box-shadow: var(--lift-hover); }
+.hx-tile:active { background: var(--raised); }
+.hx-tile .hx-ic { width: 48px; height: 48px; border-radius: 14px; }
+.hx-tile:not(.hx-tile-ext)::after { top: 12px; left: 12px; width: 15px; height: 15px; opacity: 0; }
+.hx-tile:not(.hx-tile-ext):hover::after { opacity: 1; background: var(--accent); transform: translateX(-3px); }
+
+/* ── التذييل في أسفل الشاشة دائماً ── */
+.hx-foot { margin-top: auto; padding-top: 18px; }
+#panel-home .hx-main { flex: none; margin-bottom: 40px; }
+
+@media (prefers-reduced-motion: reduce) {
+  .hx-cat:hover, .hx-tile:hover, .hx-cat:hover::before, .hx-tile:hover::after { transform: none; }
+}
+}
+
+/* ── الجوال: الأقسام صفوف، والرأس أقصر ── */
+@media screen and (max-width: 700px) {
+  :root { --band: 172px; }
+  .hx-main { padding-top: 28px; }
+  .hx-main[data-page] { --band: 120px; padding-top: 22px; }
+  .hx-title { font-size: 24px; }
+  .hx-lede { font-size: 14px; }
+  .hx-cats { gap: 12px; margin-top: 28px; }
+  .hx-cat {
+    min-height: 92px; padding: 16px 20px 16px 52px; border-radius: 14px; gap: 0;
+    background-size: 3px 100%; background-position: right;
+  }
+  .hx-cat .hx-ic-lg { margin-bottom: 0; width: 52px; height: 52px; border-radius: 14px; }
+  .hx-cat .hx-ic-lg svg { width: 24px; height: 24px; }
+  .hx-cat-name { font-size: 17px; margin-top: 0; }
+  .hx-cat::after { display: none; }
+  .hx-cat::before { bottom: auto; top: calc(50% - 9px); left: 20px; }
+  .hx-page-head { margin-bottom: 28px; }
+  .hx-page-title { font-size: 20px; }
+  .hx-pane { gap: 10px; }
+  .hx-tile .hx-ic { width: 44px; height: 44px; border-radius: 12px; }
+}
+
+/* ══════════════════════════════════════════════════════════════════
+   شاشات البطاقات والسجل: الورقة تستقر على شريط الهوية كما في الرئيسية
+   الورقة نفسها (.a4-page وأخواتها) لا تُمس — فقط ما حولها، فالطباعة ونسخ الصورة كما هي
+   ══════════════════════════════════════════════════════════════════ */
+@media screen {
+  html .top-bar { margin-bottom: 0; padding-bottom: 12px; }
+  .card-panel.active:not(#panel-home) { position: relative; isolation: isolate; padding-top: 28px; --band: 200px; }
+  .card-panel.active:not(#panel-home)::before,
+  .card-panel.active:not(#panel-home)::after {
+    content: ""; position: absolute; z-index: -1; top: -24px; height: calc(var(--band) + 24px);   /* يبدأ خلف الشريط فلا يظهر بينهما خط */
+    inset-inline: calc(50% - 50vw); pointer-events: none;
+  }
+  .card-panel.active:not(#panel-home)::before { background: var(--bar-bg); }
+  .card-panel.active:not(#panel-home)::after {
+    background: var(--star-tile) 0 0 / 64px 64px repeat; opacity: .085;
+    -webkit-mask-image: linear-gradient(to left, #000 0%, rgba(0,0,0,.55) 45%, transparent 85%);
+            mask-image: linear-gradient(to left, #000 0%, rgba(0,0,0,.55) 45%, transparent 85%);
+  }
+  body:has(.card-panel.active:not(#panel-home)) { overflow-x: clip; }
+
+  /* الورقة ترتفع عن الشريط بظل خارجي (لا يدخل في الطباعة ولا في الصورة) */
+  html :is(.a4-page, .hyp-page, .hyps-page, .rck-a4, .ops-a4) { box-shadow: var(--lift) !important; }
+
+  /* ── لوحات الإدخال ── */
+  html :is(.form-section, .rck-form, .ops-form) {
+    border-color: transparent; border-radius: 16px; padding: 24px 26px; box-shadow: var(--lift);
+  }
+  html .form-title { font-size: 17px; gap: 10px; margin-bottom: 20px; }
+  html .form-title svg { color: var(--accent); }
+  html .form-section input:not([type=checkbox]):not([type=radio]):not([type=file]),
+  html .form-section select { min-height: 42px; }
+  html .check-item { border-radius: 8px; transition: background .15s, border-color .15s; }
+  html .check-item:hover { border-color: var(--accent-line); }
+
+  /* ── السجل والإحصائيات: العنوان على الشريط ── */
+  #panel-stats-log.active { --band: 132px; }
+  #panel-stats-log .sl-title { color: var(--bar-ink); font-size: 26px; }
+  #panel-stats-log .sl-head .sl-action-btn { background: transparent; border-color: var(--bar-line); color: var(--bar-ink); }
+  #panel-stats-log .sl-head .sl-action-btn:hover { background: var(--bar-hover); }
+  #panel-stats-log .sl-head .sl-action-btn.sl-danger { color: #ffc4c4; }
+  html .sl-summary, html .sl-chart-wrap, html .sl-table-wrap { border-color: transparent; border-radius: 14px; box-shadow: var(--lift); }
+  html .sl-sum-num { font-size: 30px; }
+  html .sl-kpi-grid { border-radius: 12px; }
+
+  /* ── نافذة الإعدادات ── */
+  html .settings-box { border-radius: 18px; padding: 28px; box-shadow: 0 24px 64px -24px rgba(0, 20, 30, .5); }
+  html .settings-title { font-size: 20px; }
+
+  /* ── شاشة البداية: لون الهوية ونسيج النجمة ── */
+  html #app-splash { background: var(--bar-bg) var(--star-tile) 0 0 / 64px 64px repeat; }
+  html #app-splash::before { content: ""; position: absolute; inset: 0; background: radial-gradient(circle at 50% 45%, transparent 0, var(--bar-bg) 70%); }
+  html #app-splash > * { position: relative; }
+  html #app-splash img { background: transparent; }
+  html .sp-title { color: #fff; }
+  html .sp-sub { color: var(--bar-muted); }
+  html .sp-bar { background: rgba(255, 255, 255, .16); }
+  html .sp-fill { background: #fff; }
+
+  /* ── شريط الجوال السفلي ── */
+  html #mobile-action-bar { box-shadow: 0 -8px 24px -16px rgba(0, 20, 30, .35); }
+}
+@media screen and (max-width: 768px) {
+  .card-panel.active:not(#panel-home) { padding-top: 16px; --band: 120px; }
+  #panel-stats-log.active { --band: 112px; }
+  html :is(.form-section, .rck-form, .ops-form) { padding: 18px 16px; border-radius: 14px; }
+  #panel-stats-log .sl-title { font-size: 22px; }
+}
