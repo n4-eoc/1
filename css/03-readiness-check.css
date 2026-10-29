@@ -1,0 +1,123 @@
+/* ══ Readiness Check — Blue theme matching existing reports ══ */
+.rck-wrap{width:100%;max-width:297mm;margin:0 auto;position:relative;z-index:1;overflow-x:auto;}
+
+/* A4 Report */
+.rck-a4{width:297mm;min-height:210mm;background:#fff;margin:0 auto;border-radius:4px;
+  box-shadow:0 8px 40px rgba(0,0,0,0.35);font-family:'Cairo',sans-serif;direction:rtl;
+  overflow:hidden;display:flex;flex-direction:column;}
+
+/* Header — identical to existing cards */
+.rck-hdr{padding:12px 22px 10px;display:flex;align-items:center;gap:14px;
+  background:linear-gradient(135deg,#003D5C 0%,#005B82 50%,#0078A8 100%);
+  border-bottom:4px solid #00AEEF;}
+.rck-hdr-logo{width:60px;height:60px;object-fit:contain;flex-shrink:0;}
+.rck-hdr-org{flex:1;}
+.rck-hdr-main{color:#fff;font-size:19px;font-weight:900;line-height:1.2;}
+.rck-hdr-sub{color:rgba(255,255,255,0.65);font-size:10px;font-weight:600;margin-top:2px;}
+.rck-hdr-badge{background:rgba(0,174,239,0.25);border:1.5px solid #00AEEF;border-radius:20px;
+  padding:5px 14px;color:#fff;font-size:12px;font-weight:800;white-space:nowrap;}
+
+/* Title bar */
+.rck-title-bar{padding:5px 20px;background:linear-gradient(90deg,#005B82,#003D5C);
+  color:#fff;font-size:13px;font-weight:900;display:flex;align-items:center;gap:10px;
+  width:100%;box-sizing:border-box;flex-shrink:0;}
+.rck-title-sep{opacity:.5;font-size:16px;}
+
+/* Table area */
+.rck-body{flex:1;padding:10px 14px 6px;overflow:hidden;}
+.rck-section-title{font-size:11px;font-weight:800;color:#005B82;text-transform:uppercase;
+  letter-spacing:.7px;margin-bottom:8px;display:flex;align-items:center;gap:6px;
+  padding-bottom:5px;border-bottom:2px solid #00AEEF;}
+
+/* THE TABLE */
+.rck-tbl{width:100%;border-collapse:collapse;font-family:'Cairo',sans-serif;direction:rtl;font-size:10.5px;}
+.rck-tbl th{
+  background:linear-gradient(135deg,#003D5C,#005B82);
+  color:#fff;padding:7px 5px;text-align:center;font-weight:800;font-size:10px;
+  border:1px solid #0078A8;}
+.rck-tbl th.th-hosp{text-align:right;padding-right:10px;min-width:130px;
+  background:linear-gradient(135deg,#002A40,#003D5C);}
+.rck-tbl th.th-ind{min-width:60px;background:linear-gradient(135deg,#002A40,#003D5C);}
+.rck-tbl td{padding:5px 5px;text-align:center;border:1px solid #C8E4F0;
+  font-size:10.5px;font-weight:700;background:#fff;}
+.rck-tbl td.td-hosp{text-align:right;padding-right:10px;font-weight:800;
+  color:#1A3A4A;background:#F7FBFD;}
+.rck-tbl tr:nth-child(even) td{background:#F2F8FC;}
+.rck-tbl tr:nth-child(even) td.td-hosp{background:#EAF4FA;}
+
+/* Status cells */
+.rck-avail{background:#C8E6C9!important;color:#1B5E20;font-weight:900;}
+.rck-unavail{background:#FFCDD2!important;color:#B71C1C;font-weight:900;}
+.rck-empty{background:#F5F5F5!important;color:#9E9E9E;}
+
+/* Indicator badge */
+.rck-ind{display:inline-block;padding:2px 9px;border-radius:20px;font-size:10px;font-weight:900;min-width:48px;text-align:center;}
+.rck-ind-100{background:linear-gradient(135deg,#005B82,#0078A8);color:#fff;}
+.rck-ind-hi{background:#2E7D32;color:#fff;}
+.rck-ind-mid{background:#F9A825;color:#1a1a1a;}
+.rck-ind-low{background:#C62828;color:#fff;}
+
+/* Summary */
+.rck-sumbar{padding:6px 14px;background:#EAF4FA;border-top:2px solid #C8E4F0;
+  display:flex;gap:16px;flex-wrap:wrap;align-items:center;}
+.rck-sum-item{display:flex;align-items:center;gap:5px;font-size:10px;font-weight:700;color:#005B82;}
+.rck-sum-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0;}
+
+/* Footer — identical to existing cards */
+.rck-footer{padding:5px 20px;background:linear-gradient(135deg,#005B82,#003D5C);
+  border-top:2px solid #00AEEF;display:flex;align-items:center;justify-content:space-between;
+  color:rgba(255,255,255,0.8);font-size:10px;font-weight:600;flex-shrink:0;}
+
+/* Form */
+.rck-form{max-width:297mm;margin:14px auto 30px;background:rgba(255,255,255,0.07);
+  border:1.5px solid rgba(255,255,255,0.15);border-radius:14px;padding:18px;
+  backdrop-filter:blur(10px);position:relative;z-index:2;}
+
+/* Print */
+@media print{
+  .rck-form{display:none!important;}
+  .rck-a4{box-shadow:none!important;border-radius:0!important;width:297mm!important;min-height:210mm!important;}
+  .rck-tbl td[onclick]{cursor:default;}
+  .rck-remove-btn{display:none!important;}
+
+  /* ══ إجبار الألوان عند الطباعة (جوال + سطح المكتب) ══ */
+  .rck-hdr,
+  .rck-title-bar,
+  .rck-footer,
+  .rck-tbl th,
+  .rck-tbl th.th-hosp,
+  .rck-tbl th.th-ind,
+  .rck-avail,
+  .rck-unavail,
+  .rck-empty,
+  .rck-ind,
+  .rck-ind-100,
+  .rck-ind-hi,
+  .rck-ind-mid,
+  .rck-ind-low,
+  .rck-sumbar,
+  .rck-tbl td.td-hosp,
+  .rck-tbl tr:nth-child(even) td,
+  .rck-tbl tr:nth-child(even) td.td-hosp {
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+    color-adjust: exact !important;
+  }
+
+  /* إعادة تطبيق الألوان صراحةً لضمان ظهورها */
+  .rck-avail   { background-color: #C8E6C9 !important; color: #1B5E20 !important; }
+  .rck-unavail { background-color: #FFCDD2 !important; color: #B71C1C !important; }
+  .rck-empty   { background-color: #F5F5F5 !important; color: #9E9E9E !important; }
+  .rck-ind-100 { background-color: #005B82 !important; color: #fff !important; }
+  .rck-ind-hi  { background-color: #2E7D32 !important; color: #fff !important; }
+  .rck-ind-mid { background-color: #F9A825 !important; color: #1a1a1a !important; }
+  .rck-ind-low { background-color: #C62828 !important; color: #fff !important; }
+  .rck-tbl th  { background-color: #004A6E !important; color: #fff !important; }
+  .rck-tbl td.td-hosp { background-color: #F7FBFD !important; color: #1A3A4A !important; }
+  .rck-tbl tr:nth-child(even) td { background-color: #F2F8FC !important; }
+  .rck-tbl tr:nth-child(even) td.td-hosp { background-color: #EAF4FA !important; }
+  .rck-hdr     { background: linear-gradient(135deg,#003D5C 0%,#005B82 50%,#0078A8 100%) !important; }
+  .rck-title-bar { background: linear-gradient(90deg,#005B82,#003D5C) !important; }
+  .rck-footer  { background: linear-gradient(135deg,#005B82,#003D5C) !important; }
+  .rck-sumbar  { background-color: #EAF4FA !important; }
+}

@@ -1,0 +1,82 @@
+/* ══ Ops Management — Tetra Readiness Indicator ══ */
+.ops-wrap{width:100%;max-width:297mm;margin:0 auto;overflow-x:auto;position:relative;z-index:1;}
+.ops-a4{width:297mm;min-height:210mm;background:#fff;margin:0 auto;border-radius:4px;
+  box-shadow:0 8px 40px rgba(0,0,0,0.35);font-family:'Cairo',sans-serif;direction:rtl;
+  overflow:hidden;display:flex;flex-direction:column;}
+.ops-hdr{padding:11px 20px 9px;display:flex;align-items:center;gap:14px;
+  background:linear-gradient(135deg,#003D5C 0%,#005B82 50%,#0078A8 100%);
+  border-bottom:4px solid #00AEEF;}
+.ops-hdr-logo{width:56px;height:56px;object-fit:contain;flex-shrink:0;}
+.ops-hdr-org{flex:1;}
+.ops-hdr-main{color:#fff;font-size:18px;font-weight:900;line-height:1.2;}
+.ops-hdr-sub{color:rgba(255,255,255,0.65);font-size:10px;font-weight:600;margin-top:2px;}
+.ops-hdr-badge{background:rgba(0,174,239,0.25);border:1.5px solid #00AEEF;border-radius:20px;
+  padding:5px 14px;color:#fff;font-size:11px;font-weight:800;white-space:nowrap;}
+.ops-title-bar{padding:5px 18px;background:linear-gradient(90deg,#005B82,#003D5C);
+  color:#fff;font-size:12px;font-weight:900;display:flex;align-items:center;gap:8px;flex-shrink:0;}
+.ops-title-sep{opacity:.5;font-size:14px;}
+.ops-body{flex:1;padding:7px 12px 5px;overflow:hidden;}
+.ops-tbl{width:100%;border-collapse:collapse;font-family:'Cairo',sans-serif;direction:rtl;font-size:9.5px;}
+.ops-tbl th{background:linear-gradient(135deg,#003D5C,#005B82);color:#fff;padding:6px 4px;
+  text-align:center;font-weight:800;font-size:9px;border:1px solid #0078A8;}
+.ops-tbl th.th-hosp{text-align:right;padding-right:8px;min-width:115px;background:linear-gradient(135deg,#002A40,#003D5C);}
+.ops-tbl th.th-period-am{background:linear-gradient(135deg,#004D40,#00695C)!important;font-size:10px;padding:7px 4px;}
+.ops-tbl th.th-period-pm{background:linear-gradient(135deg,#4A148C,#6A1B9A)!important;font-size:10px;padding:7px 4px;}
+.ops-tbl th.th-am,.ops-tbl th.th-pm{font-size:9px;}
+.ops-tbl td{padding:4px 4px;text-align:center;border:1px solid #C8E4F0;font-size:9.5px;font-weight:700;background:#fff;}
+.ops-tbl td.td-hosp{text-align:right;padding-right:8px;font-weight:800;color:#1A3A4A;background:#F7FBFD;}
+.ops-tbl td.td-code{font-weight:800;color:#005B82;background:#F0F7FF;}
+.ops-time{display:inline-block;min-width:38px;width:100%;padding:1px 3px;outline:none;
+  border-radius:3px;direction:ltr;font-size:9px;cursor:text;font-family:'Cairo',sans-serif;font-weight:700;text-align:center;}
+.ops-time:focus{background:#E3F2FD;}
+.ops-note{display:inline-block;min-width:50px;width:100%;text-align:right;padding:1px 3px;
+  outline:none;border-radius:3px;cursor:text;font-family:'Cairo',sans-serif;font-size:9px;}
+.ops-note:focus{background:#E3F2FD;}
+.ops-resp{cursor:pointer;min-width:50px;padding:2px 5px;border-radius:10px;
+  font-size:9px;font-weight:900;display:block;width:100%;text-align:center;box-sizing:border-box;user-select:none;}
+.ops-complete{background:#C8E6C9!important;color:#1B5E20!important;}
+.ops-incomplete{background:#FFCDD2!important;color:#B71C1C!important;}
+.ops-empty{background:#F5F5F5!important;color:#9E9E9E!important;}
+.ops-sumbar{padding:5px 14px;background:#EAF4FA;border-top:2px solid #C8E4F0;
+  display:flex;gap:12px;flex-wrap:wrap;align-items:center;flex-shrink:0;}
+.ops-sum-item{display:flex;align-items:center;gap:5px;font-size:9.5px;font-weight:700;color:#005B82;}
+.ops-sum-dot{width:9px;height:9px;border-radius:50%;flex-shrink:0;}
+.ops-sum-label{font-weight:900;font-size:10px;}
+.ops-footer{padding:5px 18px;background:linear-gradient(135deg,#005B82,#003D5C);
+  border-top:2px solid #00AEEF;display:flex;align-items:center;justify-content:space-between;
+  color:rgba(255,255,255,0.85);font-size:10px;font-weight:600;flex-shrink:0;}
+.ops-form{max-width:297mm;margin:14px auto 30px;background:rgba(255,255,255,0.07);
+  border:1.5px solid rgba(255,255,255,0.15);border-radius:14px;padding:18px;backdrop-filter:blur(10px);}
+.ops-print-btns{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px;padding:12px;
+  background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.12);border-radius:10px;}
+.ops-print-lbl{width:100%;color:rgba(255,255,255,0.6);font-size:11px;font-weight:700;margin-bottom:4px;}
+/* Print base */
+@media print{
+  .ops-form{display:none!important;}
+  .ops-a4{box-shadow:none!important;border-radius:0!important;width:297mm!important;min-height:210mm!important;}
+  [contenteditable]{outline:none!important;border:none!important;}
+  .ops-hdr,.ops-title-bar,.ops-footer,.ops-tbl th,.ops-tbl th.th-period-am,.ops-tbl th.th-period-pm,
+  .ops-resp,.ops-complete,.ops-incomplete,.ops-empty,.ops-sumbar,
+  .ops-tbl td.td-hosp,.ops-tbl td.td-code{
+    -webkit-print-color-adjust:exact!important;print-color-adjust:exact!important;color-adjust:exact!important;}
+  .ops-hdr{background:linear-gradient(135deg,#003D5C 0%,#005B82 50%,#0078A8 100%)!important;}
+  .ops-title-bar{background:linear-gradient(90deg,#005B82,#003D5C)!important;}
+  .ops-footer{background:linear-gradient(135deg,#005B82,#003D5C)!important;}
+  .ops-tbl th{background-color:#004A6E!important;color:#fff!important;}
+  .ops-tbl th.th-period-am{background-color:#00695C!important;-webkit-print-color-adjust:exact!important;print-color-adjust:exact!important;}
+  .ops-tbl th.th-period-pm{background-color:#6A1B9A!important;-webkit-print-color-adjust:exact!important;print-color-adjust:exact!important;}
+  .ops-tbl td.td-hosp{background-color:#F7FBFD!important;color:#1A3A4A!important;}
+  .ops-tbl td.td-code{background-color:#F0F7FF!important;color:#005B82!important;}
+  .ops-complete{background-color:#C8E6C9!important;color:#1B5E20!important;}
+  .ops-incomplete{background-color:#FFCDD2!important;color:#B71C1C!important;}
+  .ops-empty{background-color:#F5F5F5!important;color:#9E9E9E!important;}
+  .ops-sumbar{background-color:#EAF4FA!important;}
+  /* Print mode: morning only */
+  .ops-a4.print-am .th-period-pm,
+  .ops-a4.print-am .th-pm,
+  .ops-a4.print-am .td-pm{display:none!important;}
+  /* Print mode: evening only */
+  .ops-a4.print-pm .th-period-am,
+  .ops-a4.print-pm .th-am,
+  .ops-a4.print-pm .td-am{display:none!important;}
+}
