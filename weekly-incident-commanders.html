@@ -898,5 +898,22 @@ render();
 window.__APP_READY__=true;
 window.__api={ readPdf, get SHEETS(){return SHEETS}, set SHEETS(v){SHEETS=v}, render, fixArabic };
 </script>
+<!-- إعادة ملاءمة الأوراق إذا تغيّر ارتفاع عنوان الجدول بعد رسمه (يتأخر خط الرمز 📋 أو خط Cairo قليلاً)،
+     وإلا يُحسب ارتفاع الصف على عنوان أقصر فيُقص أسفل الجدول عند الطباعة -->
+<script>
+(function(){
+  if(typeof fitAll!=="function"||!window.ResizeObserver) return;
+  var orig=fitAll, seen=new WeakMap(), queued=false;
+  var ro=new ResizeObserver(function(entries){
+    var changed=entries.some(function(e){ var h=e.target.offsetHeight, p=seen.get(e.target); seen.set(e.target,h); return p!==undefined&&p!==h; });
+    if(changed&&!queued){ queued=true; requestAnimationFrame(function(){ queued=false; orig(); }); }
+  });
+  fitAll=function(){
+    var r=orig.apply(this,arguments);
+    document.querySelectorAll(".rck-section-title").forEach(function(t){ if(!seen.has(t)){ seen.set(t,t.offsetHeight); ro.observe(t); } });
+    return r;
+  };
+})();
+</script>
 </body>
 </html>
