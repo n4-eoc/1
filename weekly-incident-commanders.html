@@ -440,9 +440,23 @@ function parsePage(items){
   if(!pitch) pitch = 35;
 
   const bodyBottom = Math.max(...body.map(i=>i.top+i.h));
-  const nRows = Math.max(1, Math.round((bodyBottom-headBottom)/pitch));
-  const bandOf = y => Math.min(nRows-1, Math.max(0, Math.floor((y-headBottom)/pitch)));
-  const rowsY = Array.from({length:nRows},(_,i)=> headBottom+(i+0.5)*pitch);
+  /* مراكز الصفوف الفعلية من مواقع حروف الفترات (M/E/N) بدل شرائح ثابتة الارتفاع،
+     لأن تراكم فرق بسيط في ارتفاع الصف كان يُنزل أرقام التواصل إلى الصف التالي. */
+  const rowsY = [];
+  for(const it of perItems.filter(i=>!isRole(i) && !isDay(i))){
+    const c = it.top + it.h/2;
+    if(!rowsY.length || c-rowsY[rowsY.length-1] > 6) rowsY.push(c);
+  }
+  for(let i=1;i<rowsY.length;i++){            // صفوف بلا حرف فترة بين صفّين
+    const d = rowsY[i]-rowsY[i-1];
+    const k = Math.max(1, Math.floor(d/pitch + 0.35));
+    if(k>1){ const st=d/k; const add=[]; for(let j=1;j<k;j++) add.push(rowsY[i-1]+st*j); rowsY.splice(i,0,...add); i+=add.length; }
+  }
+  if(!rowsY.length) rowsY.push(headBottom + pitch/2);
+  while(rowsY[0] - headBottom > pitch*0.9) rowsY.unshift(rowsY[0]-pitch);      // صفوف أعلى أول حرف
+  while(bodyBottom > rowsY[rowsY.length-1] + pitch) rowsY.push(rowsY[rowsY.length-1]+pitch); // صفوف أسفل آخر حرف
+  const nRows = rowsY.length;
+  const bandOf = y => { let bi=0,bd=Infinity; rowsY.forEach((c,k)=>{ const d=Math.abs(y-c); if(d<bd){bd=d;bi=k;} }); return bi; };
 
   const roleItems = body.filter(isRole).sort((a,b)=>a.top-b.top);
   const gapMax = pitch*0.72;
@@ -468,15 +482,32 @@ function parsePage(items){
 
   const buckets = Array.from({length:nRows},()=> cols.map(()=>[]));
   const perOf = Array.from({length:nRows},()=> "");
+  const colItems = cols.map(()=>[]);
   for(const it of body){
-    const bi = bandOf(it.top+it.h/2);
     if(isRole(it)) continue;
-    if(/^[MENmen]$/.test(it.s) && !isDay(it)){ perOf[bi]=it.s.toUpperCase(); continue; }
+    if(/^[MENmen]$/.test(it.s) && !isDay(it)){ perOf[bandOf(it.top+it.h/2)]=it.s.toUpperCase(); continue; }
     if(!isDay(it)) continue;
     let ci=-1,best=Infinity;
     cols.forEach((c,k)=>{ const d=Math.abs(it.cx-c.cx); if(d<best){best=d;ci=k;} });
-    if(ci>=0 && best<45) buckets[bi][ci].push(it);
+    if(ci>=0 && best<45) colItems[ci].push(it);
   }
+  /* داخل كل عمود: الرقم يُربط بالاسم الذي فوقه مباشرة كخانة واحدة، ثم تُوضع الخانة كاملة في صفّها */
+  const isPhoneTxt = t => /^[\d\s+()-]{7,}$/.test(t);
+  colItems.forEach((list,ci)=>{
+    const blocks=[];
+    for(const ln of clusterLines(list)){
+      const txt = ln.map(i=>i.s).join(" ").trim();
+      const top = Math.min(...ln.map(i=>i.top)), bot = Math.max(...ln.map(i=>i.top+i.h));
+      const lh = Math.max(...ln.map(i=>i.h));
+      const ph = isPhoneTxt(txt);
+      const b = blocks[blocks.length-1];
+      const gap = b ? top-b.bot : Infinity;
+      const join = b && (ph ? (!b.hasPhone && gap < pitch*0.75) : (!b.hasPhone && gap < lh*1.2));
+      if(join){ b.items.push(...ln); b.bot=Math.max(b.bot,bot); if(ph) b.hasPhone=true; }
+      else blocks.push({items:[...ln], top, bot, hasPhone:ph});
+    }
+    for(const b of blocks) buckets[bandOf((b.top+b.bot)/2)][ci].push(...b.items);
+  });
 
   let rows = buckets.map((cellItems, idx)=>{
     const cells = cellItems.map(list=>{
